@@ -33,10 +33,10 @@
 ---
 
 ## 4. Frontend Development
-- [ ] Set up project structure (folders for articles, galleries, reports).
-- [ ] Create API fetchers for Strapi content (REST or GraphQL).
-- [ ] Define TypeScript types for each content type.
-- [ ] Create Zod schemas for API validation.
+- [x] Set up project structure (folders for articles, galleries, reports).
+- [x] Create API fetchers for Strapi content (REST or GraphQL).
+- [x] Define TypeScript types for each content type.
+- [x] Create Zod schemas for API validation.
 - [ ] Integrate Zod validation with API fetchers.
 - [ ] Build list pages:
   - [ ] `/articles`
