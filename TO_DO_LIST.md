@@ -38,6 +38,7 @@
 - [x] Define TypeScript types for each content type.
 - [x] Create Zod schemas for API validation.
 - [x] Integrate Zod validation with API fetchers.
+- [x] Create test page to verify API integration.
 - [ ] Build list pages:
   - [ ] `/articles`
   - [ ] `/galleries`
@@ -53,8 +54,8 @@
 ---
 
 ## 5. Testing & Validation
-- [ ] Test fetching and rendering of all content types.
-- [ ] Validate API responses with Zod.
+- [x] Test fetching and rendering of all content types.
+- [x] Validate API responses with Zod.
 - [ ] Check SEO tags and page metadata.
 - [ ] Test image loading and optimization.
 
