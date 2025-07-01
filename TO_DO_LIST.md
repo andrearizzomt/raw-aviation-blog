@@ -9,7 +9,7 @@
 ## 2. Strapi CMS Setup
 - [x] Bootstrap Strapi in `/cms` (`npx create-strapi-app@latest cms`).
 - [ ] Configure database:
-  - [ ] Use SQLite for local development.
+  - [x] Use SQLite for local development.
   - [ ] Prepare PostgreSQL config for production.
 - [x] Create content types:
   - [x] `Article` (title, slug, content, date, author, featured image)
@@ -23,12 +23,12 @@
 ---
 
 ## 3. Next.js Frontend Setup
-- [ ] Bootstrap Next.js app in `/frontend` (`npx create-next-app@latest frontend -ts`).
-- [ ] Install dependencies:
-  - [ ] Tailwind CSS, PostCSS, Autoprefixer
-  - [ ] Zod
-- [ ] Configure Tailwind CSS.
-- [ ] Set up environment variables for Strapi API URL.
+- [x] Bootstrap Next.js app in `/frontend` (`npx create-next-app@latest frontend -ts`).
+- [x] Install dependencies:
+  - [x] Tailwind CSS, PostCSS, Autoprefixer
+  - [x] Zod
+- [x] Configure Tailwind CSS.
+- [x] Set up environment variables for Strapi API URL.
 
 ---
 
