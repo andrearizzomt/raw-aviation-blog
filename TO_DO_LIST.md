@@ -37,7 +37,7 @@
 - [x] Create API fetchers for Strapi content (REST or GraphQL).
 - [x] Define TypeScript types for each content type.
 - [x] Create Zod schemas for API validation.
-- [ ] Integrate Zod validation with API fetchers.
+- [x] Integrate Zod validation with API fetchers.
 - [ ] Build list pages:
   - [ ] `/articles`
   - [ ] `/galleries`
@@ -48,7 +48,7 @@
   - [ ] `/reports/[id]`
 - [ ] Add dynamic `<title>` and `<meta>` tags for SEO.
 - [ ] Implement responsive, clean UI with Tailwind CSS.
-- [ ] Render images from Strapi with proper optimization and alt tags.
+- [ ] Render images with proper optimization and alt tags.
 
 ---
 

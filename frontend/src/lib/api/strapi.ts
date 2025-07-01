@@ -2,26 +2,31 @@
  * Base API utilities for interacting with Strapi
  */
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-
-interface StrapiError {
-  status: number;
-  name: string;
-  message: string;
-  details: unknown;
+// Internal types for API responses
+interface StrapiPagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
 }
 
 interface StrapiResponse<T> {
-  data: T;
+  data: T | T[];
   meta: {
-    pagination?: {
-      page: number;
-      pageSize: number;
-      pageCount: number;
-      total: number;
-    };
+    pagination?: StrapiPagination;
   };
 }
+
+interface StrapiErrorResponse {
+  error: {
+    status: number;
+    name: string;
+    message: string;
+    details?: unknown;
+  };
+}
+
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
 /**
  * Wrapper for fetch calls to Strapi API
@@ -45,15 +50,28 @@ export async function fetchAPI<T>(
     ...options,
   };
 
-  const response = await fetch(`${STRAPI_URL}/api/${endpoint}`, mergedOptions);
+  const url = `${STRAPI_URL}/api/${endpoint}`;
+  console.log('Fetching from:', url); // Debug log
 
-  if (!response.ok) {
-    const error: StrapiError = await response.json();
-    throw new Error(error.message || 'An error occurred while fetching the data.');
+  try {
+    const response = await fetch(url, mergedOptions);
+    
+    if (!response.ok) {
+      const errorData = (await response.json()) as StrapiErrorResponse;
+      console.error('Strapi API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData.error
+      });
+      throw new Error(errorData.error.message || `API Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
   }
-
-  const data = await response.json();
-  return data;
 }
 
 /**
