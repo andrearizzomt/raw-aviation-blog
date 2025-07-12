@@ -11,7 +11,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
     return (
       <main className="container mx-auto px-4 py-8">
-        <article className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8">
+        <article className="max-w-3xl mx-auto bg-card rounded-lg shadow-sm border border-border p-8">
           {article.Featured_Image && (
             <div className="relative h-64 w-full mb-6">
               <Image
@@ -23,8 +23,8 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
               />
             </div>
           )}
-          <h1 className="text-4xl font-bold mb-4">{article.Title}</h1>
-          <div className="text-sm text-gray-600 mb-6">
+          <h1 className="text-4xl font-bold mb-4 text-card-foreground">{article.Title}</h1>
+          <div className="text-sm text-muted-foreground mb-6">
             <time dateTime={article.Date}>
               {new Date(article.Date).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -35,7 +35,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
             <span className="mx-2">•</span>
             <span>{article.Author}</span>
           </div>
-          <div className="prose max-w-none">
+          <div className="prose max-w-none text-muted-foreground">
             {article.Content.map((block, i) => (
               <p key={i}>
                 {block.children.map((child, j) => (
@@ -50,7 +50,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
   } catch {
     return (
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto bg-red-50 text-red-700 p-6 rounded">
+        <div className="max-w-2xl mx-auto bg-accent text-accent-foreground p-6 rounded border border-border">
           <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
           <p>The article you are looking for does not exist or an error occurred.</p>
         </div>

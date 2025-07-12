@@ -9,28 +9,27 @@ export default async function HomePage() {
   const { galleries } = await getGalleries(1, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <section className="relative bg-primary text-primary-foreground">
         <div className="relative container mx-auto px-4 py-20">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
               Aviation Blog
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+            <p className="text-xl md:text-2xl mb-8 text-primary-foreground/80">
               Your premier destination for aviation news, airshow reports, and stunning aircraft photography
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/articles"
-                className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                className="bg-background text-foreground px-8 py-3 rounded-lg font-semibold hover:bg-muted transition-colors"
               >
                 Read Articles
               </Link>
               <Link
                 href="/reports"
-                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors"
+                className="border-2 border-primary-foreground text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground hover:text-primary transition-colors"
               >
                 View Reports
               </Link>
@@ -43,23 +42,23 @@ export default async function HomePage() {
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Latest Articles */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-600 text-white px-6 py-4">
+          <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
+            <div className="bg-primary text-primary-foreground px-6 py-4">
               <h2 className="text-xl font-bold">Latest Articles</h2>
             </div>
             <div className="p-6">
               {articles.length > 0 ? (
                 <div className="space-y-4">
                   {articles.map((article) => (
-                    <div key={article.id} className="border-b border-gray-200 pb-4 last:border-b-0">
+                    <div key={article.id} className="border-b border-border pb-4 last:border-b-0">
                       <Link href={`/articles/${article.Slug}`} className="group">
-                        <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        <h3 className="font-semibold text-card-foreground group-hover:text-primary/80 transition-colors">
                           {article.Title}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-muted-foreground mt-1">
                           {article.Content[0]?.children[0]?.text?.slice(0, 100)}...
                         </p>
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className="text-xs text-muted-foreground mt-2">
                           {new Date(article.Date).toLocaleDateString()}
                         </p>
                       </Link>
@@ -67,12 +66,12 @@ export default async function HomePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">No articles available</p>
+                <p className="text-muted-foreground">No articles available</p>
               )}
               <div className="mt-6">
                 <Link
                   href="/articles"
-                  className="text-blue-600 hover:text-blue-800 font-semibold"
+                  className="text-primary hover:text-primary/80 font-semibold"
                 >
                   View all articles →
                 </Link>
@@ -81,23 +80,23 @@ export default async function HomePage() {
           </div>
 
           {/* Latest Reports */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-green-600 text-white px-6 py-4">
+          <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
+            <div className="bg-primary text-primary-foreground px-6 py-4">
               <h2 className="text-xl font-bold">Latest Reports</h2>
             </div>
             <div className="p-6">
               {reports.length > 0 ? (
                 <div className="space-y-4">
                   {reports.map((report) => (
-                    <div key={report.id} className="border-b border-gray-200 pb-4 last:border-b-0">
+                    <div key={report.id} className="border-b border-border pb-4 last:border-b-0">
                       <Link href={`/reports/${report.Slug}`} className="group">
-                        <h3 className="font-semibold text-gray-900 group-hover:text-green-600 transition-colors">
+                        <h3 className="font-semibold text-card-foreground group-hover:text-primary/80 transition-colors">
                           {report.Title}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-muted-foreground mt-1">
                           {report.Content[0]?.children[0]?.text?.slice(0, 100)}...
                         </p>
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className="text-xs text-muted-foreground mt-2">
                           {new Date(report.Date).toLocaleDateString()}
                         </p>
                       </Link>
@@ -105,12 +104,12 @@ export default async function HomePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">No reports available</p>
+                <p className="text-muted-foreground">No reports available</p>
               )}
               <div className="mt-6">
                 <Link
                   href="/reports"
-                  className="text-green-600 hover:text-green-800 font-semibold"
+                  className="text-primary hover:text-primary/80 font-semibold"
                 >
                   View all reports →
                 </Link>
@@ -119,15 +118,15 @@ export default async function HomePage() {
           </div>
 
           {/* Latest Galleries */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-purple-600 text-white px-6 py-4">
+          <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
+            <div className="bg-primary text-primary-foreground px-6 py-4">
               <h2 className="text-xl font-bold">Latest Galleries</h2>
             </div>
             <div className="p-6">
               {galleries.length > 0 ? (
                 <div className="space-y-4">
                   {galleries.map((gallery) => (
-                    <div key={gallery.id} className="border-b border-gray-200 pb-4 last:border-b-0">
+                    <div key={gallery.id} className="border-b border-border pb-4 last:border-b-0">
                       <Link href={`/galleries/${gallery.id}`} className="group">
                         <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
                           {gallery.Images && gallery.Images.length > 0 ? (
@@ -138,18 +137,18 @@ export default async function HomePage() {
                               className="object-cover group-hover:scale-105 transition-transform"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                              <span className="text-gray-500">No image</span>
+                            <div className="w-full h-full bg-muted flex items-center justify-center">
+                              <span className="text-muted-foreground">No image</span>
                             </div>
                           )}
                         </div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                        <h3 className="font-semibold text-card-foreground group-hover:text-primary/80 transition-colors">
                           {gallery.Title}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-muted-foreground mt-1">
                           {gallery.Description?.slice(0, 80)}...
                         </p>
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className="text-xs text-muted-foreground mt-2">
                           {gallery.Images?.length || 0} photos
                         </p>
                       </Link>
@@ -157,12 +156,12 @@ export default async function HomePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">No galleries available</p>
+                <p className="text-muted-foreground">No galleries available</p>
               )}
               <div className="mt-6">
                 <Link
                   href="/galleries"
-                  className="text-purple-600 hover:text-purple-800 font-semibold"
+                  className="text-primary hover:text-primary/80 font-semibold"
                 >
                   View all galleries →
                 </Link>
@@ -173,13 +172,13 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Section */}
-      <section className="bg-white py-16">
+      <section className="bg-card py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-card-foreground mb-4">
               Welcome to Aviation Blog
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Discover the latest in aviation news, comprehensive airshow reports, and stunning aircraft photography. 
               From military displays to civilian aviation, we bring you the best of the aviation world.
             </p>
@@ -187,37 +186,37 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-accent w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-accent-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Aviation Articles</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-2 text-card-foreground">Aviation Articles</h3>
+              <p className="text-muted-foreground">
                 In-depth articles covering the latest aviation news, technology, and industry developments.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-accent w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-accent-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Airshow Reports</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-2 text-card-foreground">Airshow Reports</h3>
+              <p className="text-muted-foreground">
                 Comprehensive coverage of airshows around the world with detailed analysis and highlights.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-accent w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-accent-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Photo Galleries</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-2 text-card-foreground">Photo Galleries</h3>
+              <p className="text-muted-foreground">
                 Stunning photography showcasing aircraft, airshows, and aviation events from around the globe.
               </p>
             </div>

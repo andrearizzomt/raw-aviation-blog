@@ -65,6 +65,12 @@
 - [x] **Create aviation blog homepage** with hero section and content showcase.
 - [x] **Add navigation component** to layout.
 - [x] **Update metadata** for aviation blog branding.
+- [x] **Implement minimalist theme system**:
+  - [x] Light and dark themes using CSS variables
+  - [x] Theme toggle component with hover effects
+  - [x] Theme persistence in localStorage
+  - [x] No flash on page load
+  - [x] Consistent theme across all components
 - [ ] Add dynamic `<title>` and `<meta>` tags for SEO.
 - [x] Implement responsive, clean UI with Tailwind CSS.
 - [x] Render images with proper optimization and alt tags.

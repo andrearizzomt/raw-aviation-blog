@@ -10,10 +10,10 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
 
     return (
       <main className="container mx-auto px-4 py-8">
-        <article className="max-w-6xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+        <article className="max-w-6xl mx-auto bg-card rounded-lg shadow-sm border border-border overflow-hidden">
           <div className="p-8">
-            <h1 className="text-4xl font-bold mb-4">{gallery.Title}</h1>
-            <div className="text-sm text-gray-600 mb-6">
+            <h1 className="text-4xl font-bold mb-4 text-card-foreground">{gallery.Title}</h1>
+            <div className="text-sm text-muted-foreground mb-6">
               <time dateTime={gallery.Date}>
                 {new Date(gallery.Date).toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -23,16 +23,16 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
               </time>
             </div>
             <div className="prose max-w-none mb-8">
-              <p className="text-lg leading-relaxed">{gallery.Description}</p>
+              <p className="text-lg leading-relaxed text-muted-foreground">{gallery.Description}</p>
             </div>
 
             {/* Gallery Images */}
             {gallery.Images && gallery.Images.length > 0 && (
               <div className="mt-12">
-                <h2 className="text-2xl font-semibold mb-6">Gallery Images ({gallery.Images.length})</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-card-foreground">Gallery Images ({gallery.Images.length})</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {gallery.Images.map((image, index) => (
-                    <div key={image.id} className="relative aspect-square overflow-hidden rounded-lg group">
+                    <div key={image.id} className="relative aspect-square overflow-hidden rounded-lg border border-border group">
                       <Image
                         src={`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${image.url}`}
                         alt={image.alternativeText || `${gallery.Title} - Image ${index + 1}`}
@@ -41,7 +41,7 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       {image.caption && (
-                        <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-0 left-0 right-0 bg-primary/75 text-primary-foreground p-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           {image.caption}
                         </div>
                       )}
@@ -57,7 +57,7 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
   } catch {
     return (
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto bg-red-50 text-red-700 p-6 rounded">
+        <div className="max-w-2xl mx-auto bg-accent text-accent-foreground p-6 rounded border border-border">
           <h1 className="text-2xl font-bold mb-2">Gallery Not Found</h1>
           <p>The gallery you are looking for does not exist or an error occurred.</p>
         </div>

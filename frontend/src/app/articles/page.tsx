@@ -21,12 +21,12 @@ export default async function ArticlesPage({
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Articles</h1>
+      <h1 className="text-4xl font-bold mb-8 text-foreground">Articles</h1>
       
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {articles.map((article) => (
-          <article key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+          <article key={article.id} className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
             {article.Featured_Image && (
               <div className="relative h-48 w-full">
                 <Image
@@ -41,12 +41,12 @@ export default async function ArticlesPage({
               <h2 className="text-xl font-semibold mb-2">
                 <Link 
                   href={`/articles/${article.Slug}`}
-                  className="hover:text-blue-600 transition-colors"
+                  className="text-card-foreground hover:text-primary/80 transition-colors"
                 >
                   {article.Title}
                 </Link>
               </h2>
-              <div className="text-sm text-gray-600 mb-4">
+              <div className="text-sm text-muted-foreground mb-4">
                 <time dateTime={article.Date}>
                   {new Date(article.Date).toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -57,12 +57,12 @@ export default async function ArticlesPage({
                 <span className="mx-2">•</span>
                 <span>{article.Author}</span>
               </div>
-              <div className="text-gray-700">
+              <div className="text-muted-foreground">
                 {article.Content[0]?.children[0]?.text?.slice(0, 150)}...
               </div>
               <Link
                 href={`/articles/${article.Slug}`}
-                className="inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium"
+                className="inline-block mt-4 text-primary hover:text-primary/80 font-medium"
               >
                 Read more →
               </Link>
@@ -78,10 +78,10 @@ export default async function ArticlesPage({
             <Link
               key={page}
               href={`/articles?page=${page}`}
-              className={`px-4 py-2 rounded ${
+              className={`px-4 py-2 rounded transition-colors ${
                 currentPage === page
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 hover:bg-gray-300'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground hover:bg-accent'
               }`}
             >
               {page}

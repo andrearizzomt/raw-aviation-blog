@@ -10,7 +10,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
 
     return (
       <main className="container mx-auto px-4 py-8">
-        <article className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+        <article className="max-w-4xl mx-auto bg-card rounded-lg shadow-sm border border-border overflow-hidden">
           {/* Main Image */}
           {report.MainImage && (
             <div className="relative h-96 overflow-hidden">
@@ -26,8 +26,8 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
           )}
           
           <div className="p-8">
-            <h1 className="text-4xl font-bold mb-4">{report.Title}</h1>
-            <div className="text-sm text-gray-600 mb-6">
+            <h1 className="text-4xl font-bold mb-4 text-card-foreground">{report.Title}</h1>
+            <div className="text-sm text-muted-foreground mb-6">
               <time dateTime={report.Date}>
                 {new Date(report.Date).toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -36,7 +36,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
                 })}
               </time>
             </div>
-            <div className="prose max-w-none mb-8">
+            <div className="prose max-w-none mb-8 text-muted-foreground">
               {report.Content.map((block, i) => (
                 <p key={i}>
                   {block.children.map((child, j) => (
@@ -49,10 +49,10 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
             {/* Additional Images Gallery */}
             {report.Images && report.Images.length > 0 && (
               <div className="mt-12">
-                <h2 className="text-2xl font-semibold mb-6">Report Images</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-card-foreground">Report Images</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {report.Images.map((image, index) => (
-                    <div key={image.id} className="relative aspect-video overflow-hidden rounded-lg">
+                    <div key={image.id} className="relative aspect-video overflow-hidden rounded-lg border border-border">
                       <Image
                         src={`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${image.url}`}
                         alt={image.alternativeText || `${report.Title} - Image ${index + 1}`}
@@ -72,7 +72,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
   } catch {
     return (
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto bg-red-50 text-red-700 p-6 rounded">
+        <div className="max-w-2xl mx-auto bg-accent text-accent-foreground p-6 rounded border border-border">
           <h1 className="text-2xl font-bold mb-2">Report Not Found</h1>
           <p>The report you are looking for does not exist or an error occurred.</p>
         </div>
