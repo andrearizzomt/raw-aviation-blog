@@ -1,5 +1,13 @@
 # 📝 Aviation Blog Project To-Do List
 
+## ✅ Current Status (as of latest commit)
+- Strapi CMS is running with all content types (Article, Report, Gallery) and public API access.
+- Next.js frontend is running and connected to Strapi.
+- Articles list page (`/articles`) is fully functional with pagination and image rendering.
+- Test page (`/test`) confirms API integration and content fetching for all types.
+- TypeScript types and Zod validation are fully integrated.
+- Content is being served and displayed from Strapi to the frontend.
+
 ## 1. Project Setup
 - [x] Create a new directory for the project.
 - [x] Initialize two subfolders: `/frontend` (Next.js) and `/cms` (Strapi).
@@ -39,8 +47,8 @@
 - [x] Create Zod schemas for API validation.
 - [x] Integrate Zod validation with API fetchers.
 - [x] Create test page to verify API integration.
-- [ ] Build list pages:
-  - [ ] `/articles`
+- [x] Build list pages:
+  - [x] `/articles`
   - [ ] `/galleries`
   - [ ] `/reports`
 - [ ] Build dynamic detail pages:
