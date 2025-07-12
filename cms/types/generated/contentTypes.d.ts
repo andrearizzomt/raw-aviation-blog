@@ -392,7 +392,8 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     Date: Schema.Attribute.Date & Schema.Attribute.Required;
     Featured_Image: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
-    >;
+    > &
+      Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

@@ -35,6 +35,7 @@
     "Featured_Image": {
       "type": "media",
       "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
