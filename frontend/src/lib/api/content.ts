@@ -72,25 +72,24 @@ export async function getReports(page = 1, pageSize = 10) {
 }
 
 /**
- * Fetch a single report by ID
+ * Fetch a single report by slug
  */
-export async function getReportById(id: number) {
-  const response = await fetchAPI<StrapiReport>(
-    `reports/${id}?populate=*`
+export async function getReportBySlug(slug: string) {
+  const response = await fetchAPI<StrapiReport[]>(
+    `reports?filters[Slug][$eq]=${slug}&populate=*`
   );
   
   // Debug log
   console.log('Raw Strapi Report response:', JSON.stringify(response, null, 2));
   
-  // Validate response data
-  const validatedResponse = StrapiReportResponseSchema.parse(response);
-  const report = validatedResponse.data[0];
-  
-  if (!report) {
+  // Validate response data - single report response
+  if (!response.data.length) {
     throw new Error('Report not found');
   }
   
-  return report;
+  const validatedResponse = StrapiReportSchema.parse(response.data[0]);
+  
+  return validatedResponse;
 }
 
 /**
@@ -131,13 +130,8 @@ export async function getGalleryById(id: number) {
   // Debug log
   console.log('Raw Strapi Gallery response:', JSON.stringify(response, null, 2));
   
-  // Validate response data
-  const validatedResponse = StrapiGalleryResponseSchema.parse(response);
-  const gallery = validatedResponse.data[0];
+  // Validate response data - single gallery response
+  const validatedResponse = StrapiGallerySchema.parse(response.data);
   
-  if (!gallery) {
-    throw new Error('Gallery not found');
-  }
-  
-  return gallery;
+  return validatedResponse;
 } 

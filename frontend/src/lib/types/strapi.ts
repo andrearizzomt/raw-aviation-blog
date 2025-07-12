@@ -70,8 +70,11 @@ export interface StrapiReport {
   id: number;
   documentId: string;
   Title: string;
+  Slug: string;
   Date: string;
   Summary: string;
+  MainImage?: FeaturedImage;
+  Images?: FeaturedImage[];
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
