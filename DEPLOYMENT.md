@@ -4,7 +4,7 @@
 
 ### Frontend (Next.js)
 - [ ] Update `NEXT_PUBLIC_STRAPI_API_URL` to production URL
-- [ ] Update `NEXT_PUBLIC_STRAPI_UPLOADS_URL` to production URL
+- [ ] Update `NEXT_PUBLIC_STRAPI_URL` to production URL
 - [ ] Update any hardcoded localhost URLs in test pages
 
 ### CMS (Strapi)

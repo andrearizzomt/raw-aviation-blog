@@ -3,6 +3,8 @@
 ## ✅ Current Status (as of latest commit)
 - Strapi CMS is running with all content types (Article, Report, Gallery) and public API access.
 - Next.js frontend is running and connected to Strapi.
+- **New aviation blog homepage** with hero section and latest content showcase.
+- **Navigation component** added to layout for easy site navigation.
 - Articles list page (`/articles`) is fully functional with pagination and image rendering.
 - **Galleries list page (`/galleries`) is fully functional with pagination and image rendering.**
 - **Reports list page (`/reports`) is fully functional with pagination and image rendering.**
@@ -10,6 +12,7 @@
 - Test page (`/test`) confirms API integration and content fetching for all types.
 - TypeScript types and Zod validation are fully integrated.
 - Content is being served and displayed from Strapi to the frontend.
+- **Environment variables standardized** to use `NEXT_PUBLIC_STRAPI_URL` throughout.
 
 ## 1. Project Setup
 - [x] Create a new directory for the project.
@@ -24,7 +27,7 @@
   - [ ] Prepare PostgreSQL config for production.
 - [x] Create content types:
   - [x] `Article` (title, slug, content, date, author, featured image)
-  - [x] `Report` (title, date, PDF, summary)
+  - [x] `Report` (title, date, content rich text, main image, images)
   - [x] `Gallery` (title, event date, description, images)
 - [x] Set up Strapi roles & permissions:
   - [x] Allow unauthenticated (public) access to `find` and `findOne` for all content types.
@@ -40,6 +43,7 @@
   - [x] Zod
 - [x] Configure Tailwind CSS.
 - [x] Set up environment variables for Strapi API URL.
+- [x] **Standardize environment variable naming** (`NEXT_PUBLIC_STRAPI_URL`).
 
 ---
 
@@ -58,6 +62,9 @@
   - [x] `/articles/[slug]`
   - [x] `/galleries/[id]`
   - [x] `/reports/[slug]`
+- [x] **Create aviation blog homepage** with hero section and content showcase.
+- [x] **Add navigation component** to layout.
+- [x] **Update metadata** for aviation blog branding.
 - [ ] Add dynamic `<title>` and `<meta>` tags for SEO.
 - [x] Implement responsive, clean UI with Tailwind CSS.
 - [x] Render images with proper optimization and alt tags.
@@ -69,6 +76,7 @@
 - [x] Validate API responses with Zod.
 - [ ] Check SEO tags and page metadata.
 - [x] Test image loading and optimization.
+- [x] **Test homepage functionality** and content display.
 
 ---
 
@@ -86,4 +94,7 @@
 - [x] Add pagination to list pages.
 - [ ] Add sitemap and robots.txt for SEO.
 - [ ] Add analytics (e.g., Plausible, Google Analytics).
-- [ ] Add contact form or newsletter signup. 
+- [ ] Add contact form or newsletter signup.
+- [ ] **Add rich text rendering** for report content blocks.
+- [ ] **Add image galleries** with lightbox functionality.
+- [ ] **Add social sharing** buttons for articles and reports. 
