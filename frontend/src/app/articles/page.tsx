@@ -11,9 +11,10 @@ export const metadata = {
 export default async function ArticlesPage({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }) {
-  const currentPage = Number(searchParams.page) || 1;
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
   const pageSize = 6;
 
   const { articles, pagination } = await getArticles(currentPage, pageSize);

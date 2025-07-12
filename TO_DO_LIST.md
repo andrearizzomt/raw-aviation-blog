@@ -4,6 +4,9 @@
 - Strapi CMS is running with all content types (Article, Report, Gallery) and public API access.
 - Next.js frontend is running and connected to Strapi.
 - Articles list page (`/articles`) is fully functional with pagination and image rendering.
+- **Galleries list page (`/galleries`) is fully functional with pagination and image rendering.**
+- **Reports list page (`/reports`) is fully functional with pagination and image rendering.**
+- **All dynamic detail pages are implemented: `/articles/[slug]`, `/galleries/[id]`, `/reports/[slug]`**
 - Test page (`/test`) confirms API integration and content fetching for all types.
 - TypeScript types and Zod validation are fully integrated.
 - Content is being served and displayed from Strapi to the frontend.
@@ -49,15 +52,15 @@
 - [x] Create test page to verify API integration.
 - [x] Build list pages:
   - [x] `/articles`
-  - [ ] `/galleries`
-  - [ ] `/reports`
-- [ ] Build dynamic detail pages:
-  - [ ] `/articles/[slug]`
-  - [ ] `/galleries/[id]`
-  - [ ] `/reports/[id]`
+  - [x] `/galleries`
+  - [x] `/reports`
+- [x] Build dynamic detail pages:
+  - [x] `/articles/[slug]`
+  - [x] `/galleries/[id]`
+  - [x] `/reports/[slug]`
 - [ ] Add dynamic `<title>` and `<meta>` tags for SEO.
-- [ ] Implement responsive, clean UI with Tailwind CSS.
-- [ ] Render images with proper optimization and alt tags.
+- [x] Implement responsive, clean UI with Tailwind CSS.
+- [x] Render images with proper optimization and alt tags.
 
 ---
 
@@ -65,7 +68,7 @@
 - [x] Test fetching and rendering of all content types.
 - [x] Validate API responses with Zod.
 - [ ] Check SEO tags and page metadata.
-- [ ] Test image loading and optimization.
+- [x] Test image loading and optimization.
 
 ---
 
@@ -80,7 +83,7 @@
 
 ## 7. (Optional Enhancements)
 - [ ] Add search functionality.
-- [ ] Add pagination to list pages.
+- [x] Add pagination to list pages.
 - [ ] Add sitemap and robots.txt for SEO.
 - [ ] Add analytics (e.g., Plausible, Google Analytics).
 - [ ] Add contact form or newsletter signup. 

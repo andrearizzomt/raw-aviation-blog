@@ -37,7 +37,13 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
               </time>
             </div>
             <div className="prose max-w-none mb-8">
-              <p className="text-lg leading-relaxed">{report.Summary}</p>
+              {report.Content.map((block, i) => (
+                <p key={i}>
+                  {block.children.map((child, j) => (
+                    <span key={j}>{child.text}</span>
+                  ))}
+                </p>
+              ))}
             </div>
 
             {/* Additional Images Gallery */}
@@ -63,7 +69,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
         </article>
       </main>
     );
-  } catch (error) {
+  } catch {
     return (
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto bg-red-50 text-red-700 p-6 rounded">

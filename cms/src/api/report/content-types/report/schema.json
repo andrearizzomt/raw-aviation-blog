@@ -24,8 +24,8 @@
       "type": "date",
       "required": true
     },
-    "Summary": {
-      "type": "text",
+    "Content": {
+      "type": "blocks",
       "required": true
     },
     "MainImage": {
@@ -40,7 +40,6 @@
       "type": "media",
       "multiple": true,
       "required": true,
-      "min": 1,
       "allowedTypes": [
         "images"
       ]

@@ -72,7 +72,7 @@ export interface StrapiReport {
   Title: string;
   Slug: string;
   Date: string;
-  Summary: string;
+  Content: ContentBlock[];
   MainImage?: FeaturedImage;
   Images?: FeaturedImage[];
   createdAt: string;

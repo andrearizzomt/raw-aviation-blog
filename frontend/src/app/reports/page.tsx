@@ -56,11 +56,8 @@ export default async function ReportsPage({
                   })}
                 </time>
               </div>
-              <div className="text-gray-700 mb-4">
-                {report.Summary.length > 150 
-                  ? `${report.Summary.slice(0, 150)}...` 
-                  : report.Summary
-                }
+              <div className="text-gray-700">
+                {report.Content[0]?.children[0]?.text?.slice(0, 150)}...
               </div>
               <Link
                 href={`/reports/${report.Slug}`}

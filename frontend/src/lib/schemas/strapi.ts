@@ -101,7 +101,7 @@ const BaseStrapiReportSchema = z.object({
   Title: z.string(),
   Slug: z.string(),
   Date: z.string(),
-  Summary: z.string(),
+  Content: z.array(ContentBlockSchema),
   MainImage: FeaturedImageSchema.optional(),
   Images: z.array(FeaturedImageSchema).optional(),
   createdAt: z.string(),

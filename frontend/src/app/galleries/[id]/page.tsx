@@ -54,7 +54,7 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
         </article>
       </main>
     );
-  } catch (error) {
+  } catch {
     return (
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto bg-red-50 text-red-700 p-6 rounded">
