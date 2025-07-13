@@ -128,6 +128,7 @@ const BaseStrapiGallerySchema = z.object({
   id: z.number(),
   documentId: z.string(),
   Title: z.string(),
+  slug: z.string(),
   Date: z.string(),
   Description: z.string(),
   Images: z.array(

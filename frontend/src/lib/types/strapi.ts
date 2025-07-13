@@ -84,6 +84,7 @@ export interface StrapiGallery {
   id: number;
   documentId: string;
   Title: string;
+  slug: string;
   Date: string;
   Description: string;
   Images: Array<{

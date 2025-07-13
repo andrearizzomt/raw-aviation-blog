@@ -120,18 +120,22 @@ export async function getGalleries(page = 1, pageSize = 10) {
 }
 
 /**
- * Fetch a single gallery by ID
+ * Fetch a single gallery by slug
  */
-export async function getGalleryById(id: number) {
-  const response = await fetchAPI<StrapiGallery>(
-    `galleries/${id}?populate=*`
+export async function getGalleryBySlug(slug: string) {
+  const response = await fetchAPI<StrapiGallery[]>(
+    `galleries?filters[slug][$eq]=${slug}&populate=*`
   );
   
   // Debug log
   console.log('Raw Strapi Gallery response:', JSON.stringify(response, null, 2));
   
+  if (!response.data.length) {
+    throw new Error('Gallery not found');
+  }
+
   // Validate response data - single gallery response
-  const validatedResponse = StrapiGallerySchema.parse(response.data);
+  const validatedResponse = StrapiGallerySchema.parse(response.data[0]);
   
   return validatedResponse;
 } 

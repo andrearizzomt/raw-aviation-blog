@@ -44,7 +44,7 @@ export default async function GalleriesPage({
             <div className="p-6">
               <h2 className="text-xl font-semibold mb-2">
                 <Link 
-                  href={`/galleries/${gallery.id}`}
+                  href={`/galleries/${gallery.slug}`}
                   className="text-card-foreground hover:text-primary/80 transition-colors"
                 >
                   {gallery.Title}
@@ -66,7 +66,7 @@ export default async function GalleriesPage({
                 }
               </div>
               <Link
-                href={`/galleries/${gallery.id}`}
+                href={`/galleries/${gallery.slug}`}
                 className="inline-block text-primary hover:text-primary/80 font-medium"
               >
                 View Gallery →

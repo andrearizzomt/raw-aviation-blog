@@ -1,11 +1,10 @@
-import { getGalleryById } from '@/lib/api/content';
+import { getGalleryBySlug } from '@/lib/api/content';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
-export default async function GalleryDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function GalleryDetailPage({ params }: { params: { slug: string } }) {
   try {
-    const { id } = await params;
-    const gallery = await getGalleryById(Number(id));
+    const gallery = await getGalleryBySlug(params.slug);
     if (!gallery) return notFound();
 
     return (
@@ -54,7 +53,8 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
         </article>
       </main>
     );
-  } catch {
+  } catch (error) {
+    console.error('Error in GalleryDetailPage:', error);
     return (
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto bg-accent text-accent-foreground p-6 rounded border border-border">
