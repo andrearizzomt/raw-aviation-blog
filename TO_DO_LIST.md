@@ -5,6 +5,7 @@
 - Next.js frontend is running and connected to Strapi.
 - **New aviation blog homepage** with hero section and latest content showcase.
 - **Navigation component** added to layout for easy site navigation.
+- **Mobile navigation with burger menu** implemented with slide-in animation and backdrop blur.
 - Articles list page (`/articles`) is fully functional with pagination and image rendering.
 - **Galleries list page (`/galleries`) is fully functional with pagination and image rendering.**
 - **Reports list page (`/reports`) is fully functional with pagination and image rendering.**
@@ -65,6 +66,13 @@
   - [x] `/reports/[slug]`
 - [x] **Create aviation blog homepage** with hero section and content showcase.
 - [x] **Add navigation component** to layout.
+- [x] **Add mobile navigation with burger menu**:
+  - [x] Animated hamburger icon with proper spacing
+  - [x] Slide-in menu from left side with smooth transitions
+  - [x] Backdrop overlay with subtle blur effect
+  - [x] Theme toggle integration in mobile menu
+  - [x] Responsive design (hidden on desktop, visible on mobile)
+  - [x] Body scroll prevention when menu is open
 - [x] **Update metadata** for aviation blog branding.
 - [x] **Implement minimalist theme system**:
   - [x] Light and dark themes using CSS variables
@@ -72,6 +80,7 @@
   - [x] Theme persistence in localStorage
   - [x] No flash on page load
   - [x] Consistent theme across all components
+  - [x] **Theme toggle responsive behavior** (hidden on mobile in main nav, visible in mobile menu)
 - [ ] Add dynamic `<title>` and `<meta>` tags for SEO.
 - [x] Implement responsive, clean UI with Tailwind CSS.
 - [x] Render images with proper optimization and alt tags.
@@ -85,6 +94,12 @@
 - [x] Test image loading and optimization.
 - [x] **Test homepage functionality** and content display.
 - [x] **Test slug-based routing** for galleries.
+- [x] **Test mobile navigation functionality**:
+  - [x] Burger menu animation
+  - [x] Slide-in menu transitions
+  - [x] Backdrop blur and overlay
+  - [x] Theme toggle in mobile menu
+  - [x] Responsive behavior across screen sizes
 
 ---
 
@@ -110,10 +125,26 @@
 ---
 
 ## 🎯 Recent Achievements (Latest Commit)
+- ✅ **Implemented mobile navigation with burger menu**
+  - Created animated hamburger icon with proper spacing
+  - Implemented slide-in menu from left side with smooth transitions
+  - Added backdrop overlay with subtle blur effect (4px)
+  - Integrated theme toggle in mobile menu
+  - Added responsive behavior (hidden on desktop, visible on mobile)
+  - Implemented body scroll prevention when menu is open
+  - Theme toggle hidden on mobile in main navigation, available in mobile menu
+
 - ✅ **Implemented slug-based routing for galleries**
   - Added `slug` field to Gallery content type in Strapi
   - Updated frontend routes from `[id]` to `[slug]`
   - Updated API functions to fetch galleries by slug
   - Updated TypeScript types and Zod schemas
   - Fixed routing conflicts and ensured consistent slug usage
-  - Gallery URLs now use SEO-friendly format: `/galleries/riat-2024` 
+  - Gallery URLs now use SEO-friendly format: `/galleries/riat-2024`
+  - Fixed homepage gallery links to use slug instead of ID
+
+- ✅ **Enhanced theme system**
+  - Updated ThemeToggle component to accept className prop
+  - Implemented responsive theme toggle behavior
+  - Theme toggle now hidden on mobile in main navigation
+  - Theme toggle available in mobile menu for mobile users 

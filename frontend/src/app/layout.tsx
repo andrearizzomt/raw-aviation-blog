@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { MobileNav } from "@/components/ui/mobile-nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,8 @@ function Navigation() {
           <Link href="/" className="text-2xl font-bold text-foreground">
             Aviation Blog
           </Link>
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4">
+            {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-6">
               <Link href="/articles" className="text-foreground hover:text-primary/80 transition-colors">
                 Articles
@@ -40,7 +42,12 @@ function Navigation() {
                 Galleries
               </Link>
             </div>
-            <ThemeToggle />
+            
+            {/* Theme Toggle and Mobile Nav */}
+            <div className="flex items-center space-x-2">
+              <ThemeToggle className="hidden md:block" />
+              <MobileNav />
+            </div>
           </div>
         </div>
       </div>

@@ -2,7 +2,11 @@
 
 import { useTheme } from "./theme-provider";
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  className?: string;
+}
+
+export function ThemeToggle({ className = "" }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -12,7 +16,7 @@ export function ThemeToggle() {
         theme === 'light'
           ? 'hover:bg-gray-900 hover:text-white'
           : 'hover:bg-white hover:text-gray-900'
-      }`}
+      } ${className}`}
       aria-label="Toggle theme"
     >
       {theme === "light" ? (

@@ -2,9 +2,10 @@ import { getGalleryBySlug } from '@/lib/api/content';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
-export default async function GalleryDetailPage({ params }: { params: { slug: string } }) {
+export default async function GalleryDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   try {
-    const gallery = await getGalleryBySlug(params.slug);
+    const gallery = await getGalleryBySlug(slug);
     if (!gallery) return notFound();
 
     return (
