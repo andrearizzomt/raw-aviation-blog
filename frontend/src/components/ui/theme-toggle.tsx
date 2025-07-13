@@ -13,7 +13,8 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
   if (!mounted) {
     return (
       <button
-        className={`p-2 rounded-lg transition-colors cursor-pointer border border-gray-200 dark:border-gray-700 ${className}`.trim()}
+        className={`p-2 rounded-lg transition-colors cursor-pointer border ${className}`.trim()}
+        style={{ borderColor: '#000000' }}
         aria-label="Toggle theme"
         disabled
       >
@@ -22,7 +23,8 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
     );
   }
 
-  const baseClasses = "p-2 rounded-lg transition-colors cursor-pointer border border-gray-200 dark:border-gray-700";
+  const baseClasses = "p-2 rounded-lg transition-colors cursor-pointer border";
+  const borderColor = theme === 'light' ? '#000000' : '#EAB308';
   const themeClasses = theme === 'light'
     ? 'hover:bg-accent'
     : 'hover:bg-accent';
@@ -34,12 +36,14 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
     <button
       onClick={toggleTheme}
       className={finalClasses}
+      style={{ borderColor: borderColor }}
       aria-label="Toggle theme"
     >
       {theme === 'light' ? (
         // Moon icon for light theme (black fill)
         <svg
-          className="w-5 h-5 text-black"
+          className="w-5 h-5"
+          style={{ color: '#000000' }}
           fill="currentColor"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +53,8 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
       ) : (
         // Sun icon for dark theme (yellow fill)
         <svg
-          className="w-5 h-5 text-yellow-500"
+          className="w-5 h-5"
+          style={{ color: '#EAB308' }}
           fill="currentColor"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
