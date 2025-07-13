@@ -37,7 +37,7 @@ export function Navigation() {
     setIsMobileMenuOpen(false);
   };
 
-  const handleNavigationClick = (path: string) => {
+  const handleNavigationClick = () => {
     closeMobileMenu();
   };
 
@@ -74,9 +74,9 @@ export function Navigation() {
               Aviation Blog
             </Link>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-6">
               {/* Desktop Navigation Links */}
-              <div className="hidden md:flex space-x-6">
+              <div className="hidden md:flex gap-6">
                 <Link 
                   href="/articles" 
                   className={getActiveClasses('/articles')}
@@ -185,7 +185,7 @@ export function Navigation() {
               <Link
                 href="/articles"
                 className={getActiveClasses('/articles', true)}
-                onClick={() => handleNavigationClick('/articles')}
+                onClick={handleNavigationClick}
                 prefetch={false}
               >
                 Articles
@@ -193,7 +193,7 @@ export function Navigation() {
               <Link
                 href="/reports"
                 className={getActiveClasses('/reports', true)}
-                onClick={() => handleNavigationClick('/reports')}
+                onClick={handleNavigationClick}
                 prefetch={false}
               >
                 Reports
@@ -201,7 +201,7 @@ export function Navigation() {
               <Link
                 href="/galleries"
                 className={getActiveClasses('/galleries', true)}
-                onClick={() => handleNavigationClick('/galleries')}
+                onClick={handleNavigationClick}
                 prefetch={false}
               >
                 Galleries

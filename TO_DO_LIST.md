@@ -9,6 +9,8 @@
 - **✅ Fixed Header Navigation** - Navigation bar is now fixed at the top with proper z-index layering.
 - **✅ Enhanced Navigation Active States** - Animated left-to-right underline for desktop, left border for mobile.
 - **✅ Fixed Hydration Issues** - Navigation active states now work correctly without SSR/client mismatch.
+- **✅ Enhanced Theme Toggle System** - Improved theme toggle with better visual design and hydration stability.
+- **✅ Successful Build** - All pages generated successfully with no TypeScript or ESLint errors.
 - Articles list page (`/articles`) is fully functional with pagination and image rendering.
 - **Galleries list page (`/galleries`) is fully functional with pagination and image rendering.**
 - **Reports list page (`/reports`) is fully functional with pagination and image rendering.**
@@ -35,9 +37,24 @@
   - [x] `Article` (title, slug, content, date, author, featured image)
   - [x] `Report` (title, date, content rich text, main image, images)
   - [x] `Gallery` (title, slug, event date, description, images)
+  - [ ] **NEW: `About` (Single Type)** - Basic description section (rich text)
+  - [ ] **NEW: Modify existing `User` (Collection Type)** - Extend for team members in "Who We Are" section
+    - [ ] Add description field (rich text) to existing User type
+    - [ ] Add photo field (media upload) to existing User type
+    - [ ] Utilize existing fields: username, email
+    - [ ] Add role/position field (string) for team member titles
+  - [ ] **NEW: `Contact Message` (Collection Type)** - For storing contact form submissions
+    - [ ] name (string)
+    - [ ] email (string)
+    - [ ] subject (string)
+    - [ ] message (rich text)
+    - [ ] created_at (timestamp)
 - [x] Set up Strapi roles & permissions:
   - [x] Allow unauthenticated (public) access to `find` and `findOne` for all content types.
   - [x] Allow public access to media files.
+  - [ ] **NEW: Allow public access to About single type**
+  - [ ] **NEW: Allow public access to User collection (for team members)**
+  - [ ] **NEW: Allow public create access to Contact Message collection**
 - [ ] (Optional) Install image optimization plugins for Strapi.
 
 ---
@@ -69,6 +86,19 @@
   - [x] `/galleries/[slug]` ✅ **Updated to use slug-based routing**
   - [x] `/reports/[slug]`
 - [x] **Create aviation blog homepage** with hero section and content showcase.
+- [ ] **NEW: Create About page (`/about`)**:
+  - [ ] Fetch and display About single type content
+  - [ ] Create "Who We Are" section displaying team members from User collection
+  - [ ] Responsive design with team member cards
+  - [ ] Team member photos with proper image optimization
+  - [ ] Contact information for each team member (email from User type)
+  - [ ] Display role/position for each team member
+- [ ] **NEW: Create Contact page (`/contact`)**:
+  - [ ] Public-facing contact form with validation
+  - [ ] Form fields: name, email, subject, message
+  - [ ] Form submission to Strapi Contact Message collection
+  - [ ] Success/error feedback for users
+  - [ ] Responsive design with clean form layout
 - [x] **✅ Unified Navigation System**:
   - [x] Single Navigation component handling both desktop and mobile
   - [x] Fixed header with backdrop blur and proper z-index layering
@@ -80,6 +110,7 @@
   - [x] **Enhanced Active States** - Different styling for mobile (left border) vs desktop (animated underline)
   - [x] **Animated Underline** - Left-to-right animation for desktop navigation active states
   - [x] **Hydration Fix** - Resolved SSR/client mismatch for navigation active states
+  - [ ] **NEW: Add About and Contact links to navigation**
 - [x] **Update metadata** for aviation blog branding.
 - [x] **Implement minimalist theme system**:
   - [x] Light and dark themes using CSS variables
@@ -88,6 +119,8 @@
   - [x] No flash on page load
   - [x] Consistent theme across all components
   - [x] **Theme toggle responsive behavior** (hidden on mobile in main nav, visible in mobile menu)
+  - [x] **Enhanced Theme Toggle Design** - Black moon and yellow sun icons with light outline
+  - [x] **Theme Toggle Hydration Fix** - Resolved className prop inconsistencies causing hydration mismatches
 - [ ] Add dynamic `<title>` and `<meta>` tags for SEO.
 - [x] Implement responsive, clean UI with Tailwind CSS.
 - [x] Render images with proper optimization and alt tags.
@@ -101,6 +134,17 @@
 - [x] Test image loading and optimization.
 - [x] **Test homepage functionality** and content display.
 - [x] **Test slug-based routing** for galleries.
+- [ ] **NEW: Test About page functionality**:
+  - [ ] About content displays correctly
+  - [ ] Team members from User collection render with photos and information
+  - [ ] Responsive design works on all screen sizes
+  - [ ] Contact information is accessible
+  - [ ] Role/position information displays properly
+- [ ] **NEW: Test Contact page functionality**:
+  - [ ] Contact form validation works correctly
+  - [ ] Form submission to Strapi is successful
+  - [ ] Success/error messages display properly
+  - [ ] Form fields are properly styled and accessible
 - [x] **✅ Test unified navigation functionality**:
   - [x] Desktop navigation links working properly
   - [x] Mobile burger menu animation and functionality
@@ -112,6 +156,19 @@
   - [x] **Active state animations** - Left-to-right underline animation on desktop
   - [x] **Mobile active states** - Left border styling for mobile navigation
   - [x] **Hydration stability** - No SSR/client mismatch errors in console
+- [x] **✅ Test enhanced theme toggle**:
+  - [x] Theme toggle visual design with black moon and yellow sun icons
+  - [x] Light outline around theme toggle container
+  - [x] Consistent sizing and centering of theme icons
+  - [x] Hydration stability without className prop mismatches
+  - [x] Responsive behavior across desktop and mobile contexts
+- [x] **✅ Build Testing**:
+  - [x] Successful build completion with no errors
+  - [x] All pages generated correctly (9/9)
+  - [x] No TypeScript compilation errors
+  - [x] No ESLint warnings or errors
+  - [x] Proper route generation for all content types
+  - [x] Optimized bundle sizes and performance
 
 ---
 
@@ -133,10 +190,39 @@
 - [ ] **Add rich text rendering** for report content blocks.
 - [ ] **Add image galleries** with lightbox functionality.
 - [ ] **Add social sharing** buttons for articles and reports.
+- [ ] **⏭️ Future Integration: User Authorship**:
+  - [ ] Link Users as authors for Articles and Reports
+  - [ ] Add relation fields in Strapi content types (Article.author, Report.author)
+  - [ ] Update frontend to display author information from User collection
+  - [ ] Create author profile pages using User data
+  - [ ] Add author filtering and search functionality
+  - [ ] Display author photos and descriptions in article/report pages
 
 ---
 
 ## 🎯 Recent Achievements (Latest Commit)
+- ✅ **Successful Build Completion**
+  - All pages generated successfully (9/9) with no errors
+  - No TypeScript compilation errors or ESLint warnings
+  - Proper route generation for all content types
+  - Optimized bundle sizes and performance metrics
+  - Clean build output with proper static and dynamic page handling
+
+- ✅ **Enhanced Theme Toggle System**
+  - Implemented black moon icon for light theme and yellow sun icon for dark theme
+  - Added light outline border around theme toggle container for better visual definition
+  - Ensured consistent icon sizing and proper centering for both moon and sun icons
+  - Fixed hydration issues caused by inconsistent className props between desktop and mobile
+  - Implemented array-based class construction with proper filtering to prevent hydration mismatches
+  - Added cursor pointer for better user experience and visual feedback
+
+- ✅ **Fixed Theme Toggle Hydration Issues**
+  - Resolved className prop inconsistencies between desktop (`hidden md:block`) and mobile (empty string)
+  - Implemented consistent class ordering using array-based construction
+  - Added proper class filtering to handle empty strings and undefined values
+  - Eliminated hydration mismatches by ensuring server and client render the same className structure
+  - Maintained functionality while fixing rendering consistency across all screen sizes
+
 - ✅ **Enhanced Navigation Active States**
   - Implemented animated left-to-right underline for desktop navigation
   - Maintained different styling approaches for mobile (left border) vs desktop (underline)
