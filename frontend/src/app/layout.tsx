@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { MobileNav } from "@/components/ui/mobile-nav";
+import { Navigation } from "@/components/ui/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,40 +18,6 @@ export const metadata: Metadata = {
   title: "Aviation Blog - News, Reports & Photography",
   description: "Your premier destination for aviation news, airshow reports, and stunning aircraft photography. From military displays to civilian aviation.",
 };
-
-function Navigation() {
-  return (
-    <nav className="border-b border-border bg-background">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-2xl font-bold text-foreground">
-            Aviation Blog
-          </Link>
-          <div className="flex items-center space-x-4">
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-6">
-              <Link href="/articles" className="text-foreground hover:text-primary/80 transition-colors">
-                Articles
-              </Link>
-              <Link href="/reports" className="text-foreground hover:text-primary/80 transition-colors">
-                Reports
-              </Link>
-              <Link href="/galleries" className="text-foreground hover:text-primary/80 transition-colors">
-                Galleries
-              </Link>
-            </div>
-            
-            {/* Theme Toggle and Mobile Nav */}
-            <div className="flex items-center space-x-2">
-              <ThemeToggle className="hidden md:block" />
-              <MobileNav />
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-}
 
 export default function RootLayout({
   children,
@@ -80,7 +44,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider>
           <Navigation />
-          <main className="min-h-screen bg-background text-foreground">
+          <main className="min-h-screen bg-background text-foreground pt-16">
             {children}
           </main>
         </ThemeProvider>
