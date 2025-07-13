@@ -131,7 +131,7 @@ export default async function HomePage() {
                         <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
                           {gallery.Images && gallery.Images.length > 0 ? (
                             <Image
-                              src={`${process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'}${gallery.Images[0].url}`}
+                              src={`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${gallery.Images[0].url}`}
                               alt={gallery.Images[0].alternativeText || gallery.Title}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform"
