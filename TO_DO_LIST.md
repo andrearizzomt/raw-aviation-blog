@@ -8,7 +8,8 @@
 - Articles list page (`/articles`) is fully functional with pagination and image rendering.
 - **Galleries list page (`/galleries`) is fully functional with pagination and image rendering.**
 - **Reports list page (`/reports`) is fully functional with pagination and image rendering.**
-- **All dynamic detail pages are implemented: `/articles/[slug]`, `/galleries/[id]`, `/reports/[slug]`**
+- **All dynamic detail pages are implemented: `/articles/[slug]`, `/galleries/[slug]`, `/reports/[slug]`**
+- **✅ Slug-based routing implemented for galleries** - URLs now use SEO-friendly slugs instead of IDs
 - Test page (`/test`) confirms API integration and content fetching for all types.
 - TypeScript types and Zod validation are fully integrated.
 - Content is being served and displayed from Strapi to the frontend.
@@ -28,7 +29,7 @@
 - [x] Create content types:
   - [x] `Article` (title, slug, content, date, author, featured image)
   - [x] `Report` (title, date, content rich text, main image, images)
-  - [x] `Gallery` (title, event date, description, images)
+  - [x] `Gallery` (title, slug, event date, description, images)
 - [x] Set up Strapi roles & permissions:
   - [x] Allow unauthenticated (public) access to `find` and `findOne` for all content types.
   - [x] Allow public access to media files.
@@ -60,7 +61,7 @@
   - [x] `/reports`
 - [x] Build dynamic detail pages:
   - [x] `/articles/[slug]`
-  - [x] `/galleries/[id]`
+  - [x] `/galleries/[slug]` ✅ **Updated to use slug-based routing**
   - [x] `/reports/[slug]`
 - [x] **Create aviation blog homepage** with hero section and content showcase.
 - [x] **Add navigation component** to layout.
@@ -83,6 +84,7 @@
 - [ ] Check SEO tags and page metadata.
 - [x] Test image loading and optimization.
 - [x] **Test homepage functionality** and content display.
+- [x] **Test slug-based routing** for galleries.
 
 ---
 
@@ -103,4 +105,15 @@
 - [ ] Add contact form or newsletter signup.
 - [ ] **Add rich text rendering** for report content blocks.
 - [ ] **Add image galleries** with lightbox functionality.
-- [ ] **Add social sharing** buttons for articles and reports. 
+- [ ] **Add social sharing** buttons for articles and reports.
+
+---
+
+## 🎯 Recent Achievements (Latest Commit)
+- ✅ **Implemented slug-based routing for galleries**
+  - Added `slug` field to Gallery content type in Strapi
+  - Updated frontend routes from `[id]` to `[slug]`
+  - Updated API functions to fetch galleries by slug
+  - Updated TypeScript types and Zod schemas
+  - Fixed routing conflicts and ensured consistent slug usage
+  - Gallery URLs now use SEO-friendly format: `/galleries/riat-2024` 

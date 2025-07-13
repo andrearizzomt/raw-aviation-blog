@@ -127,7 +127,7 @@ export default async function HomePage() {
                 <div className="space-y-4">
                   {galleries.map((gallery) => (
                     <div key={gallery.id} className="border-b border-border pb-4 last:border-b-0">
-                      <Link href={`/galleries/${gallery.id}`} className="group">
+                      <Link href={`/galleries/${gallery.slug}`} className="group">
                         <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
                           {gallery.Images && gallery.Images.length > 0 ? (
                             <Image
