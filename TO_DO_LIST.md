@@ -7,6 +7,8 @@
 - **✅ Unified Navigation Component** - Single component handling both desktop and mobile navigation.
 - **✅ Fixed Navigation Issues** - All navigation links working properly on both desktop and mobile.
 - **✅ Fixed Header Navigation** - Navigation bar is now fixed at the top with proper z-index layering.
+- **✅ Enhanced Navigation Active States** - Animated left-to-right underline for desktop, left border for mobile.
+- **✅ Fixed Hydration Issues** - Navigation active states now work correctly without SSR/client mismatch.
 - Articles list page (`/articles`) is fully functional with pagination and image rendering.
 - **Galleries list page (`/galleries`) is fully functional with pagination and image rendering.**
 - **Reports list page (`/reports`) is fully functional with pagination and image rendering.**
@@ -75,6 +77,9 @@
   - [x] Proper event handling and state management
   - [x] Responsive design with clean transitions
   - [x] Body scroll prevention when mobile menu is open
+  - [x] **Enhanced Active States** - Different styling for mobile (left border) vs desktop (animated underline)
+  - [x] **Animated Underline** - Left-to-right animation for desktop navigation active states
+  - [x] **Hydration Fix** - Resolved SSR/client mismatch for navigation active states
 - [x] **Update metadata** for aviation blog branding.
 - [x] **Implement minimalist theme system**:
   - [x] Light and dark themes using CSS variables
@@ -104,6 +109,9 @@
   - [x] Fixed header positioning and z-index layering
   - [x] Responsive behavior across all screen sizes
   - [x] Proper event handling and state management
+  - [x] **Active state animations** - Left-to-right underline animation on desktop
+  - [x] **Mobile active states** - Left border styling for mobile navigation
+  - [x] **Hydration stability** - No SSR/client mismatch errors in console
 
 ---
 
@@ -129,6 +137,20 @@
 ---
 
 ## 🎯 Recent Achievements (Latest Commit)
+- ✅ **Enhanced Navigation Active States**
+  - Implemented animated left-to-right underline for desktop navigation
+  - Maintained different styling approaches for mobile (left border) vs desktop (underline)
+  - Removed hover effects on desktop navigation for cleaner UX
+  - Added smooth CSS transitions with `scale-x` transforms for underline animation
+  - Used `after:` pseudo-elements with proper transform origins for smooth animation
+
+- ✅ **Fixed Hydration Issues**
+  - Resolved SSR/client mismatch by adding `mounted` state check
+  - Prevented active state determination during server-side rendering
+  - Ensured navigation active states only render after client hydration
+  - Eliminated console errors related to hydration mismatches
+  - Maintained functionality while fixing rendering consistency
+
 - ✅ **Refactored Navigation System**
   - Unified desktop and mobile navigation into single `Navigation` component
   - Removed redundant `mobile-nav.tsx` component

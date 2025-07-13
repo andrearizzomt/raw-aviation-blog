@@ -2,10 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './theme-toggle';
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+
+  // Prevent hydration mismatch by only rendering active states after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -33,6 +41,28 @@ export function Navigation() {
     closeMobileMenu();
   };
 
+  // Helper function to check if a link is active
+  const isActive = (path: string) => {
+    if (!mounted) return false; // Return false during SSR to prevent hydration mismatch
+    if (path === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(path);
+  };
+
+  // Helper function to get active classes
+  const getActiveClasses = (path: string, isMobile = false) => {
+    const active = isActive(path);
+    if (isMobile) {
+      return active 
+        ? 'block py-3 px-4 text-primary border-l-4 border-primary bg-primary/10 rounded-lg transition-colors'
+        : 'block py-3 px-4 text-foreground hover:text-primary/80 hover:bg-accent rounded-lg transition-colors';
+    }
+    return active
+      ? 'text-primary relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-primary after:origin-left after:scale-x-100 after:transition-transform after:duration-300 after:ease-out'
+      : 'text-foreground relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-primary after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:ease-out';
+  };
+
   return (
     <>
       {/* Main Navigation Bar */}
@@ -49,21 +79,21 @@ export function Navigation() {
               <div className="hidden md:flex space-x-6">
                 <Link 
                   href="/articles" 
-                  className="text-foreground hover:text-primary/80 transition-colors" 
+                  className={getActiveClasses('/articles')}
                   prefetch={false}
                 >
                   Articles
                 </Link>
                 <Link 
                   href="/reports" 
-                  className="text-foreground hover:text-primary/80 transition-colors" 
+                  className={getActiveClasses('/reports')}
                   prefetch={false}
                 >
                   Reports
                 </Link>
                 <Link 
                   href="/galleries" 
-                  className="text-foreground hover:text-primary/80 transition-colors" 
+                  className={getActiveClasses('/galleries')}
                   prefetch={false}
                 >
                   Galleries
@@ -154,7 +184,7 @@ export function Navigation() {
             <div className="space-y-4">
               <Link
                 href="/articles"
-                className="block py-3 px-4 text-foreground hover:text-primary/80 hover:bg-accent rounded-lg transition-colors"
+                className={getActiveClasses('/articles', true)}
                 onClick={() => handleNavigationClick('/articles')}
                 prefetch={false}
               >
@@ -162,7 +192,7 @@ export function Navigation() {
               </Link>
               <Link
                 href="/reports"
-                className="block py-3 px-4 text-foreground hover:text-primary/80 hover:bg-accent rounded-lg transition-colors"
+                className={getActiveClasses('/reports', true)}
                 onClick={() => handleNavigationClick('/reports')}
                 prefetch={false}
               >
@@ -170,7 +200,7 @@ export function Navigation() {
               </Link>
               <Link
                 href="/galleries"
-                className="block py-3 px-4 text-foreground hover:text-primary/80 hover:bg-accent rounded-lg transition-colors"
+                className={getActiveClasses('/galleries', true)}
                 onClick={() => handleNavigationClick('/galleries')}
                 prefetch={false}
               >
