@@ -384,7 +384,11 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    Author: Schema.Attribute.String & Schema.Attribute.Required;
+    authors: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::author-profile.author-profile'
+    > &
+      Schema.Attribute.Required;
     Content: Schema.Attribute.Blocks & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -409,6 +413,57 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAuthorProfileAuthorProfile
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'author_profiles';
+  info: {
+    description: 'Extended author information for blog contributors';
+    displayName: 'Author Profile';
+    pluralName: 'author-profiles';
+    singularName: 'author-profile';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    authorSlug: Schema.Attribute.UID<'displayName'> & Schema.Attribute.Required;
+    authorType: Schema.Attribute.Enumeration<
+      ['founder', 'external_contributor', 'guest']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'guest'>;
+    bio: Schema.Attribute.RichText & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    displayName: Schema.Attribute.String & Schema.Attribute.Required;
+    isPublicAuthor: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::author-profile.author-profile'
+    > &
+      Schema.Attribute.Private;
+    position: Schema.Attribute.String & Schema.Attribute.Required;
+    profilePhoto: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    showContributionCount: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    socialLinks: Schema.Attribute.JSON;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    > &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ApiGalleryGallery extends Struct.CollectionTypeSchema {
   collectionName: 'galleries';
   info: {
@@ -420,6 +475,11 @@ export interface ApiGalleryGallery extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    authors: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::author-profile.author-profile'
+    > &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -453,6 +513,11 @@ export interface ApiReportReport extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    authors: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::author-profile.author-profile'
+    > &
+      Schema.Attribute.Required;
     Content: Schema.Attribute.Blocks & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -985,6 +1050,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::article.article': ApiArticleArticle;
+      'api::author-profile.author-profile': ApiAuthorProfileAuthorProfile;
       'api::gallery.gallery': ApiGalleryGallery;
       'api::report.report': ApiReportReport;
       'plugin::content-releases.release': PluginContentReleasesRelease;

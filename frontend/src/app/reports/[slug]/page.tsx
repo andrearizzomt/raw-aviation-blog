@@ -1,4 +1,5 @@
 import { getReportBySlug } from '@/lib/api/content';
+import { AuthorDisplay } from '@/components/ui/author-display';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
@@ -35,6 +36,8 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ s
                   day: 'numeric',
                 })}
               </time>
+              <span className="mx-2">•</span>
+              <AuthorDisplay authors={report.authors} showPhoto={true} size="md" />
             </div>
             <div className="prose max-w-none mb-8 text-muted-foreground">
               {report.Content.map((block, i) => (

@@ -53,6 +53,39 @@ const FeaturedImageSchema = z.object({
   publishedAt: z.string(),
 });
 
+// Schema for Author Profile
+const AuthorProfileSchema = z.object({
+  id: z.number(),
+  documentId: z.string(),
+  displayName: z.string(),
+  bio: z.union([z.array(ContentBlockSchema), z.string()]).optional(),
+  profilePhoto: FeaturedImageSchema.optional(),
+  position: z.string(),
+  isPublicAuthor: z.boolean(),
+  authorType: z.enum(['founder', 'external_contributor', 'guest']),
+  authorSlug: z.string(),
+  showContributionCount: z.boolean(),
+  socialLinks: z.any().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  publishedAt: z.string().nullable(),
+});
+
+export const StrapiAuthorProfileSchema = AuthorProfileSchema;
+
+// Schema for Author Profile response
+export const StrapiAuthorProfileResponseSchema = z.object({
+  data: z.array(AuthorProfileSchema),
+  meta: z.object({
+    pagination: z.object({
+      page: z.number(),
+      pageSize: z.number(),
+      pageCount: z.number(),
+      total: z.number(),
+    }),
+  }),
+});
+
 const BaseStrapiArticleSchema = z.object({
   id: z.number(),
   documentId: z.string(),
@@ -60,7 +93,7 @@ const BaseStrapiArticleSchema = z.object({
   Slug: z.string(),
   Content: z.array(ContentBlockSchema),
   Date: z.string(),
-  Author: z.string(),
+  authors: z.array(AuthorProfileSchema).optional(),
   Featured_Image: FeaturedImageSchema.optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -102,6 +135,7 @@ const BaseStrapiReportSchema = z.object({
   Slug: z.string(),
   Date: z.string(),
   Content: z.array(ContentBlockSchema),
+  authors: z.array(AuthorProfileSchema).optional(),
   MainImage: FeaturedImageSchema.optional(),
   Images: z.array(FeaturedImageSchema).optional(),
   createdAt: z.string(),
@@ -131,6 +165,7 @@ const BaseStrapiGallerySchema = z.object({
   slug: z.string(),
   Date: z.string(),
   Description: z.string(),
+  authors: z.array(AuthorProfileSchema).optional(),
   Images: z.array(
     z.object({
       id: z.number(),

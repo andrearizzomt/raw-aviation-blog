@@ -1,4 +1,5 @@
 import { getGalleries } from '@/lib/api/content';
+import { AuthorDisplay } from '@/components/ui/author-display';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -58,6 +59,8 @@ export default async function GalleriesPage({
                     day: 'numeric',
                   })}
                 </time>
+                <span className="mx-2">•</span>
+                <AuthorDisplay authors={gallery.authors} />
               </div>
               <div className="text-muted-foreground mb-4">
                 {gallery.Description.length > 150 

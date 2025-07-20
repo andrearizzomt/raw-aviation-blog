@@ -1,4 +1,5 @@
 import { getReports } from '@/lib/api/content';
+import { AuthorDisplay } from '@/components/ui/author-display';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -55,6 +56,8 @@ export default async function ReportsPage({
                     day: 'numeric',
                   })}
                 </time>
+                <span className="mx-2">•</span>
+                <AuthorDisplay authors={report.authors} />
               </div>
               <div className="text-muted-foreground">
                 {report.Content[0]?.children[0]?.text?.slice(0, 150)}...

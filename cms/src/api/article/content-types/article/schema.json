@@ -28,8 +28,10 @@
       "type": "date",
       "required": true
     },
-    "Author": {
-      "type": "string",
+    "authors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::author-profile.author-profile",
       "required": true
     },
     "Featured_Image": {

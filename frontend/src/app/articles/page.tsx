@@ -1,5 +1,6 @@
 import { getArticles } from '@/lib/api/content';
 import { getStrapiMedia } from '@/lib/api/strapi';
+import { AuthorDisplay } from '@/components/ui/author-display';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -55,7 +56,7 @@ export default async function ArticlesPage({
                   })}
                 </time>
                 <span className="mx-2">•</span>
-                <span>{article.Author}</span>
+                <AuthorDisplay authors={article.authors} />
               </div>
               <div className="text-muted-foreground">
                 {article.Content[0]?.children[0]?.text?.slice(0, 150)}...

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getArticles, getReports, getGalleries } from "@/lib/api/content";
+import { AuthorDisplay } from "@/components/ui/author-display";
 
 export default async function HomePage() {
   // Fetch latest content from all content types
@@ -58,9 +59,15 @@ export default async function HomePage() {
                         <p className="text-sm text-muted-foreground mt-1">
                           {article.Content[0]?.children[0]?.text?.slice(0, 100)}...
                         </p>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          {new Date(article.Date).toLocaleDateString()}
-                        </p>
+                        <div className="flex items-center text-xs text-muted-foreground mt-2 space-x-2">
+                          <span>{new Date(article.Date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}</span>
+                          <span>•</span>
+                          <AuthorDisplay authors={article.authors} />
+                        </div>
                       </Link>
                     </div>
                   ))}
@@ -96,9 +103,15 @@ export default async function HomePage() {
                         <p className="text-sm text-muted-foreground mt-1">
                           {report.Content[0]?.children[0]?.text?.slice(0, 100)}...
                         </p>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          {new Date(report.Date).toLocaleDateString()}
-                        </p>
+                        <div className="flex items-center text-xs text-muted-foreground mt-2 space-x-2">
+                          <span>{new Date(report.Date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}</span>
+                          <span>•</span>
+                          <AuthorDisplay authors={report.authors} />
+                        </div>
                       </Link>
                     </div>
                   ))}
@@ -148,9 +161,19 @@ export default async function HomePage() {
                         <p className="text-sm text-muted-foreground mt-1">
                           {gallery.Description?.slice(0, 80)}...
                         </p>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          {gallery.Images?.length || 0} photos
-                        </p>
+                        <div className="flex items-center justify-between text-xs text-muted-foreground mt-2">
+                          <div className="flex items-center space-x-2">
+                            <span>{gallery.Images?.length || 0} photos</span>
+                            <span>•</span>
+                            <span>{new Date(gallery.Date).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })}</span>
+                            <span>•</span>
+                            <AuthorDisplay authors={gallery.authors} />
+                          </div>
+                        </div>
                       </Link>
                     </div>
                   ))}

@@ -1,4 +1,5 @@
 import { getGalleryBySlug } from '@/lib/api/content';
+import { AuthorDisplay } from '@/components/ui/author-display';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
@@ -21,6 +22,8 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
                   day: 'numeric',
                 })}
               </time>
+              <span className="mx-2">•</span>
+              <AuthorDisplay authors={gallery.authors} showPhoto={true} size="md" />
             </div>
             <div className="prose max-w-none mb-8">
               <p className="text-lg leading-relaxed text-muted-foreground">{gallery.Description}</p>

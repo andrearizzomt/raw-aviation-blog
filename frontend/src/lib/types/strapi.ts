@@ -2,6 +2,24 @@
  * Base types for Strapi content
  */
 
+// Author Profile type
+export interface StrapiAuthorProfile {
+  id: number;
+  documentId: string;
+  displayName: string;
+  bio?: ContentBlock[] | string;
+  profilePhoto?: FeaturedImage;
+  position: string;
+  isPublicAuthor: boolean;
+  authorType: 'founder' | 'external_contributor' | 'guest';
+  authorSlug: string;
+  showContributionCount: boolean;
+  socialLinks?: any;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string | null;
+}
+
 // Internal types (not exported)
 interface ContentBlock {
   type: string;
@@ -33,10 +51,10 @@ interface FeaturedImage {
   width: number;
   height: number;
   formats: {
-    thumbnail: ImageFormat;
-    large: ImageFormat;
-    medium: ImageFormat;
-    small: ImageFormat;
+    thumbnail?: ImageFormat;
+    large?: ImageFormat;
+    medium?: ImageFormat;
+    small?: ImageFormat;
   };
   hash: string;
   ext: string;
@@ -59,7 +77,7 @@ export interface StrapiArticle {
   Slug: string;
   Content: ContentBlock[];
   Date: string;
-  Author: string;
+  authors?: StrapiAuthorProfile[];
   Featured_Image?: FeaturedImage;
   createdAt: string;
   updatedAt: string;
@@ -73,6 +91,7 @@ export interface StrapiReport {
   Slug: string;
   Date: string;
   Content: ContentBlock[];
+  authors?: StrapiAuthorProfile[];
   MainImage?: FeaturedImage;
   Images?: FeaturedImage[];
   createdAt: string;
@@ -87,6 +106,7 @@ export interface StrapiGallery {
   slug: string;
   Date: string;
   Description: string;
+  authors?: StrapiAuthorProfile[];
   Images: Array<{
     id: number;
     name: string;

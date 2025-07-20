@@ -5,12 +5,15 @@ import {
   StrapiReportSchema,
   StrapiGallerySchema,
   StrapiGalleryResponseSchema,
-  StrapiReportResponseSchema
+  StrapiReportResponseSchema,
+  StrapiAuthorProfileSchema,
+  StrapiAuthorProfileResponseSchema
 } from '../schemas/strapi';
 import type { 
   StrapiArticle,
   StrapiReport,
-  StrapiGallery 
+  StrapiGallery,
+  StrapiAuthorProfile
 } from '../types/strapi';
 
 /**
@@ -138,4 +141,41 @@ export async function getGalleryBySlug(slug: string) {
   const validatedResponse = StrapiGallerySchema.parse(response.data[0]);
   
   return validatedResponse;
+}
+
+/**
+ * Fetch all author profiles
+ */
+export async function getAuthorProfiles(page = 1, pageSize = 50) {
+  const response = await fetchAPI<StrapiAuthorProfile[]>(
+    `author-profiles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*&sort=displayName:asc`
+  );
+  
+  // Debug log
+  console.log('Raw Strapi Author Profile response:', JSON.stringify(response, null, 2));
+  
+  // Validate the entire response
+  const validatedResponse = StrapiAuthorProfileResponseSchema.parse(response);
+  
+  return { 
+    authorProfiles: validatedResponse.data,
+    pagination: validatedResponse.meta.pagination 
+  };
+}
+
+/**
+ * Fetch public author profiles for About page
+ */
+export async function getPublicAuthorProfiles() {
+  const response = await fetchAPI<StrapiAuthorProfile[]>(
+    `author-profiles?filters[isPublicAuthor][$eq]=true&populate=*&sort=authorType:asc,displayName:asc`
+  );
+  
+  // Debug log
+  console.log('Raw Public Author Profile response:', JSON.stringify(response, null, 2));
+  
+  // Validate the entire response
+  const validatedResponse = StrapiAuthorProfileResponseSchema.parse(response);
+  
+  return validatedResponse.data;
 } 

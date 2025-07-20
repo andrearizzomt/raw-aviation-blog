@@ -24,6 +24,12 @@
       "type": "date",
       "required": true
     },
+    "authors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::author-profile.author-profile",
+      "required": true
+    },
     "Description": {
       "type": "text",
       "required": true

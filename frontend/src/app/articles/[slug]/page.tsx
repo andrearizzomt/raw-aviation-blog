@@ -1,5 +1,6 @@
 import { getArticleBySlug } from '@/lib/api/content';
 import { getStrapiMedia } from '@/lib/api/strapi';
+import { AuthorDisplay } from '@/components/ui/author-display';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
@@ -33,7 +34,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
               })}
             </time>
             <span className="mx-2">•</span>
-            <span>{article.Author}</span>
+            <AuthorDisplay authors={article.authors} showPhoto={true} size="md" />
           </div>
           <div className="prose max-w-none text-muted-foreground">
             {article.Content.map((block, i) => (
