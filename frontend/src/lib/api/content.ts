@@ -148,7 +148,7 @@ export async function getGalleryBySlug(slug: string) {
  */
 export async function getAuthorProfiles(page = 1, pageSize = 50) {
   const response = await fetchAPI<StrapiAuthorProfile[]>(
-    `author-profiles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*&sort=displayName:asc`
+    `author-profiles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*&sort=orderWeight:asc,displayName:asc`
   );
   
   // Debug log
@@ -168,7 +168,7 @@ export async function getAuthorProfiles(page = 1, pageSize = 50) {
  */
 export async function getPublicAuthorProfiles() {
   const response = await fetchAPI<StrapiAuthorProfile[]>(
-    `author-profiles?filters[isPublicAuthor][$eq]=true&populate=*&sort=authorType:asc,displayName:asc`
+    `author-profiles?filters[isPublicAuthor][$eq]=true&populate=*&sort=orderWeight:asc,authorType:asc,displayName:asc`
   );
   
   // Debug log

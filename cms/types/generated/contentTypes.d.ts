@@ -437,6 +437,8 @@ export interface ApiAuthorProfileAuthorProfile
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     displayName: Schema.Attribute.String & Schema.Attribute.Required;
+    facebook: Schema.Attribute.String;
+    instagram: Schema.Attribute.String;
     isPublicAuthor: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
@@ -446,13 +448,22 @@ export interface ApiAuthorProfileAuthorProfile
       'api::author-profile.author-profile'
     > &
       Schema.Attribute.Private;
+    orderWeight: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 9999;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<1000>;
     position: Schema.Attribute.String & Schema.Attribute.Required;
     profilePhoto: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     showContributionCount: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
-    socialLinks: Schema.Attribute.JSON;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

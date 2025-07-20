@@ -14,7 +14,14 @@ export interface StrapiAuthorProfile {
   authorType: 'founder' | 'external_contributor' | 'guest';
   authorSlug: string;
   showContributionCount: boolean;
-  socialLinks?: any;
+  instagram?: string | null;
+  facebook?: string | null;
+  orderWeight: number;
+  user?: {
+    id: number;
+    email: string;
+    username: string;
+  };
   createdAt: string;
   updatedAt: string;
   publishedAt: string | null;

@@ -1,4 +1,4 @@
-# Aviation Blog Project
+# RAW Aviation Project
 
 ## 🛠 Project Overview
 The site will feature aviation-related content like articles, reports, and photo galleries (e.g., airshows, exercises, etc.). All content will be managed in Strapi and fetched into the frontend built with Next.js.

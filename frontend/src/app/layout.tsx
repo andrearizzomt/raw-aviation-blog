@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aviation Blog - News, Reports & Photography",
+  title: "RAW Aviation - News, Reports & Photography",
   description: "Your premier destination for aviation news, airshow reports, and stunning aircraft photography. From military displays to civilian aviation.",
 };
 

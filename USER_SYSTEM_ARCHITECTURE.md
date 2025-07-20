@@ -2,7 +2,7 @@
 
 ## 🎯 **Overview**
 
-This document defines the Enhanced User Categorization System for the Aviation Blog, providing a unified approach to user management, authorship attribution, and public author profiles.
+This document defines the Enhanced User Categorization System for RAW Aviation, providing a unified approach to user management, authorship attribution, and public author profiles.
 
 ## 📊 **Current Implementation Status**
 
@@ -16,17 +16,23 @@ This document defines the Enhanced User Categorization System for the Aviation B
 - **✅ Type Safety Achieved** - Proper StrapiAuthorProfile types, no `any[]` usage
 - **✅ API Population Working** - Author data properly fetched and displayed
 
-### 🔄 **CURRENT STATUS: Testing & Content Creation Phase**
-- **🟡 Author Profiles Created** - William Spiteri (founder) profile exists and working
-- **🟡 Content Attribution** - "First Test Flight Review" article properly shows William Spiteri
-- **🟡 System Validation** - Frontend displaying "Unknown Author" for unassigned content (expected)
+### ✅ **COMPLETED Phase 2: User System Integration**
+- **✅ About Page Implementation** - Public author showcase page with "About Us" and "Contributors & Guests" sections
+- **✅ Contact Page Implementation** - Contact form with submission to Strapi Contact Message content type
+- **✅ Navigation System Enhancement** - About and Contact links added to unified navigation
+- **✅ Permission System Setup** - Public API access enabled for Author Profiles
+- **✅ Schema Modernization** - Separated social media fields (instagram, facebook) from JSON structure
+- **✅ UI Polish** - Square profile cards, larger images (208px founders, 128px others), professional icons
+- **✅ Responsive Design** - Centered layouts, compact cards, proper mobile/desktop behavior
 
-### 📋 **PENDING Phase 2: User System Integration**
-- **❌ User Model Extension** - Extend built-in User model for author features
-- **❌ About Page Implementation** - Public author showcase page
-- **❌ Content Migration** - Link existing content to author profiles
-- **❌ Permission System Setup** - Role-based access for different author types
-- **❌ Public API Configuration** - Enable public access to author data
+### 🔄 **CURRENT STATUS: Phase 2 Complete - Ready for Content & Deployment**
+- **✅ Author Profiles Working** - William Spiteri (founder), Andrea, Roberto profiles exist and functional
+- **✅ Content Attribution** - Multiple authors properly displayed across all content types
+- **✅ About Page Live** - http://localhost:3000/about showcasing team by category
+- **✅ Contact System** - http://localhost:3000/contact with form submission ready
+- **✅ Social Media Integration** - Instagram/Facebook links with professional SVG icons
+- **✅ Email Contact** - Direct email links for each author profile
+- **✅ Author Ordering System** - orderWeight field implemented for customizable author display order
 
 ## 📊 **Current Architecture: Author Profile Content Type**
 
@@ -43,7 +49,9 @@ This document defines the Enhanced User Categorization System for the Aviation B
   "authorType": "enumeration (required, values: founder|external_contributor|guest)",
   "authorSlug": "uid (required, targetField: displayName)",
   "showContributionCount": "boolean (required, default: false)",
-  "socialLinks": "JSON (optional, instagram/facebook)",
+  "instagram": "string (optional)",
+  "facebook": "string (optional)",
+  "orderWeight": "integer (required, default: 1000, min: 0, max: 9999)",
   "user": "relation to User (optional)",
   "createdAt": "datetime (auto)",
   "updatedAt": "datetime (auto)",
@@ -84,13 +92,28 @@ This document defines the Enhanced User Categorization System for the Aviation B
 }
 ```
 
-### **Social Links JSON Structure**
+### **Social Media Fields Structure**
 ```json
 {
-  "instagram": "https://instagram.com/username",
-  "facebook": "https://facebook.com/username"
+  "instagram": "https://instagram.com/username (string field)",
+  "facebook": "https://facebook.com/username (string field)"
 }
 ```
+
+### **Author Ordering System**
+```json
+{
+  "orderWeight": {
+    "type": "integer",
+    "required": true,
+    "default": 1000,
+    "min": 0,
+    "max": 9999,
+    "description": "Controls display order - lower values appear first"
+  }
+}
+```
+**Usage**: Authors with lower `orderWeight` values appear first in lists. Default value of 1000 allows for easy insertion of new authors at any position.
 
 ## 🏷️ **Author Categories**
 
@@ -225,7 +248,7 @@ User → Role (many-to-one, Strapi built-in)
 ```
 ┌─────────────────────────────────────┐
 │  🚁 Hero Section                   │
-│  Aviation Blog Mission             │
+│  RAW Aviation Mission              │
 ├─────────────────────────────────────┤
 │  👥 WHO WE ARE                     │
 │  ┌───┐ ┌───┐ ┌───┐                 │
@@ -339,7 +362,14 @@ export interface StrapiAuthorProfile {
   authorType: 'founder' | 'external_contributor' | 'guest';
   authorSlug: string;
   showContributionCount: boolean;
-  socialLinks?: any;
+  instagram?: string | null;
+  facebook?: string | null;
+  orderWeight: number;
+  user?: {
+    id: number;
+    email: string;
+    username: string;
+  };
   createdAt: string;
   updatedAt: string;
   publishedAt: string | null;
@@ -430,6 +460,7 @@ export const getGalleries = async (page = 1, pageSize = 6) => { /* ... */ };
 // Author Profile Fetchers (Ready for Use)
 export const getAuthorProfiles = async () => {
   return await fetchFromStrapi('/author-profiles', {
+    sort: 'orderWeight:asc,displayName:asc',
     populate: '*'
   });
 };
@@ -437,6 +468,7 @@ export const getAuthorProfiles = async () => {
 export const getPublicAuthorProfiles = async () => {
   return await fetchFromStrapi('/author-profiles', {
     filters: { isPublicAuthor: true },
+    sort: 'orderWeight:asc,authorType:asc,displayName:asc',
     populate: '*'
   });
 };
@@ -653,21 +685,26 @@ Display:
 
 ## 🎯 **Current Implementation Summary**
 
-### **✅ What's Working Right Now**
-1. **Author Profile System** - Fully functional content type with all required fields
+### **✅ What's Working Right Now (Phase 2 Complete)**
+1. **Author Profile System** - Fully functional content type with modern social media fields
 2. **Multi-Author Content** - Articles, Reports, Galleries support multiple authors
-3. **Frontend Display** - AuthorDisplay component showing authors across all pages
-4. **Type Safety** - Proper TypeScript interfaces, no `any[]` usage
-5. **Date Standardization** - Consistent "July 8, 2025" format throughout
-6. **API Integration** - Author data properly fetched and populated
-7. **Content Attribution** - William Spiteri (founder) properly attributed to content
+3. **About Page Live** - Public showcase at /about with "About Us" and "Contributors & Guests" sections
+4. **Contact System** - Contact page at /contact with form submission to Strapi
+5. **Navigation Enhanced** - About and Contact links integrated in unified navigation
+6. **Social Media Integration** - Separate Instagram/Facebook fields with professional SVG icons
+7. **UI Polish Complete** - Square cards, large images (208px/128px), centered layouts, compact design
+8. **Type Safety** - Updated TypeScript interfaces with nullable social media fields
+9. **Date Standardization** - Consistent "July 8, 2025" format throughout
+10. **API Integration** - Author data properly fetched with public permissions enabled
+11. **Content Attribution** - Multiple authors properly displayed across all content types
+12. **Email Contact** - Direct email links for each author profile
+13. **Author Ordering System** - orderWeight field for customizable display order with automatic sorting
 
-### **🚧 What's Next (Phase 2)**
-1. **User Model Integration** - Link Author Profiles to Strapi Users
-2. **About Page** - Public showcase of authors by category
-3. **Permission System** - Role-based access for author management
-4. **Content Migration** - Assign authors to existing content
-5. **Public API Access** - Enable frontend to fetch author data
+### **🚧 What's Next (Phase 3)**
+1. **Production Deployment** - VPS deployment with PostgreSQL and domain setup
+2. **Content Population** - Real aviation content and professional author profiles
+3. **SEO Enhancement** - Dynamic meta tags, sitemap, and search optimization
+4. **Advanced Features** - Individual author pages, content filtering, analytics
 
 ### **🏆 Architecture Benefits Achieved**
 - ✅ **Separation of Concerns** - Author Profiles separate from User authentication
@@ -679,7 +716,7 @@ Display:
 
 ---
 
-**Version**: 2.0 - Phase 1 Complete  
-**Last Updated**: January 2025 - Author System Foundation Implemented  
+**Version**: 3.0 - Phase 2 Complete  
+**Last Updated**: January 2025 - Full Author System with About/Contact Pages Implemented  
 **Dependencies**: Strapi 5.16.1, Next.js 15.3.4  
 **Related Documents**: `TO_DO_LIST.md`, `STARTUP_GUIDE.md` 

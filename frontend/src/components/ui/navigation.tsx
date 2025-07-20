@@ -71,7 +71,7 @@ export function Navigation() {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="text-2xl font-bold text-foreground" prefetch={false}>
-              Aviation Blog
+              RAW Aviation
             </Link>
 
             <div className="flex items-center gap-6">
@@ -97,6 +97,20 @@ export function Navigation() {
                   prefetch={false}
                 >
                   Galleries
+                </Link>
+                <Link 
+                  href="/about" 
+                  className={getActiveClasses('/about')}
+                  prefetch={false}
+                >
+                  About
+                </Link>
+                <Link 
+                  href="/contact" 
+                  className={getActiveClasses('/contact')}
+                  prefetch={false}
+                >
+                  Contact
                 </Link>
               </div>
               
@@ -156,7 +170,7 @@ export function Navigation() {
               onClick={closeMobileMenu}
               prefetch={false}
             >
-              Aviation Blog
+              RAW Aviation
             </Link>
             <button
               onClick={closeMobileMenu}
@@ -205,6 +219,22 @@ export function Navigation() {
                 prefetch={false}
               >
                 Galleries
+              </Link>
+              <Link
+                href="/about"
+                className={getActiveClasses('/about', true)}
+                onClick={handleNavigationClick}
+                prefetch={false}
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className={getActiveClasses('/contact', true)}
+                onClick={handleNavigationClick}
+                prefetch={false}
+              >
+                Contact
               </Link>
             </div>
           </nav>

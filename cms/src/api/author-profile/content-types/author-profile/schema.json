@@ -57,8 +57,18 @@
       "required": true,
       "default": false
     },
-    "socialLinks": {
-      "type": "json"
+    "instagram": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "orderWeight": {
+      "type": "integer",
+      "required": true,
+      "default": 1000,
+      "min": 0,
+      "max": 9999
     }
   }
 } 

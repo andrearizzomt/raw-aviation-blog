@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata = {
-  title: 'Reports - Aviation Blog',
+  title: 'Reports - RAW Aviation',
   description: 'Aviation reports, analysis, and technical documents',
 };
 

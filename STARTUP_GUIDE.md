@@ -1,4 +1,4 @@
-# 🚀 Aviation Blog Startup Guide
+# 🚀 RAW Aviation Startup Guide
 
 ## 📁 Project Structure
 ```
@@ -57,7 +57,7 @@ NEXT_PUBLIC_STRAPI_API_URL=http://localhost:1337
 ## 📊 Current Status (from TO_DO_LIST.md)
 - ✅ Strapi CMS is running with all content types (Article, Report, Gallery)
 - ✅ Next.js frontend is running and connected to Strapi
-- ✅ New aviation blog homepage with hero section and latest content showcase
+- ✅ New RAW Aviation homepage with hero section and latest content showcase
 - ✅ Unified Navigation Component handling both desktop and mobile
 - ✅ All navigation links working properly on both desktop and mobile
 - ✅ Fixed header navigation with proper z-index layering

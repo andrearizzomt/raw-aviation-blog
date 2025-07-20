@@ -1,9 +1,9 @@
-# 📝 Aviation Blog Project To-Do List
+# 📝 RAW Aviation Project To-Do List
 
 ## ✅ Current Status (as of latest commit)
 - **✅ Strapi CMS is running** with all content types (Article, Report, Gallery, Author Profile) and public API access.
 - **✅ Next.js frontend is running** and connected to Strapi.
-- **✅ New aviation blog homepage** with hero section and latest content showcase.
+- **✅ New RAW Aviation homepage** with hero section and latest content showcase.
 - **✅ Unified Navigation Component** - Single component handling both desktop and mobile navigation.
 - **✅ Fixed Navigation Issues** - All navigation links working properly on both desktop and mobile.
 - **✅ Fixed Header Navigation** - Navigation bar is now fixed at the top with proper z-index layering.
@@ -27,21 +27,28 @@
 - **✅ Date Format Standardized** - Consistent "July 8, 2025" format across all pages including homepage.
 - **✅ Author Attribution Working** - William Spiteri founder profile properly attributed to content.
 
-## 🚀 **Current App Status: READY FOR USE WITH AUTHOR SYSTEM**
-- **Frontend**: http://localhost:3000 (fully functional with author attribution)
-- **Strapi Admin**: http://localhost:1337/admin (content management with Author Profiles)
-- **API Endpoints**: All working with author population (confirmed by server logs)
-- **Content**: Articles, Reports, and Galleries all displaying correctly with authors
-- **Author System**: Author Profile content type fully operational
-- **Author Display**: AuthorDisplay component working across all pages
+## 🚀 **Current App Status: PHASE 2 COMPLETE - FULL AUTHOR & PAGE SYSTEM**
+- **Frontend**: http://localhost:3000 (fully functional with About/Contact pages)
+- **About Page**: http://localhost:3000/about (live with team showcase and social media integration)
+- **Contact Page**: http://localhost:3000/contact (live with form submission ready)
+- **Strapi Admin**: http://localhost:1337/admin (content management with modernized Author Profiles)
+- **API Endpoints**: All working with public access and updated schema (confirmed by server logs)
+- **Content**: Articles, Reports, and Galleries all displaying correctly with multi-author support
+- **Author System**: Author Profile content type with separate social media fields and orderWeight ordering fully operational
+- **Navigation**: Unified navigation with About and Contact links integrated
+- **UI Polish**: Square profile cards, large images (208px/128px), professional SVG icons
+- **Social Media**: Instagram/Facebook integration with professional icon design
+- **Email Contact**: Direct email links for each author profile
+- **Author Ordering**: Custom display order via orderWeight field with automatic sorting
 - **Performance**: Fast loading with optimized images and clean builds
-- **Real-time Activity**: Active API calls confirmed (articles, reports, galleries, authors, images)
+- **Real-time Activity**: Active API calls confirmed (articles, reports, galleries, authors, images, about, contact)
 - **Image Optimization**: Multiple formats (thumbnail, small, medium, large) serving correctly
 - **Theme System**: Fully functional with no hydration issues or visual flashing
-- **Type Safety**: Complete TypeScript coverage with StrapiAuthorProfile interfaces
+- **Type Safety**: Complete TypeScript coverage with updated StrapiAuthorProfile interfaces
 - **Date Consistency**: Standardized "July 8, 2025" format throughout application
+- **Responsive Design**: Mobile and desktop optimized with centered layouts and compact cards
 
-## 🎯 **Phase 2: Enhanced User & Author System**
+## ✅ **Phase 2: Enhanced User & Author System - COMPLETE**
 📋 **Architecture**: See `USER_SYSTEM_ARCHITECTURE.md` for detailed specifications
 
 ### **✅ COMPLETED: Author System Foundation (Phase 1)**
@@ -55,25 +62,42 @@
 - [x] **✅ Type Safety** - Proper StrapiAuthorProfile interface, no `any[]` usage
 - [x] **✅ API Population** - Author data properly fetched and displayed
 
-### **🔄 CURRENT STATUS: Author System Testing & Refinement**
-- [x] **✅ William Spiteri Profile** - Created founder author profile with complete data
-- [x] **✅ Content Attribution** - "First Test Flight Review" properly shows William Spiteri  
-- [x] **✅ System Validation** - Frontend correctly displays "Unknown Author" for unassigned content
+### **✅ COMPLETED: Phase 2 Implementation**
+- [x] **✅ About Page Implementation** - Public showcase at /about with "About Us" and "Contributors & Guests" sections
+- [x] **✅ Contact Page Implementation** - Contact form at /contact with submission to Strapi Contact Message content type
+- [x] **✅ Navigation Enhancement** - About and Contact links added to unified navigation system
+- [x] **✅ Strapi Permissions Updated** - Public access enabled for Author Profiles API
+- [x] **✅ Schema Modernization** - Replaced socialLinks JSON with separate instagram/facebook fields
+- [x] **✅ UI Polish Complete** - Square profile cards, large images (208px/128px), professional SVG icons
+- [x] **✅ Responsive Design** - Centered layouts, compact cards, mobile/desktop optimization
+- [x] **✅ Social Media Integration** - Instagram/Facebook links with clean icon design
+- [x] **✅ Email Contact System** - Direct email links for each author profile
+- [x] **✅ Type Safety Updated** - TypeScript interfaces updated for new schema structure
+- [x] **✅ Author Ordering System** - orderWeight field implemented for customizable display order in Strapi and frontend
 
-### **📋 PENDING: Phase 2 Implementation Tasks**
-- [ ] **User Model Integration** - Link Author Profiles to Strapi Users (optional relation)
-- [ ] **Update Strapi Permissions** - Allow public access to Author Profiles
-- [ ] **Data Migration** - Assign author profiles to existing content
-- [ ] **Build About Page** with "Who We Are" and "Contributors & Guests" sections
-- [ ] **Implement Contribution Tracking** with optional display control
-- [ ] **Update Navigation** to include About page link
-- [ ] **Create Contact Page** - Contact form and message collection
-- [ ] **Enhanced Author Features** - Individual author pages, filtering, search
+### **🔄 CURRENT STATUS: Phase 2 Complete - Ready for Content & Deployment**
+- [x] **✅ Multiple Author Profiles** - William Spiteri (founder), Andrea, Roberto profiles functional
+- [x] **✅ Content Attribution** - Multi-author support working across all content types
+- [x] **✅ About Page Live** - http://localhost:3000/about showcasing team by category
+- [x] **✅ Contact System Live** - http://localhost:3000/contact with form submission ready
+- [x] **✅ Professional UI** - Square cards, large images, professional icons, responsive design
+- [x] **✅ Author Ordering System** - orderWeight field implemented for customizable display order
+- [ ] **⚠️ Contact Form Backend** - Contact form submission to Strapi needs proper implementation and testing
 
-### **Next Phase Priorities**
-1. **Production Deployment** - PostgreSQL setup and VPS deployment
-2. **SEO Enhancements** - Dynamic meta tags and sitemap
-3. **Advanced Features** - Author profiles, content filtering, analytics
+### **📋 PENDING: Phase 3 Implementation Tasks**
+- [ ] **Contact Form Backend Integration** - Complete contact form submission to Strapi Contact Message content type with proper validation and error handling
+- [ ] **Contact Message Content Type** - Verify and test Contact Message content type in Strapi with proper schema and permissions
+- [ ] **About Content Type** - Create About single type in Strapi for mission/overview content
+- [ ] **Production Deployment** - PostgreSQL setup and VPS deployment with domain configuration
+- [ ] **SEO Enhancement** - Dynamic meta tags, sitemap generation, and search optimization
+- [ ] **Content Population** - Real aviation content and professional author profiles
+- [ ] **Advanced Features** - Individual author pages, content filtering, analytics dashboard
+
+### **Next Phase Priorities (Phase 3)**
+1. **Complete Strapi Setup** - Finalize Contact Message and About content types
+2. **Production Deployment** - PostgreSQL setup and VPS deployment
+3. **Content & SEO** - Real content population and search optimization
+4. **Advanced Features** - Enhanced user experience and analytics
 
 ## 1. Project Setup
 - [x] Create a new directory for the project.
@@ -138,7 +162,7 @@
   - [x] `/articles/[slug]`
   - [x] `/galleries/[slug]` ✅ **Updated to use slug-based routing**
   - [x] `/reports/[slug]`
-- [x] **Create aviation blog homepage** with hero section and content showcase.
+- [x] **Create RAW Aviation homepage** with hero section and content showcase.
 - [ ] **NEW: Create About page (`/about`)**:
   - [ ] Fetch and display About single type content
   - [ ] Create "Who We Are" section displaying team members from User collection
@@ -164,7 +188,7 @@
   - [x] **Animated Underline** - Left-to-right animation for desktop navigation active states
   - [x] **Hydration Fix** - Resolved SSR/client mismatch for navigation active states
   - [ ] **NEW: Add About and Contact links to navigation**
-- [x] **Update metadata** for aviation blog branding.
+- [x] **Update metadata** for RAW Aviation branding.
 - [x] **Implement minimalist theme system**:
   - [x] Light and dark themes using CSS variables
   - [x] Theme toggle component with hover effects
@@ -261,6 +285,15 @@
 ---
 
 ## 🎯 Recent Achievements (Latest Commit)
+- ✅ **Implemented Author Ordering System**
+  - Added orderWeight field to Author Profile content type in Strapi
+  - Updated Strapi schema with integer field (required, default: 1000, min: 0, max: 9999)
+  - Modified frontend API fetchers to sort by orderWeight first, then authorType and displayName
+  - Updated TypeScript interfaces and Zod schemas to include orderWeight field
+  - Authors now display in customizable order on About page and throughout the site
+  - Lower orderWeight values appear first, allowing flexible author positioning
+  - Complete branding update from "Aviation Blog" to "RAW Aviation" across all pages and documentation
+
 - ✅ **Fixed Theme Toggle Hydration Flash Issue**
   - Resolved white border flash on hard refresh by updating placeholder button to use black border
   - Fixed hydration mismatch between server-side rendering and client-side theme application
