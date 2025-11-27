@@ -90,6 +90,14 @@ export default async function ArticlesPage({
           ))}
         </div>
       )}
+
+      {/* Empty State */}
+      {articles.length === 0 && (
+        <div className="text-center py-12">
+          <h3 className="text-xl font-semibold text-muted-foreground mb-2">No Articles Available</h3>
+          <p className="text-muted-foreground">Check back later for new aviation articles and industry news.</p>
+        </div>
+      )}
     </main>
   );
 } 

@@ -24,20 +24,23 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     setMounted(true);
     
     // Get initial theme from localStorage or system preference
-    const storedTheme = localStorage.getItem("theme") as Theme;
-    if (storedTheme) {
-      setTheme(storedTheme);
-    } else {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-      setTheme(systemTheme);
+    // Only access localStorage on the client side
+    if (typeof window !== 'undefined') {
+      const storedTheme = localStorage.getItem("theme") as Theme;
+      if (storedTheme) {
+        setTheme(storedTheme);
+      } else {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+        setTheme(systemTheme);
+      }
     }
   }, []);
 
   // Prevent flash by applying theme immediately on mount
   useEffect(() => {
-    if (mounted) {
+    if (mounted && typeof window !== 'undefined') {
       // Update localStorage and document class when theme changes
       localStorage.setItem("theme", theme);
       document.documentElement.classList.remove("light", "dark");
