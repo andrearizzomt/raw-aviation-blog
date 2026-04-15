@@ -3,6 +3,7 @@ import { z } from 'zod';
 // Schema for rich text content blocks
 const ContentBlockSchema = z.object({
   type: z.string(),
+  level: z.number().optional(),
   children: z.array(
     z.object({
       type: z.string(),
@@ -39,7 +40,7 @@ const FeaturedImageSchema = z.object({
     large: ImageFormatSchema.optional(),
     medium: ImageFormatSchema.optional(),
     small: ImageFormatSchema.optional(),
-  }),
+  }).nullable(),
   hash: z.string(),
   ext: z.string(),
   mime: z.string(),
@@ -47,7 +48,7 @@ const FeaturedImageSchema = z.object({
   url: z.string(),
   previewUrl: z.string().nullable(),
   provider: z.string(),
-  provider_metadata: z.null(),
+  provider_metadata: z.null().optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
   publishedAt: z.string(),
@@ -72,7 +73,7 @@ const AuthorProfileSchema = z.object({
     id: z.number(),
     email: z.string(),
     username: z.string(),
-  }).optional(),
+  }).nullable().optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
   publishedAt: z.string().nullable(),
@@ -186,7 +187,7 @@ const BaseStrapiGallerySchema = z.object({
         large: ImageFormatSchema.optional(),
         medium: ImageFormatSchema.optional(),
         small: ImageFormatSchema.optional(),
-      }).optional(),
+      }).nullable().optional(),
       hash: z.string(),
       ext: z.string(),
       mime: z.string(),
@@ -194,7 +195,7 @@ const BaseStrapiGallerySchema = z.object({
       url: z.string(),
       previewUrl: z.string().nullable(),
       provider: z.string(),
-      provider_metadata: z.null(),
+      provider_metadata: z.null().optional(),
       createdAt: z.string(),
       updatedAt: z.string(),
       publishedAt: z.string().nullable(),
