@@ -23,17 +23,12 @@ export async function getArticles(page = 1, pageSize = 10) {
   const response = await fetchAPI<StrapiArticle[]>(
     `articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=Date:desc&populate=*`
   );
-  
-  // Debug log
-  console.log('Raw Strapi response:', JSON.stringify(response, null, 2));
-  
-  // Validate the entire response
+
   const validatedResponse = StrapiArticleResponseSchema.parse(response);
-  
-  // The data is already validated as an array of articles
-  return { 
+
+  return {
     articles: validatedResponse.data,
-    pagination: validatedResponse.meta.pagination 
+    pagination: validatedResponse.meta.pagination
   };
 }
 
@@ -61,16 +56,12 @@ export async function getReports(page = 1, pageSize = 10) {
   const response = await fetchAPI<StrapiReport[]>(
     `reports?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=Date:desc&populate=*`
   );
-  
-  // Debug log
-  console.log('Raw Strapi Report response:', JSON.stringify(response, null, 2));
-  
-  // Validate the entire response
+
   const validatedResponse = StrapiReportResponseSchema.parse(response);
-  
-  return { 
+
+  return {
     reports: validatedResponse.data,
-    pagination: validatedResponse.meta.pagination 
+    pagination: validatedResponse.meta.pagination
   };
 }
 
@@ -81,17 +72,13 @@ export async function getReportBySlug(slug: string) {
   const response = await fetchAPI<StrapiReport[]>(
     `reports?filters[Slug][$eq]=${slug}&populate=*`
   );
-  
-  // Debug log
-  console.log('Raw Strapi Report response:', JSON.stringify(response, null, 2));
-  
-  // Validate response data - single report response
+
   if (!response.data.length) {
     throw new Error('Report not found');
   }
-  
+
   const validatedResponse = StrapiReportSchema.parse(response.data[0]);
-  
+
   return validatedResponse;
 }
 
@@ -102,23 +89,12 @@ export async function getGalleries(page = 1, pageSize = 10) {
   const response = await fetchAPI<StrapiGallery[]>(
     `galleries?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=Date:desc&populate=*`
   );
-  
-  // Detailed debug logs
-  console.log('Raw Strapi Gallery response:', JSON.stringify(response, null, 2));
-  const galleries = response.data as StrapiGallery[];
-  if (galleries.length > 0) {
-    console.log('First gallery Images:', JSON.stringify(galleries[0].Images, null, 2));
-    if (galleries[0].Images?.length > 0) {
-      console.log('First image structure:', JSON.stringify(galleries[0].Images[0], null, 2));
-    }
-  }
-  
-  // Validate the entire response
+
   const validatedResponse = StrapiGalleryResponseSchema.parse(response);
-  
-  return { 
+
+  return {
     galleries: validatedResponse.data,
-    pagination: validatedResponse.meta.pagination 
+    pagination: validatedResponse.meta.pagination
   };
 }
 
@@ -129,17 +105,13 @@ export async function getGalleryBySlug(slug: string) {
   const response = await fetchAPI<StrapiGallery[]>(
     `galleries?filters[slug][$eq]=${slug}&populate=*`
   );
-  
-  // Debug log
-  console.log('Raw Strapi Gallery response:', JSON.stringify(response, null, 2));
-  
+
   if (!response.data.length) {
     throw new Error('Gallery not found');
   }
 
-  // Validate response data - single gallery response
   const validatedResponse = StrapiGallerySchema.parse(response.data[0]);
-  
+
   return validatedResponse;
 }
 
@@ -150,16 +122,12 @@ export async function getAuthorProfiles(page = 1, pageSize = 50) {
   const response = await fetchAPI<StrapiAuthorProfile[]>(
     `author-profiles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*&sort=orderWeight:asc,displayName:asc`
   );
-  
-  // Debug log
-  console.log('Raw Strapi Author Profile response:', JSON.stringify(response, null, 2));
-  
-  // Validate the entire response
+
   const validatedResponse = StrapiAuthorProfileResponseSchema.parse(response);
-  
-  return { 
+
+  return {
     authorProfiles: validatedResponse.data,
-    pagination: validatedResponse.meta.pagination 
+    pagination: validatedResponse.meta.pagination
   };
 }
 
@@ -170,12 +138,8 @@ export async function getPublicAuthorProfiles() {
   const response = await fetchAPI<StrapiAuthorProfile[]>(
     `author-profiles?filters[isPublicAuthor][$eq]=true&populate=*&sort=orderWeight:asc,authorType:asc,displayName:asc`
   );
-  
-  // Debug log
-  console.log('Raw Public Author Profile response:', JSON.stringify(response, null, 2));
-  
-  // Validate the entire response
+
   const validatedResponse = StrapiAuthorProfileResponseSchema.parse(response);
-  
+
   return validatedResponse.data;
 } 
