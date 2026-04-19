@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -19,6 +19,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
+  const isInitialRun = useRef(true);
 
   useEffect(() => {
     setMounted(true);
@@ -38,14 +39,39 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }
   }, []);
 
-  // Prevent flash by applying theme immediately on mount
+  // Apply theme class on <html>. Skip the transition on the initial run so
+  // page load doesn't flash; animate on every subsequent toggle.
   useEffect(() => {
-    if (mounted && typeof window !== 'undefined') {
-      // Update localStorage and document class when theme changes
+    if (!mounted || typeof window === "undefined") return;
+
+    const html = document.documentElement;
+
+    if (isInitialRun.current) {
+      isInitialRun.current = false;
       localStorage.setItem("theme", theme);
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(theme);
+      html.classList.remove("light", "dark");
+      html.classList.add(theme);
+      return;
     }
+
+    html.classList.add("theme-transitioning");
+    localStorage.setItem("theme", theme);
+
+    // Let the browser apply the transition rule before the theme class swap
+    // so the color change itself is what gets animated (not snapped).
+    const rafId = window.requestAnimationFrame(() => {
+      html.classList.remove("light", "dark");
+      html.classList.add(theme);
+    });
+
+    const timeoutId = window.setTimeout(() => {
+      html.classList.remove("theme-transitioning");
+    }, 280);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.clearTimeout(timeoutId);
+    };
   }, [theme, mounted]);
 
   const toggleTheme = () => {
