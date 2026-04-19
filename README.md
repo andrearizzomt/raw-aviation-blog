@@ -1,42 +1,66 @@
-# RAW Aviation Project
+# RAW Aviation Blog
 
-## 🛠 Project Overview
-The site will feature aviation-related content like articles, reports, and photo galleries (e.g., airshows, exercises, etc.). All content will be managed in Strapi and fetched into the frontend built with Next.js.
+Aviation articles, airshow **reports**, and **galleries**. [Strapi 5](https://strapi.io/) (`cms/`) is the headless CMS; [Next.js](https://nextjs.org/) (`frontend/`) renders the site.
 
-## 🎯 Requirements
+## Documentation map
 
-1. **Latest Versions**
-   - Next.js (App Router or Pages Router — whichever fits best for SEO and maintainability)
-   - Tailwind CSS
-   - Strapi (headless CMS)
-   - TypeScript for the frontend
-   - Zod for schema validation on API responses
+| Document | Use it for |
+|----------|------------|
+| [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md) | First-time Railway clicks (staging or prod) |
+| [docs/README.md](./docs/README.md) | Index of everything under `docs/` |
+| [docs/RAILWAY.md](./docs/RAILWAY.md) | Railway topology, env vars, volumes, staging vs prod |
+| [DEPLOYMENT.md](./DEPLOYMENT.md) | Production checklist, go-live stages, VPS-style steps |
+| [TODO.md](./TODO.md) | Current open tasks |
+| [docs/USER_SYSTEM_ARCHITECTURE.md](./docs/USER_SYSTEM_ARCHITECTURE.md) | Author profiles, attribution, Strapi fields |
+| [CLAUDE.md](./CLAUDE.md) | Project layout and conventions for contributors / AI |
 
-2. **Self-hosting on a VPS**
-   - Not using Vercel, so avoid Vercel-specific features like `next/image` unless configured for local optimization.
+## Local development
 
-3. **Strapi CMS Content Types**
-   - `Article`: title, slug, content (rich text), date, author, featured image.
-   - `Report`: title, date, PDF file, summary.
-   - `Gallery`: title, event date, description, list of images.
+**Requirements:** Node.js 18–22 (see `cms/package.json` `engines`).
 
-4. **Database**
-   - Use PostgreSQL for production (SQLite for local dev is fine).
+1. **CMS** (start first — the frontend calls it on every request):
 
-5. **Frontend Requirements**
-   - Render list pages (e.g., `/articles`, `/galleries`) and dynamic detail pages (e.g., `/articles/[slug]`).
-   - Fetch content from Strapi via **REST or GraphQL**.
-   - Use `getStaticProps` or `getServerSideProps` (or their App Router equivalents) depending on best practice.
-   - Add **TypeScript typings** and **Zod validation schemas** for content fetched from the API.
-   - Add dynamic `<title>` and `<meta>` tags for SEO.
+   ```bash
+   cd cms
+   npm install
+   npm run develop
+   ```
 
-6. **Styling**
-   - Use Tailwind CSS for a responsive, clean UI.
+   Admin: `http://localhost:1337/admin` — API: `http://localhost:1337/api`.
 
-## ✅ Deliverables
-- Recommended project structure (frontend and CMS).
-- Example Strapi content-type definitions (via admin UI or programmatically).
-- Example API queries from Next.js (REST or GraphQL).
-- Example Zod schemas + integration with TypeScript types.
-- Any required configuration for Strapi roles and permissions to allow unauthenticated content access.
-- Image optimization strategy for a VPS setup (since `next/image`'s remote loader won't be available by default). 
+2. **Frontend:**
+
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+   App: `http://localhost:3000`.
+
+3. **Environment**
+
+   - `frontend/.env.local`: `NEXT_PUBLIC_STRAPI_API_URL=http://localhost:1337`
+   - `cms/.env`: Strapi keys and DB — create from Strapi docs / team template (never commit real secrets).
+
+Optional seed data: see `CLAUDE.md` (`npm run seed` in `cms/` with `SEED_*` variables).
+
+## Tech stack (short)
+
+- **Frontend:** Next.js 16 (App Router), React 19, Tailwind CSS v4, TypeScript, Zod.
+- **CMS:** Strapi 5, SQLite locally, PostgreSQL in production.
+- **Deploy:** Railway or any Node + Postgres host; Docker is optional (see `docs/RAILWAY.md` and `DEPLOYMENT.md`).
+
+## Repository layout
+
+```
+raw-aviation-blog/
+├── cms/           Strapi
+├── frontend/      Next.js
+├── docs/          `README.md`, `RAILWAY.md`, `USER_SYSTEM_ARCHITECTURE.md`
+├── RAILWAY_DEPLOYMENT_PATH.md   First Railway deploy (click path)
+├── CLAUDE.md      Contributor / AI context
+├── DEPLOYMENT.md  Production + go-live
+├── TODO.md        Backlog
+└── README.md      This file
+```

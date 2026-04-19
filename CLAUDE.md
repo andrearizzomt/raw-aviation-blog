@@ -7,7 +7,7 @@ Aviation blog featuring articles, airshow reports, and photo galleries. Content 
 **Tech stack:**
 - **Frontend**: Next.js 16.0.5 (App Router, React 19, Turbopack), Tailwind CSS v4, TypeScript, Zod validation
 - **CMS**: Strapi 5.16.1 (headless CMS), SQLite (dev) / PostgreSQL (prod)
-- **Target deployment**: Self-hosted VPS (not Vercel)
+- **Target deployment**: Railway or self-hosted VPS (not Vercel-only); see `RAILWAY_DEPLOYMENT_PATH.md`, `docs/RAILWAY.md`, and `DEPLOYMENT.md`
 
 ## Project Structure
 
@@ -38,7 +38,7 @@ raw-aviation-blog/
 │   │       ├── schemas/strapi.ts     # Zod validation schemas (runtime type checking)
 │   │       └── types/strapi.ts       # TypeScript interfaces
 │   ├── .env.local                    # NEXT_PUBLIC_STRAPI_API_URL=http://localhost:1337
-│   └── next.config.ts                # Image remotePatterns for localhost:1337
+│   └── next.config.ts                # Image remotePatterns from NEXT_PUBLIC_STRAPI_API_URL (or localhost)
 │
 ├── cms/                      # Strapi CMS (port 1337)
 │   ├── src/api/
@@ -53,11 +53,14 @@ raw-aviation-blog/
 │   ├── seed.mjs              # Seed script: creates sample authors, articles, reports, galleries
 │   └── .env                  # Host, port, keys (dev defaults - change for prod)
 │
+├── docs/
+│   ├── RAILWAY.md            # Railway topology, env vars, persistence
+│   └── USER_SYSTEM_ARCHITECTURE.md  # Author system specification
+├── RAILWAY_DEPLOYMENT_PATH.md  # Step-by-step first Railway deploy
 ├── CLAUDE.md                 # This file
-├── TO_DO_LIST.md             # Detailed progress tracker
-├── USER_SYSTEM_ARCHITECTURE.md  # Author system design document
-├── DEPLOYMENT.md             # VPS deployment guide
-└── STARTUP_GUIDE.md          # Dev setup instructions
+├── TODO.md                   # Open tasks
+├── DEPLOYMENT.md             # Production checklist + go-live roadmap
+└── README.md                 # Doc map + local dev quick start
 ```
 
 ## Setup & Running

@@ -4,37 +4,11 @@
 
 This document defines the Enhanced User Categorization System for RAW Aviation, providing a unified approach to user management, authorship attribution, and public author profiles.
 
-## 📊 **Current Implementation Status**
+## Implementation status
 
-### ✅ **COMPLETED Phase 1: Author System Foundation**
-- **✅ Author Profile Content Type Created** - Separate from User model to avoid schema conflicts
-- **✅ Multi-Author Relations Implemented** - Articles, Reports, Galleries support multiple authors
-- **✅ Frontend Author Display System** - AuthorDisplay component with proper TypeScript types
-- **✅ UI Integration Complete** - All list and detail pages show authors with inline layout
-- **✅ Homepage Integration** - Latest content sections include author attribution  
-- **✅ Date Format Standardization** - Consistent "July 8, 2025" format throughout
-- **✅ Type Safety Achieved** - Proper StrapiAuthorProfile types, no `any[]` usage
-- **✅ API Population Working** - Author data properly fetched and displayed
+Author profiles, multi-author relations, About/Contact surfaces, and related permissions are implemented in the codebase. For **what is left to ship** (contact backend verification, deploy, SEO, etc.), use [TODO.md](../TODO.md). This document is the **design and schema reference**, not the live backlog.
 
-### ✅ **COMPLETED Phase 2: User System Integration**
-- **✅ About Page Implementation** - Public author showcase page with "About Us" and "Contributors & Guests" sections
-- **✅ Contact Page Implementation** - Contact form with submission to Strapi Contact Message content type
-- **✅ Navigation System Enhancement** - About and Contact links added to unified navigation
-- **✅ Permission System Setup** - Public API access enabled for Author Profiles
-- **✅ Schema Modernization** - Separated social media fields (instagram, facebook) from JSON structure
-- **✅ UI Polish** - Square profile cards, larger images (208px founders, 128px others), professional icons
-- **✅ Responsive Design** - Centered layouts, compact cards, proper mobile/desktop behavior
-
-### 🔄 **CURRENT STATUS: Phase 2 Complete - Ready for Content & Deployment**
-- **✅ Author Profiles Working** - William Spiteri (founder), Andrea, Roberto profiles exist and functional
-- **✅ Content Attribution** - Multiple authors properly displayed across all content types
-- **✅ About Page Live** - http://localhost:3000/about showcasing team by category
-- **✅ Contact System** - http://localhost:3000/contact with form submission ready
-- **✅ Social Media Integration** - Instagram/Facebook links with professional SVG icons
-- **✅ Email Contact** - Direct email links for each author profile
-- **✅ Author Ordering System** - orderWeight field implemented for customizable author display order
-
-## 📊 **Current Architecture: Author Profile Content Type**
+## Current architecture: Author Profile content type
 
 ### **✅ IMPLEMENTED: Author Profile Schema**
 ```json
@@ -716,7 +690,7 @@ Display:
 
 ---
 
-**Version**: 3.0 - Phase 2 Complete  
-**Last Updated**: January 2025 - Full Author System with About/Contact Pages Implemented  
-**Dependencies**: Strapi 5.16.1, Next.js 15.3.4  
-**Related Documents**: `TO_DO_LIST.md`, `STARTUP_GUIDE.md` 
+**Version**: 3.0 — author system specification (status: see [TODO.md](../TODO.md))  
+**Last Updated**: January 2025  
+**Dependencies**: Strapi 5.x, Next.js 16.x (see root `CLAUDE.md` for pinned versions)  
+**Related documents**: [README.md](../README.md), [TODO.md](../TODO.md) 
