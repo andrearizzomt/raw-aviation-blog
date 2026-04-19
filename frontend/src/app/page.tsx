@@ -12,25 +12,25 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative bg-primary text-primary-foreground">
+      <section className="relative bg-hero text-hero-foreground">
         <div className="relative container mx-auto px-4 py-20">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
               RAW Aviation
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-primary-foreground/80">
+            <p className="text-xl md:text-2xl mb-8 text-hero-foreground/80">
               Your premier destination for aviation news, airshow reports, and stunning aircraft photography
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/articles"
-                className="bg-background text-foreground px-8 py-3 rounded-lg font-semibold hover:bg-muted transition-colors"
+                className="inline-flex items-center justify-center border-2 border-primary text-primary px-8 py-3 rounded-lg font-semibold text-center hover:bg-hero-hover transition-colors"
               >
                 Read Articles
               </Link>
               <Link
                 href="/reports"
-                className="border-2 border-primary-foreground text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary-foreground hover:text-primary transition-colors"
+                className="inline-flex items-center justify-center border-2 border-primary text-primary px-8 py-3 rounded-lg font-semibold text-center hover:bg-hero-hover transition-colors"
               >
                 View Reports
               </Link>
@@ -44,7 +44,7 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Latest Articles */}
           <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
-            <div className="bg-primary text-primary-foreground px-6 py-4">
+            <div className="bg-hero text-hero-foreground px-6 py-4">
               <h2 className="text-xl font-bold">Latest Articles</h2>
             </div>
             <div className="p-6">
@@ -88,7 +88,7 @@ export default async function HomePage() {
 
           {/* Latest Reports */}
           <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
-            <div className="bg-primary text-primary-foreground px-6 py-4">
+            <div className="bg-hero text-hero-foreground px-6 py-4">
               <h2 className="text-xl font-bold">Latest Reports</h2>
             </div>
             <div className="p-6">
@@ -132,7 +132,7 @@ export default async function HomePage() {
 
           {/* Latest Galleries */}
           <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
-            <div className="bg-primary text-primary-foreground px-6 py-4">
+            <div className="bg-hero text-hero-foreground px-6 py-4">
               <h2 className="text-xl font-bold">Latest Galleries</h2>
             </div>
             <div className="p-6">

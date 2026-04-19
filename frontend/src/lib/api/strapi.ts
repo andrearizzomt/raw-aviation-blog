@@ -51,7 +51,6 @@ export async function fetchAPI<T>(
   };
 
   const url = `${STRAPI_URL}/api/${endpoint}`;
-  console.log('Fetching from:', url); // Debug log
 
   try {
     const response = await fetch(url, mergedOptions);

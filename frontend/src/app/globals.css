@@ -12,6 +12,10 @@
   --primary-foreground: #ffffff;
   --accent: #f3f4f6;
   --accent-foreground: #171717;
+  /* Elevated surface used by hero + card title banners — subtle light gray */
+  --hero: #e5e7eb;
+  --hero-foreground: #171717;
+  --hero-hover: #d1d5db;
 }
 
 :root.dark {
@@ -26,6 +30,10 @@
   --primary-foreground: #0a0a0a;
   --accent: #1f2937;
   --accent-foreground: #ededed;
+  /* Elevated surface lifted slightly above the near-black page background */
+  --hero: #262626;
+  --hero-foreground: #f9fafb;
+  --hero-hover: #333333;
 }
 
 @theme inline {
@@ -40,8 +48,40 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-hero: var(--hero);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-hover: var(--hero-hover);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* Global duration override: all color transitions in the app run at 200ms */
+.transition-colors {
+  transition-duration: 200ms;
+}
+
+/*
+ * Smooth light/dark theme swap.
+ * When the user toggles the theme, the provider briefly adds
+ * `theme-transitioning` on <html>, fades every property for 200ms so no
+ * element snaps, then removes the class so regular motion rules resume.
+ * `all` is used to cover colors, backgrounds, gradients, shadows, fills,
+ * alpha-mixed surfaces (e.g. bg-background/95), etc. in one pass.
+ */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: all 200ms ease-out !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
 }
 
 body {

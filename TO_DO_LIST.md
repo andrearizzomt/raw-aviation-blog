@@ -7,7 +7,7 @@
 - **✅ Unified Navigation Component** - Single component handling both desktop and mobile navigation.
 - **✅ Fixed Navigation Issues** - All navigation links working properly on both desktop and mobile.
 - **✅ Fixed Header Navigation** - Navigation bar is now fixed at the top with proper z-index layering.
-- **✅ Enhanced Navigation Active States** - Animated left-to-right underline for desktop, left border for mobile.
+- **✅ Enhanced Navigation Active States** - Animated left-to-right underline for desktop, filled-pill for mobile drawer.
 - **✅ Fixed Hydration Issues** - Navigation active states now work correctly without SSR/client mismatch.
 - **✅ Enhanced Theme Toggle System** - Improved theme toggle with better visual design and hydration stability.
 - **✅ Successful Build** - All pages generated successfully with no TypeScript or ESLint errors.
@@ -26,6 +26,11 @@
 - **✅ AuthorDisplay Component** - Flexible component showing authors with photos, inline layout, and proper fallbacks.
 - **✅ Date Format Standardized** - Consistent "July 8, 2025" format across all pages including homepage.
 - **✅ Author Attribution Working** - William Spiteri founder profile properly attributed to content.
+- **✅ Site-wide Footer** - Themed footer with link groups, branded socials, dynamic copyright.
+- **✅ Hero + CTA Polish** - Shared `--hero` surface palette and matched outlined `Read Articles` / `View Reports` buttons.
+- **✅ Mobile Drawer (Right-Side, Accessible)** - Right-slide drawer with pill active states, social icons, theme toggle, focus trap, ESC to close, full ARIA semantics.
+- **✅ Smooth Theme Transition** - 200ms cross-fade between light/dark, frame-synced so every element animates together.
+- **✅ Clean Dev Console** - Verbose API payload logs removed from the frontend.
 
 ## 🚀 **Current App Status: PHASE 2 COMPLETE - FULL AUTHOR & PAGE SYSTEM**
 - **Frontend**: http://localhost:3000 (fully functional with About/Contact pages)
@@ -114,13 +119,8 @@
   - [x] `Article` (title, slug, content, date, author, featured image)
   - [x] `Report` (title, date, content rich text, main image, images)
   - [x] `Gallery` (title, slug, event date, description, images)
-  - [ ] **NEW: `About` (Single Type)** - Basic description section (rich text)
-  - [ ] **NEW: Modify existing `User` (Collection Type)** - Extend for team members in "Who We Are" section
-    - [ ] Add description field (rich text) to existing User type
-    - [ ] Add photo field (media upload) to existing User type
-    - [ ] Utilize existing fields: username, email
-    - [ ] Add role/position field (string) for team member titles
-  - [ ] **NEW: `Contact Message` (Collection Type)** - For storing contact form submissions
+  - [ ] **`About` (Single Type)** - Basic description section (rich text)
+  - [ ] **`Contact Message` (Collection Type)** - For storing contact form submissions
     - [ ] name (string)
     - [ ] email (string)
     - [ ] subject (string)
@@ -129,9 +129,8 @@
 - [x] Set up Strapi roles & permissions:
   - [x] Allow unauthenticated (public) access to `find` and `findOne` for all content types.
   - [x] Allow public access to media files.
-  - [ ] **NEW: Allow public access to About single type**
-  - [ ] **NEW: Allow public access to User collection (for team members)**
-  - [ ] **NEW: Allow public create access to Contact Message collection**
+  - [ ] **Allow public access to About single type**
+  - [ ] **Allow public create access to Contact Message collection**
 - [ ] (Optional) Install image optimization plugins for Strapi.
 
 ---
@@ -163,19 +162,9 @@
   - [x] `/galleries/[slug]` ✅ **Updated to use slug-based routing**
   - [x] `/reports/[slug]`
 - [x] **Create RAW Aviation homepage** with hero section and content showcase.
-- [ ] **NEW: Create About page (`/about`)**:
-  - [ ] Fetch and display About single type content
-  - [ ] Create "Who We Are" section displaying team members from User collection
-  - [ ] Responsive design with team member cards
-  - [ ] Team member photos with proper image optimization
-  - [ ] Contact information for each team member (email from User type)
-  - [ ] Display role/position for each team member
-- [ ] **NEW: Create Contact page (`/contact`)**:
-  - [ ] Public-facing contact form with validation
-  - [ ] Form fields: name, email, subject, message
-  - [ ] Form submission to Strapi Contact Message collection
-  - [ ] Success/error feedback for users
-  - [ ] Responsive design with clean form layout
+- [x] **✅ About page (`/about`)** - Team members rendered from Author Profile collection with photos, roles, and branded social icons.
+- [x] **✅ Contact page (`/contact`)** - Responsive contact form (UI complete; backend submission still pending).
+- [x] **✅ Site-wide Footer** - Brand column, Explore/Company link groups, social + envelope icons, dynamic `© 2025 - {currentYear}` copyright, matching hero background.
 - [x] **✅ Unified Navigation System**:
   - [x] Single Navigation component handling both desktop and mobile
   - [x] Fixed header with backdrop blur and proper z-index layering
@@ -184,10 +173,13 @@
   - [x] Proper event handling and state management
   - [x] Responsive design with clean transitions
   - [x] Body scroll prevention when mobile menu is open
-  - [x] **Enhanced Active States** - Different styling for mobile (left border) vs desktop (animated underline)
+  - [x] **Enhanced Active States** - Different styling for mobile (filled pill in drawer) vs desktop (animated underline)
   - [x] **Animated Underline** - Left-to-right animation for desktop navigation active states
   - [x] **Hydration Fix** - Resolved SSR/client mismatch for navigation active states
-  - [ ] **NEW: Add About and Contact links to navigation**
+  - [x] **✅ About and Contact links added to navigation**
+  - [x] **✅ Mobile drawer refactor** - Right-side slide, 85vw width, hamburger-as-X above everything, no duplicate close button, focus trap, Escape-to-close, `role="dialog"` / `aria-modal` / `aria-expanded` / `aria-controls`, initial focus into the drawer, focus return to hamburger on close
+  - [x] **✅ Drawer content** - Pill-style active link indicator, branded social icons (Instagram / Facebook / Envelope), inline theme toggle, dynamic `© 2025 - {currentYear} RAW Aviation` line
+  - [x] **✅ Backdrop cross-fade** - Opacity transition (no more instant appear/disappear), drawer uses `ease-out` easing
 - [x] **Update metadata** for RAW Aviation branding.
 - [x] **Implement minimalist theme system**:
   - [x] Light and dark themes using CSS variables
@@ -201,6 +193,11 @@
   - [x] **✅ iOS Compatibility Fix** - Fixed color rendering issues on iOS Safari with explicit inline styles
   - [x] **✅ Enhanced Visual Feedback** - Border colors now match icon colors for better theme state indication
   - [x] **✅ Hydration Flash Fix** - Resolved white border flash on hard refresh with consistent default styling
+  - [x] **✅ Smooth theme-change cross-fade** - Temporary `theme-transitioning` class on `<html>` applies a 200ms `all` transition frame-synced via `requestAnimationFrame`, honours `prefers-reduced-motion: reduce`
+- [x] **✅ Hero + banner color tokens** - Added `--hero`, `--hero-foreground`, `--hero-hover` CSS custom properties so the hero section, card header banners and footer share a single elevated-surface palette that adapts per theme (light `#e5e7eb` / dark `#262626`).
+- [x] **✅ Hero CTA redesign** - `Read Articles` and `View Reports` are now a matched outlined button pair using `border-primary` + `hover:bg-hero-hover`, with horizontally centered labels.
+- [x] **✅ Global 200ms color transition** - Every `transition-colors` utility in the codebase now runs at 200ms via a single CSS override, for a consistent motion feel across nav, buttons, cards, links, icons, and the hero.
+- [x] **✅ API debug log cleanup** - Removed verbose `console.log(JSON.stringify(...))` dumps from `lib/api/content.ts` and `lib/api/strapi.ts`; error reporting (`console.error`) retained.
 - [ ] Add dynamic `<title>` and `<meta>` tags for SEO.
 - [x] Implement responsive, clean UI with Tailwind CSS.
 - [x] Render images with proper optimization and alt tags.
@@ -214,17 +211,8 @@
 - [x] Test image loading and optimization.
 - [x] **Test homepage functionality** and content display.
 - [x] **Test slug-based routing** for galleries.
-- [ ] **NEW: Test About page functionality**:
-  - [ ] About content displays correctly
-  - [ ] Team members from User collection render with photos and information
-  - [ ] Responsive design works on all screen sizes
-  - [ ] Contact information is accessible
-  - [ ] Role/position information displays properly
-- [ ] **NEW: Test Contact page functionality**:
-  - [ ] Contact form validation works correctly
-  - [ ] Form submission to Strapi is successful
-  - [ ] Success/error messages display properly
-  - [ ] Form fields are properly styled and accessible
+- [x] **✅ About page functionality** - Team renders with photos, roles, bios, branded social icons and is fully responsive.
+- [x] **✅ Contact page UI** - Form renders, validates client-side, and is styled/accessible. ⚠️ Submission to Strapi still pending.
 - [x] **✅ Test unified navigation functionality**:
   - [x] Desktop navigation links working properly
   - [x] Mobile burger menu animation and functionality
@@ -234,7 +222,7 @@
   - [x] Responsive behavior across all screen sizes
   - [x] Proper event handling and state management
   - [x] **Active state animations** - Left-to-right underline animation on desktop
-  - [x] **Mobile active states** - Left border styling for mobile navigation
+  - [x] **Mobile active states** - Filled pill styling inside the right-side drawer
   - [x] **Hydration stability** - No SSR/client mismatch errors in console
 - [x] **✅ Test enhanced theme toggle**:
   - [x] Theme toggle visual design with black moon and yellow sun icons
@@ -274,17 +262,23 @@
 - [ ] **Add rich text rendering** for report content blocks.
 - [ ] **Add image galleries** with lightbox functionality.
 - [ ] **Add social sharing** buttons for articles and reports.
-- [ ] **⏭️ Future Integration: User Authorship**:
-  - [ ] Link Users as authors for Articles and Reports
-  - [ ] Add relation fields in Strapi content types (Article.author, Report.author)
-  - [ ] Update frontend to display author information from User collection
-  - [ ] Create author profile pages using User data
-  - [ ] Add author filtering and search functionality
-  - [ ] Display author photos and descriptions in article/report pages
+- [ ] **Individual author pages** - Dedicated `/authors/[slug]` route listing each author's contributions.
 
 ---
 
 ## 🎯 Recent Achievements (Latest Commit)
+
+- ✅ **Site-wide Footer + Hero/Button Polish + Mobile Drawer Overhaul + Smooth Theme Transition**
+  - Built a new responsive `Footer` component with brand column, Explore/Company link groups, branded social + envelope icons, and a dynamic `© 2025 - {currentYear} RAW Aviation` copyright line.
+  - Footer background matches the hero section (`bg-hero`) and the top border matches the outlined CTA buttons (`border-primary`), keeping both themes in sync.
+  - Introduced new theme tokens (`--hero`, `--hero-foreground`, `--hero-hover`) so hero, card header banners, and footer all share the same elevated-surface palette (light `#e5e7eb`, dark `#262626`).
+  - Redesigned homepage CTAs: `Read Articles` and `View Reports` are now a matched outlined pair (`border-2 border-primary text-primary`) with a subtle `hover:bg-hero-hover` and horizontally-centered labels.
+  - Added a single global override so every `transition-colors` utility runs at **200ms**, giving the whole UI a consistent motion feel.
+  - Reworked the mobile menu: slides in from the **right**, 85vw wide (capped at `max-w-xs`), hamburger button sits above the backdrop and morphs into the close icon (no duplicate X inside the drawer), pill-style active link indicator, branded social icons (Instagram / Facebook / Envelope), inline theme toggle, dynamic copyright line.
+  - Accessibility pass on the drawer: `role="dialog"` + `aria-modal`, `aria-expanded` / `aria-controls` on the hamburger, ESC closes the menu, focus is trapped and cycles between hamburger and drawer focusables, focus returns to the hamburger on close, backdrop cross-fades with `ease-out`.
+  - Added a smooth theme-change cross-fade: a temporary `theme-transitioning` class on `<html>` enables a 200ms `all` transition, frame-synced via `requestAnimationFrame` so every element animates together instead of some snapping while others ease. Respects `prefers-reduced-motion: reduce`.
+  - Cleaned up dev console noise: removed 9 verbose `console.log(JSON.stringify(...))` dumps from `lib/api/content.ts` and `lib/api/strapi.ts`; error paths (`console.error`) retained.
+
 - ✅ **Implemented Author Ordering System**
   - Added orderWeight field to Author Profile content type in Strapi
   - Updated Strapi schema with integer field (required, default: 1000, min: 0, max: 9999)
@@ -326,7 +320,8 @@
   - Ensured all API calls use the same environment variable throughout the codebase
   - Verified build completion and API connectivity after fix
 
-## 🎯 Recent Achievements (Latest Commit)
+## 📜 Earlier Achievements
+
 - ✅ **Successful Build Completion**
   - All pages generated successfully (9/9) with no errors
   - No TypeScript compilation errors or ESLint warnings
