@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getArticles, getReports, getGalleries } from "@/lib/api/content";
 import { AuthorDisplay } from "@/components/ui/author-display";
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   // Fetch latest content from all content types
   const { articles } = await getArticles(1, 3);

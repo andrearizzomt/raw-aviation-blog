@@ -115,15 +115,13 @@ All pages are Server Components (no `"use client"`) except `/contact` and theme 
 - **Theme**: Inline `<script>` in layout.tsx prevents flash of wrong theme. ThemeProvider uses localStorage. `suppressHydrationWarning` on `<html>`.
 - **Image handling**: `getStrapiMedia()` prepends `STRAPI_URL` to relative URLs. Uses Next.js `<Image>` with `fill` and `remotePatterns` config for localhost:1337.
 - **Gallery slug casing**: Gallery uses lowercase `slug` while Article/Report use uppercase `Slug`. This is a Strapi schema inconsistency that must be matched in API calls and Zod schemas.
-- **No caching/ISR**: All pages fetch fresh data on each request. No `revalidate` or static generation configured.
+- **Force dynamic rendering**: All content pages have `export const dynamic = 'force-dynamic'`. Without this, Next.js 16 statically pre-renders pages at build time, caching empty results before CMS content exists. This affects every page that calls Strapi.
 - **Debug logging**: `console.log` statements exist in `lib/api/content.ts` and `lib/api/strapi.ts` for debugging API calls. These should be removed for production.
 
 ## Known Issues / TODOs
 
-- **Content block rendering is basic**: Article/report detail pages render all blocks as `<p>` tags. Headings (`type: "heading"`) should render as `<h2>`/`<h3>` based on `level`. Bold, italic, links within text children are not handled.
 - **SVG placeholder images**: Current seed data uses SVG placeholders. SVGs have `formats: null` (no thumbnails). The Zod schemas were patched to handle this (`.nullable()` on `formats`), but real images (PNG/JPEG) will have format objects.
 - **TypeScript types don't match Zod**: The `FeaturedImage.formats` TS interface doesn't have `.nullable()` matching the Zod schema. This could cause issues if code checks `formats` without null guard.
-- **No contact message content type**: The contact form posts to `/api/contact-messages` but no such Strapi content type exists in the schema files.
 - **`populate=*` is shallow**: Nested relations (e.g., author's profilePhoto within an article's authors) are not populated. The `user` field on author profiles returns `null` via `populate=*`.
 - **No error boundaries**: Pages use try/catch but no React error boundaries.
 - **Test page exists**: `/test` page is a debug utility that should be removed before production.
@@ -136,3 +134,12 @@ All pages are Server Components (no `"use client"`) except `/contact` and theme 
 - **SQLite dev DB**: Located at `cms/.tmp/data.db`. Gitignored. Wiping it resets all content but requires re-registering an admin user at first Strapi startup.
 - **Node version**: CMS requires Node 18-22 (`engines` in package.json).
 - **Tailwind v4**: Uses `@tailwindcss/postcss` plugin, not the older `tailwindcss` PostCSS plugin. Config is via CSS (`globals.css` with `@theme` and custom properties), not `tailwind.config.js`.
+
+## Railway-specific Notes
+
+- **Volumes UI**: Volumes are NOT under service Settings. Right-click the project canvas (or ⌘K) → "Add Volume" → select the Strapi service → set mount path to `/app/public/uploads`. Add the volume BEFORE uploading any content or files will be lost on the next deploy.
+- **Post-deploy "Not started"**: Normal. Railway shows the post-deploy step in UI even when no post-deploy command is configured. Not an error.
+- **Redeploy button**: Railway's "Redeploy" on an existing deployment restarts the container but may NOT re-run `next build`. To force a full rebuild with fresh static pages, push a code commit or clear the build cache from service settings.
+- **NEXT_PUBLIC_ vars are inlined at build time**: Even in server components, `process.env.NEXT_PUBLIC_*` references are replaced during `next build`. Env vars must be set in Railway BEFORE the build runs. Changing them requires a redeploy to take effect.
+- **Author Profile checklist** (for an author to appear on /about): `isPublicAuthor` toggle must be ON, entry must be **Published** (not Draft), and the `user` relation must be linked to a Strapi user with role **Authenticated** (not Public).
+- **Internal networking**: Services within the same Railway project can communicate. The public Strapi URL works for server-to-server calls from Next.js, but Railway's private networking (`<service>.railway.internal`) is faster if needed in future.

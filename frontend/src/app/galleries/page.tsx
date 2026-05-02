@@ -3,6 +3,8 @@ import { AuthorDisplay } from '@/components/ui/author-display';
 import Link from 'next/link';
 import Image from 'next/image';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Galleries - RAW Aviation',
   description: 'Aviation photo galleries and visual content',
