@@ -1,6 +1,11 @@
 # Deployment and go-live
 
-Checklists for shipping the RAW Aviation Blog (Next.js + Strapi + PostgreSQL). **Railway:** quick path [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md), details [docs/RAILWAY.md](./docs/RAILWAY.md).
+Checklists for shipping the RAW Aviation Blog (Next.js + Strapi + PostgreSQL).
+
+**Railway deployment guides:**
+- **Staging (start here — beginner-friendly):** [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md)
+- **Production (once staging works):** [docs/RAILWAY_PRODUCTION.md](./docs/RAILWAY_PRODUCTION.md)
+- **Technical reference** (env tables, topology): [docs/RAILWAY.md](./docs/RAILWAY.md)
 
 ---
 
@@ -41,8 +46,8 @@ Checklists for shipping the RAW Aviation Blog (Next.js + Strapi + PostgreSQL). *
 
 **Railway (managed):**
 
-- [ ] Follow [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md) — Postgres + Strapi (`cms`) + Next (`frontend`), volume for uploads.
-- [ ] Staging vs production: separate projects or Railway environments; separate DB and secrets ([docs/RAILWAY.md](./docs/RAILWAY.md)).
+- [ ] **Staging:** follow [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md) — account setup, Postgres + Strapi + Next.js, volume for uploads.
+- [ ] **Production:** follow [docs/RAILWAY_PRODUCTION.md](./docs/RAILWAY_PRODUCTION.md) — separate project, new secrets, custom domain, backups.
 
 **VPS / self-managed:**
 

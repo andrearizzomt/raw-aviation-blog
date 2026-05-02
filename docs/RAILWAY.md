@@ -1,6 +1,9 @@
-# Railway deployment guide (RAW Aviation Blog)
+# Railway — Technical Reference (RAW Aviation Blog)
 
-**First deploy?** Use the step-by-step path: [RAILWAY_DEPLOYMENT_PATH.md](../RAILWAY_DEPLOYMENT_PATH.md) in the repo root.
+This document is the **technical reference** for topology, env var tables, persistence, and networking. Use the step-by-step deployment guides instead if you are setting up for the first time:
+
+- **Staging (start here):** [RAILWAY_DEPLOYMENT_PATH.md](../RAILWAY_DEPLOYMENT_PATH.md)
+- **Production (once staging works):** [RAILWAY_PRODUCTION.md](./RAILWAY_PRODUCTION.md)
 
 This document matches the **monorepo layout** in this repository: `cms/` (Strapi 5) + `frontend/` (Next.js 16) + **PostgreSQL** in production.
 
@@ -187,3 +190,5 @@ Use `npm ci` in CI/Railway for reproducible installs when `package-lock.json` is
 - `cms/config/admin.ts` — admin JWT, salts, encryption
 - `frontend/next.config.ts` — image `remotePatterns` derived from `NEXT_PUBLIC_STRAPI_API_URL` for non-localhost deploys
 - `DEPLOYMENT.md` (repo root) — general production checklist (CORS, images, security, go-live stages)
+- `RAILWAY_DEPLOYMENT_PATH.md` (repo root) — beginner staging deploy guide
+- `docs/RAILWAY_PRODUCTION.md` — production deploy guide (custom domains, backups, hardening)
