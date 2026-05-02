@@ -62,7 +62,7 @@ interface FeaturedImage {
     large?: ImageFormat;
     medium?: ImageFormat;
     small?: ImageFormat;
-  };
+  } | null;
   hash: string;
   ext: string;
   mime: string;
