@@ -4,6 +4,8 @@ import { AuthorDisplay } from '@/components/ui/author-display';
 import Image from 'next/image';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Articles - RAW Aviation',
   description: 'Latest articles about aviation, flight reviews, and industry news',

@@ -12,16 +12,16 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
 | Strapi service deployed + admin set up | ✅ Done |
 | Next.js service deployed | ✅ Done |
 | Public API permissions set (find/findOne) | ✅ Done |
-| Uploads volume on Strapi (`/app/public/uploads`) | ⬜ Todo |
+| Uploads volume on Strapi (`/app/public/uploads`) | ✅ Done |
 | CORS locked to staging domain | ⬜ Todo |
+| Force dynamic rendering on all content pages | ✅ Done |
 | Test content added (verify full flow) | ⬜ Todo |
 
 ## High priority
 
-- [ ] **Uploads volume** — Railway: Strapi service → Settings → Volumes → `/app/public/uploads`
-- [ ] **CORS** — update `cms/config/middlewares.ts` to include `https://nextjs-staging-0b02.up.railway.app`
-- [ ] **Test content** — add an author, article, report, gallery in Strapi admin; verify they appear on the site with images
-- [ ] **Contact form** — Confirm Strapi `Contact Message` content type, public `create` permission, end-to-end submit + validation
+- [ ] **CORS** — update `cms/config/middlewares.ts` to replace bare `'strapi::cors'` with explicit origin allowlist (`http://localhost:3000`, `https://nextjs-staging-0b02.up.railway.app`), then push
+- [ ] **Test content** — add an article, report, gallery in Strapi admin; verify they appear on the site with images loading correctly
+- [ ] **Contact form** — set public `create` permission on Contact Message in Strapi admin (Settings → Roles → Public → Contact-message → create), then test end-to-end submit
 - [ ] **Remove or protect** `frontend/src/app/test/page.tsx` before production
 - [ ] **SEO** — `generateMetadata` on detail routes, `sitemap.xml`, `robots.txt`
 
