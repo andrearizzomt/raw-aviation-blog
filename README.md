@@ -1,66 +1,62 @@
 # RAW Aviation Blog
 
-Aviation articles, airshow **reports**, and **galleries**. [Strapi 5](https://strapi.io/) (`cms/`) is the headless CMS; [Next.js](https://nextjs.org/) (`frontend/`) renders the site.
+Aviation articles, airshow reports, and photo galleries. [Strapi 5](https://strapi.io/) (`cms/`) is the headless CMS; [Next.js 16](https://nextjs.org/) (`frontend/`) renders the site.
 
-## Documentation map
+## Documentation
 
-| Document | Use it for |
-|----------|------------|
-| [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md) | **Staging deploy — start here** (account setup through first live deploy, beginner-friendly) |
-| [docs/RAILWAY_PRODUCTION.md](./docs/RAILWAY_PRODUCTION.md) | **Production deploy** (once staging works — custom domains, backups, hardening) |
-| [docs/RAILWAY.md](./docs/RAILWAY.md) | Railway technical reference (topology, env var tables, volumes, networking) |
-| [DEPLOYMENT.md](./DEPLOYMENT.md) | General production checklist, go-live stages, VPS option |
-| [TODO.md](./TODO.md) | Current open tasks |
-| [docs/USER_SYSTEM_ARCHITECTURE.md](./docs/USER_SYSTEM_ARCHITECTURE.md) | Author profiles, attribution, Strapi fields |
-| [CLAUDE.md](./CLAUDE.md) | Project layout and conventions for contributors / AI |
+| Doc | What it's for |
+|-----|---------------|
+| [docs/STAGING.md](./docs/STAGING.md) | Deploy to Railway — staging setup from scratch (start here) |
+| [docs/PRODUCTION.md](./docs/PRODUCTION.md) | Promote staging to production — custom domain, backups, hardening |
+| [docs/REFERENCE.md](./docs/REFERENCE.md) | Env var tables, topology, author schema, security checklist, code patterns |
+| [TODO.md](./TODO.md) | Current staging status and open tasks |
+| [CLAUDE.md](./CLAUDE.md) | Project structure and patterns for contributors and AI |
 
 ## Local development
 
-**Requirements:** Node.js 18–22 (see `cms/package.json` `engines`).
+**Requirements:** Node.js 18–22.
 
-1. **CMS** (start first — the frontend calls it on every request):
+```bash
+# 1. Start Strapi (start this first — Next.js depends on it)
+cd cms
+npm install
+npm run develop
+# Admin: http://localhost:1337/admin
+# API:   http://localhost:1337/api
 
-   ```bash
-   cd cms
-   npm install
-   npm run develop
-   ```
+# 2. Start Next.js (separate terminal)
+cd frontend
+npm install
+npm run dev
+# Site: http://localhost:3000
+```
 
-   Admin: `http://localhost:1337/admin` — API: `http://localhost:1337/api`.
+**Environment files:**
+- `frontend/.env.local` → `NEXT_PUBLIC_STRAPI_API_URL=http://localhost:1337`
+- `cms/.env` → Strapi secrets and DB config (dev placeholders only — never commit real values)
 
-2. **Frontend:**
+**Optional seed data:**
+```bash
+cd cms
+# Set SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, SEED_USER_PASSWORD in cms/.env, then:
+npm run seed
+# Creates sample authors, articles, reports, and galleries
+```
 
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
+## Tech stack
 
-   App: `http://localhost:3000`.
-
-3. **Environment**
-
-   - `frontend/.env.local`: `NEXT_PUBLIC_STRAPI_API_URL=http://localhost:1337`
-   - `cms/.env`: Strapi keys and DB — create from Strapi docs / team template (never commit real secrets).
-
-Optional seed data: see `CLAUDE.md` (`npm run seed` in `cms/` with `SEED_*` variables).
-
-## Tech stack (short)
-
-- **Frontend:** Next.js 16 (App Router), React 19, Tailwind CSS v4, TypeScript, Zod.
-- **CMS:** Strapi 5, SQLite locally, PostgreSQL in production.
-- **Deploy:** Railway or any Node + Postgres host; Docker is optional (see `docs/RAILWAY.md` and `DEPLOYMENT.md`).
+- **Frontend:** Next.js 16 (App Router), React 19, Tailwind CSS v4, TypeScript, Zod
+- **CMS:** Strapi 5, SQLite locally, PostgreSQL in production
+- **Deployment:** Railway (see `docs/STAGING.md`)
 
 ## Repository layout
 
 ```
 raw-aviation-blog/
-├── cms/           Strapi
-├── frontend/      Next.js
-├── docs/          `README.md`, `RAILWAY.md`, `USER_SYSTEM_ARCHITECTURE.md`
-├── RAILWAY_DEPLOYMENT_PATH.md   First Railway deploy (click path)
-├── CLAUDE.md      Contributor / AI context
-├── DEPLOYMENT.md  Production + go-live
-├── TODO.md        Backlog
+├── cms/           Strapi CMS
+├── frontend/      Next.js app
+├── docs/          STAGING.md · PRODUCTION.md · REFERENCE.md
+├── TODO.md        Open tasks and staging status
+├── CLAUDE.md      Project context for contributors / AI
 └── README.md      This file
 ```

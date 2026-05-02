@@ -7,7 +7,7 @@ Aviation blog featuring articles, airshow reports, and photo galleries. Content 
 **Tech stack:**
 - **Frontend**: Next.js 16.0.5 (App Router, React 19, Turbopack), Tailwind CSS v4, TypeScript, Zod validation
 - **CMS**: Strapi 5.16.1 (headless CMS), SQLite (dev) / PostgreSQL (prod)
-- **Target deployment**: Railway or self-hosted VPS (not Vercel-only); see `RAILWAY_DEPLOYMENT_PATH.md` (staging), `docs/RAILWAY_PRODUCTION.md` (production), `docs/RAILWAY.md` (reference), and `DEPLOYMENT.md`
+- **Target deployment**: Railway; see `docs/STAGING.md` (staging), `docs/PRODUCTION.md` (production), `docs/REFERENCE.md` (env vars, topology)
 
 ## Project Structure
 
@@ -54,10 +54,9 @@ raw-aviation-blog/
 │   └── .env                  # Host, port, keys (dev defaults - change for prod)
 │
 ├── docs/
-│   ├── RAILWAY.md            # Railway technical reference (topology, env vars, persistence)
-│   ├── RAILWAY_PRODUCTION.md # Production deploy guide (custom domains, backups, hardening)
-│   └── USER_SYSTEM_ARCHITECTURE.md  # Author system specification
-├── RAILWAY_DEPLOYMENT_PATH.md  # Beginner-friendly staging deploy guide (start here)
+│   ├── STAGING.md            # Beginner staging deploy guide + current status
+│   ├── PRODUCTION.md         # Production deploy guide (custom domains, backups, hardening)
+│   └── REFERENCE.md          # Env vars, topology, author schema, code patterns, security
 ├── CLAUDE.md                 # This file
 ├── TODO.md                   # Open tasks
 ├── DEPLOYMENT.md             # Production checklist + go-live roadmap
