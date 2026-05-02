@@ -6,10 +6,10 @@ Aviation articles, airshow **reports**, and **galleries**. [Strapi 5](https://st
 
 | Document | Use it for |
 |----------|------------|
-| [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md) | First-time Railway clicks (staging or prod) |
-| [docs/README.md](./docs/README.md) | Index of everything under `docs/` |
-| [docs/RAILWAY.md](./docs/RAILWAY.md) | Railway topology, env vars, volumes, staging vs prod |
-| [DEPLOYMENT.md](./DEPLOYMENT.md) | Production checklist, go-live stages, VPS-style steps |
+| [RAILWAY_DEPLOYMENT_PATH.md](./RAILWAY_DEPLOYMENT_PATH.md) | **Staging deploy — start here** (account setup through first live deploy, beginner-friendly) |
+| [docs/RAILWAY_PRODUCTION.md](./docs/RAILWAY_PRODUCTION.md) | **Production deploy** (once staging works — custom domains, backups, hardening) |
+| [docs/RAILWAY.md](./docs/RAILWAY.md) | Railway technical reference (topology, env var tables, volumes, networking) |
+| [DEPLOYMENT.md](./DEPLOYMENT.md) | General production checklist, go-live stages, VPS option |
 | [TODO.md](./TODO.md) | Current open tasks |
 | [docs/USER_SYSTEM_ARCHITECTURE.md](./docs/USER_SYSTEM_ARCHITECTURE.md) | Author profiles, attribution, Strapi fields |
 | [CLAUDE.md](./CLAUDE.md) | Project layout and conventions for contributors / AI |
