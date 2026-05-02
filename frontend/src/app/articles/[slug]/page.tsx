@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getArticleBySlug } from '@/lib/api/content';
 import { getStrapiMedia } from '@/lib/api/strapi';
 import { AuthorDisplay } from '@/components/ui/author-display';

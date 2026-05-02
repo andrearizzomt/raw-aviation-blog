@@ -1,6 +1,8 @@
 import { getPublicAuthorProfiles } from '@/lib/api/content';
 import { StrapiAuthorProfile } from '@/lib/types/strapi';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'About Us - RAW Aviation',
   description: 'Meet our team of aviation enthusiasts, contributors, and guest writers who bring you the latest in aviation news and photography.',

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getGalleryBySlug } from '@/lib/api/content';
 import { AuthorDisplay } from '@/components/ui/author-display';
 import { notFound } from 'next/navigation';
