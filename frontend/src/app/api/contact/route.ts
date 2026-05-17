@@ -95,12 +95,14 @@ export async function POST(req: NextRequest) {
   // Send email via Namecheap Private Email SMTP
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST ?? 'mail.privateemail.com',
-    port: Number(process.env.SMTP_PORT ?? 587),
-    secure: false, // TLS via STARTTLS on port 587
+    port: Number(process.env.SMTP_PORT ?? 465),
+    secure: true, // SSL on port 465
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
   });
 
   try {

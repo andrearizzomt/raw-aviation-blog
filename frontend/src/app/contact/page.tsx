@@ -1,10 +1,37 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { Turnstile } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+
+const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validate(formData: { name: string; email: string; subject: string; message: string }) {
+  const errors: Record<string, string> = {};
+  if (!formData.name.trim()) {
+    errors.name = 'Name is required.';
+  } else if (!NAME_REGEX.test(formData.name)) {
+    errors.name = 'Name must contain letters only — no numbers or special characters.';
+  }
+  if (!formData.email.trim()) {
+    errors.email = 'Email is required.';
+  } else if (!EMAIL_REGEX.test(formData.email)) {
+    errors.email = 'Please enter a valid email address.';
+  }
+  if (!formData.subject.trim()) {
+    errors.subject = 'Subject is required.';
+  } else if (!NAME_REGEX.test(formData.subject)) {
+    errors.subject = 'Subject must contain letters only — no numbers or special characters.';
+  }
+  if (!formData.message.trim()) {
+    errors.message = 'Message is required.';
+  }
+  return errors;
+}
 
 export default function ContactPage() {
   const formLoadedAt = useRef<number>(Date.now());
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -12,19 +39,39 @@ export default function ContactPage() {
     subject: '',
     message: '',
   });
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [honeypot, setHoneypot] = useState('');
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const allFieldsFilled =
+    formData.name.trim() !== '' &&
+    formData.email.trim() !== '' &&
+    formData.subject.trim() !== '' &&
+    formData.message.trim() !== '';
+
+  const canSubmit = allFieldsFilled && !!turnstileToken && !isSubmitting;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear field error on change
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const errors = validate(formData);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
     setErrorMessage('');
@@ -46,17 +93,38 @@ export default function ContactPage() {
       if (response.ok) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
+        setFieldErrors({});
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
       } else {
         setSubmitStatus('error');
         setErrorMessage(data.error || 'Failed to send message. Please try again.');
+        // Always reset Turnstile after a failed attempt — tokens are single-use
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
       }
     } catch {
       setSubmitStatus('error');
       setErrorMessage('Network error. Please check your connection and try again.');
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const inputClass = (field: string) =>
+    `w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground ${
+      fieldErrors[field] ? 'border-red-500' : 'border-border'
+    }`;
+
+  const buttonLabel = isSubmitting
+    ? 'Sending...'
+    : !allFieldsFilled
+    ? 'Fill in all fields to continue'
+    : !turnstileToken
+    ? 'Complete verification to send'
+    : 'Send Message';
 
   return (
     <main className="container mx-auto px-4 py-8">
@@ -121,10 +189,12 @@ export default function ContactPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground"
+                  className={inputClass('name')}
                   placeholder="Your full name"
                 />
+                {fieldErrors.name && (
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.name}</p>
+                )}
               </div>
 
               <div>
@@ -137,10 +207,12 @@ export default function ContactPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground"
+                  className={inputClass('email')}
                   placeholder="your.email@example.com"
                 />
+                {fieldErrors.email && (
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.email}</p>
+                )}
               </div>
             </div>
 
@@ -154,10 +226,12 @@ export default function ContactPage() {
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground"
+                className={inputClass('subject')}
                 placeholder="Brief description of your message"
               />
+              {fieldErrors.subject && (
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.subject}</p>
+              )}
             </div>
 
             <div>
@@ -169,32 +243,31 @@ export default function ContactPage() {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                required
                 rows={6}
-                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground resize-vertical"
+                className={`${inputClass('message')} resize-vertical`}
                 placeholder="Tell us about your aviation story, contribution ideas, or any questions you have..."
               />
+              {fieldErrors.message && (
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.message}</p>
+              )}
             </div>
 
             <button
               type="submit"
-              disabled={isSubmitting || !turnstileToken}
+              disabled={!canSubmit}
               className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${
-                isSubmitting || !turnstileToken
+                !canSubmit
                   ? 'bg-muted text-muted-foreground cursor-not-allowed'
                   : 'bg-primary text-primary-foreground hover:bg-primary/90'
               }`}
             >
-              {isSubmitting
-                ? 'Sending...'
-                : !turnstileToken
-                ? 'Complete verification to send'
-                : 'Send Message'}
+              {buttonLabel}
             </button>
 
             {/* Cloudflare Turnstile CAPTCHA */}
             <div className="flex justify-center">
               <Turnstile
+                ref={turnstileRef}
                 siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'}
                 onSuccess={(token) => setTurnstileToken(token)}
                 onExpire={() => setTurnstileToken(null)}
