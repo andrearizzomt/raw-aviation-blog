@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 // In-memory rate limit store: IP → array of submission timestamps
 const rateLimitStore = new Map<string, number[]>();
@@ -66,7 +66,6 @@ export async function POST(req: NextRequest) {
 
   // Honeypot check — bots fill the hidden "website" field
   if (website) {
-    // Silently accept to not reveal the check to bots
     return NextResponse.json({ ok: true });
   }
 
@@ -92,24 +91,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Send email via Namecheap Private Email SMTP
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST ?? 'mail.privateemail.com',
-    port: Number(process.env.SMTP_PORT ?? 465),
-    secure: true, // SSL on port 465
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-  });
+  // Send email via Resend
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const fromAddress = `RAW Aviation <noreply@rawaviation.mt>`;
+  const toAddress = process.env.CONTACT_EMAIL_TO ?? 'info@rawaviation.mt';
 
   try {
-    await transporter.sendMail({
-      from: `"RAW Aviation Contact" <${process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_EMAIL_TO ?? process.env.SMTP_USER,
-      replyTo: `"${name}" <${email}>`,
+    const { error } = await resend.emails.send({
+      from: fromAddress,
+      to: toAddress,
+      replyTo: `${name} <${email}>`,
       subject: `[Contact] ${subject}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
       html: `
@@ -120,6 +111,14 @@ export async function POST(req: NextRequest) {
         <p>${message.replace(/\n/g, '<br />')}</p>
       `,
     });
+
+    if (error) {
+      console.error('Resend error:', error);
+      return NextResponse.json(
+        { error: 'Failed to send message. Please try again.' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
