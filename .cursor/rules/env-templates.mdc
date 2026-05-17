@@ -1,0 +1,19 @@
+---
+description: Always keep env templates in sync when adding environment variables
+alwaysApply: true
+---
+
+# Env Template Rule
+
+Whenever you add or change environment variables, you MUST update the corresponding template file:
+
+| Service | Real env file | Template to update |
+|---------|--------------|-------------------|
+| CMS (Strapi) | `cms/.env` | `cms/.env.example` |
+| Frontend (Next.js) | `frontend/.env.local` | `frontend/.env.local.example` |
+
+## Rules
+- Templates use placeholder values only — NEVER put real passwords, keys, or secrets in templates
+- Use descriptive placeholders: `your-mailbox-password`, `your-api-key-here`, not `tobemodified`
+- Add a comment above each group explaining what the vars are for and where to get them
+- Both template files are committed to the repo; both real env files are gitignored
