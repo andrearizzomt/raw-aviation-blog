@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useTheme } from '@/components/ui/theme-provider';
 
 const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]+$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +33,12 @@ function validate(formData: { name: string; email: string; subject: string; mess
 export default function ContactPage() {
   const formLoadedAt = useRef<number>(Date.now());
   const turnstileRef = useRef<TurnstileInstance>(null);
+  const { theme } = useTheme();
+
+  // Reset token when theme changes so Turnstile re-renders in the correct theme
+  useEffect(() => {
+    setTurnstileToken(null);
+  }, [theme]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -120,11 +127,30 @@ export default function ContactPage() {
 
   const buttonLabel = isSubmitting
     ? 'Sending...'
+    : submitStatus === 'success'
+    ? 'Message Sent'
+    : submitStatus === 'error'
+    ? 'Message Not Sent. Please Try Again'
     : !allFieldsFilled
     ? 'Fill in all fields to continue'
     : !turnstileToken
     ? 'Complete verification to send'
     : 'Send Message';
+
+  const buttonClass = isSubmitting || (!canSubmit && submitStatus === 'idle')
+    ? 'bg-muted text-muted-foreground cursor-not-allowed'
+    : submitStatus === 'success'
+    ? 'bg-green-100 dark:bg-green-600 cursor-default'
+    : submitStatus === 'error'
+    ? 'bg-red-100 dark:bg-red-600 hover:bg-red-200 dark:hover:bg-red-700'
+    : 'bg-primary text-primary-foreground hover:bg-primary/90';
+
+  const buttonStyle =
+    submitStatus === 'success'
+      ? { color: 'var(--btn-success-text)' }
+      : submitStatus === 'error'
+      ? { color: 'var(--btn-error-text)' }
+      : {};
 
   return (
     <main className="container mx-auto px-4 py-8">
@@ -147,21 +173,6 @@ export default function ContactPage() {
         <div className="bg-card rounded-lg shadow-sm border border-border p-8">
           <h2 className="text-2xl font-bold mb-6 text-foreground">Send us a Message</h2>
 
-          {submitStatus === 'success' && (
-            <div className="mb-6 p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg">
-              <p className="text-green-800 dark:text-green-200 font-medium">Message sent successfully!</p>
-              <p className="text-green-700 dark:text-green-300 text-sm mt-1">
-                Thank you for reaching out. We&apos;ll get back to you as soon as possible.
-              </p>
-            </div>
-          )}
-
-          {submitStatus === 'error' && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg">
-              <p className="text-red-800 dark:text-red-200 font-medium">Error sending message</p>
-              <p className="text-red-700 dark:text-red-300 text-sm mt-1">{errorMessage}</p>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Honeypot — hidden from humans, bots fill it */}
@@ -254,25 +265,28 @@ export default function ContactPage() {
 
             <button
               type="submit"
-              disabled={!canSubmit}
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${
-                !canSubmit
-                  ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                  : 'bg-primary text-primary-foreground hover:bg-primary/90'
-              }`}
+              disabled={!canSubmit && submitStatus !== 'error'}
+              className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors duration-300 ${buttonClass}`}
+              style={buttonStyle}
             >
               {buttonLabel}
             </button>
 
-            {/* Cloudflare Turnstile CAPTCHA */}
-            <div className="flex justify-center">
-              <Turnstile
-                ref={turnstileRef}
-                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'}
-                onSuccess={(token) => setTurnstileToken(token)}
-                onExpire={() => setTurnstileToken(null)}
-                onError={() => setTurnstileToken(null)}
-              />
+            {/* Turnstile — hidden after success */}
+            <div
+              className={`overflow-hidden transition-all duration-500 ease-in-out flex justify-center ${
+                submitStatus === 'success' ? 'max-h-0 opacity-0' : 'max-h-24 opacity-100'
+              }`}
+            >
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'}
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onExpire={() => setTurnstileToken(null)}
+                  onError={() => setTurnstileToken(null)}
+                  key={theme}
+                  options={{ theme }}
+                />
             </div>
           </form>
         </div>

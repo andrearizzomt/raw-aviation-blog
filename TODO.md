@@ -21,10 +21,11 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
 
 - [ ] **CORS** — update `cms/config/middlewares.ts` to replace bare `'strapi::cors'` with explicit origin allowlist (`http://localhost:3000`, `https://nextjs-staging-0b02.up.railway.app`), then push
 - [ ] **Test content** — add an article, report, gallery in Strapi admin; verify they appear on the site with images loading correctly
-- [ ] **Contact form** — env vars added to Railway, code pushed; pending end-to-end test on staging
-  - Next.js service vars: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_EMAIL_TO`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`
-  - Strapi service vars: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`
-  - Spam protection: honeypot + time-check + rate limiting (3/IP/hour) + Cloudflare Turnstile
+- [x] **Contact form** ✅ — working on staging
+  - Email delivery via Resend (`RESEND_API_KEY`, `CONTACT_EMAIL_TO` on Next.js service)
+  - Cloudflare Turnstile CAPTCHA (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`)
+  - Spam protection: honeypot + time-check + rate limiting (3/IP/hour)
+  - Field validation: name/subject letters only, email format, all fields required
 - [ ] **Remove or protect** `frontend/src/app/test/page.tsx` before production
 - [ ] **SEO** — `generateMetadata` on detail routes, `sitemap.xml`, `robots.txt`
 
