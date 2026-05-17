@@ -26,6 +26,7 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
   - Cloudflare Turnstile CAPTCHA (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`)
   - Spam protection: honeypot + time-check + rate limiting (3/IP/hour)
   - Field validation: name/subject letters only, email format, all fields required
+- [ ] **Strapi email (invites/password resets)** — currently configured with Namecheap SMTP which Railway may block. Test by inviting a user from Strapi admin. If it fails, switch `cms/config/plugins.ts` to use `@resend/node` provider instead
 - [ ] **Remove or protect** `frontend/src/app/test/page.tsx` before production
 - [ ] **SEO** — `generateMetadata` on detail routes, `sitemap.xml`, `robots.txt`
 
@@ -72,6 +73,10 @@ Migration steps when ready to go live:
 | TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:postmaster@rawaviation.mt` |
 | TXT | `default._domainkey` | `v=DKIM1;k=rsa;p=...` (generated in Namecheap after mailbox creation) |
 
+### Resend DNS records (for contact form sending)
+Resend requires its own DNS records added to Netlify to verify `rawaviation.mt` as a sending domain.
+These were added during Resend domain setup — check [resend.com/domains](https://resend.com/domains) for current status.
+
 ### Adding a new team member
 1. Log into Namecheap Private Email → Create Mailbox → `name@rawaviation.mt`
 2. Create their Strapi admin user with the same email (Settings → Administration Panel → Users)
@@ -92,6 +97,16 @@ Migration steps when ready to go live:
 ### Verify email health
 - [mail-tester.com](https://mail-tester.com) — send a test email, check SPF/DKIM/DMARC pass (aim for 10/10)
 - Gmail → Show original → look for `dkim=pass` and `spf=pass`
+
+## Transactional email — Resend
+
+**Status:** Active. Contact form sends via Resend API (HTTPS, not SMTP — required since Railway blocks outbound SMTP ports).
+
+- Sending domain: `rawaviation.mt` (verified in Resend dashboard)
+- From address: `noreply@rawaviation.mt`
+- Delivers to: `info@rawaviation.mt`
+- Strapi admin invites/password resets: use Namecheap Private Email SMTP directly (configured in `cms/config/plugins.ts`) — note this will also fail on Railway if SMTP is blocked; test and switch to Resend provider if needed
+- Railway env vars needed (Next.js service): `RESEND_API_KEY`, `CONTACT_EMAIL_TO`
 
 ## Reference docs
 
