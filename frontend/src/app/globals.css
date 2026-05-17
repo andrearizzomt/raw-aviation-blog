@@ -16,6 +16,9 @@
   --hero: #e5e7eb;
   --hero-foreground: #171717;
   --hero-hover: #d1d5db;
+  /* Contact form button status text colours */
+  --btn-success-text: #171717;
+  --btn-error-text: #171717;
 }
 
 :root.dark {
@@ -34,6 +37,9 @@
   --hero: #262626;
   --hero-foreground: #f9fafb;
   --hero-hover: #333333;
+  /* Contact form button status text colours */
+  --btn-success-text: #ffffff;
+  --btn-error-text: #ffffff;
 }
 
 @theme inline {
@@ -88,4 +94,11 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* Placeholder inherits the input's text colour so it transitions with the theme automatically */
+input::placeholder,
+textarea::placeholder {
+  color: currentColor;
+  opacity: 0.4;
 }
