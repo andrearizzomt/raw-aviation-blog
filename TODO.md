@@ -26,7 +26,7 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
   - Cloudflare Turnstile CAPTCHA (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`)
   - Spam protection: honeypot + time-check + rate limiting (3/IP/hour)
   - Field validation: name/subject letters only, email format, all fields required
-- [ ] **Strapi email (invites/password resets)** — switch Strapi service to Resend (code change pending deploy). On Railway Strapi service: add `RESEND_API_KEY` + `EMAIL_FROM`, remove old `SMTP_*` vars, redeploy, then re-invite user
+- [ ] **Strapi admin invites** — add `PUBLIC_URL` on Railway Strapi service, push lifecycle hook (auto-sends invite email via Resend), redeploy, then re-invite user. Note: Strapi CE does not send invite emails by itself — only shows a copy-paste link
 - [ ] **Remove or protect** `frontend/src/app/test/page.tsx` before production
 - [ ] **SEO** — `generateMetadata` on detail routes, `sitemap.xml`, `robots.txt`
 

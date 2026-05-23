@@ -50,7 +50,9 @@ Each environment (staging, production) runs three services:
 | `TRANSFER_TOKEN_SALT` | Yes | One `openssl rand -base64 32` value |
 | `ENCRYPTION_KEY` | Yes | One `openssl rand -base64 32` value |
 | `JWT_SECRET` | Yes | One `openssl rand -base64 32` value — required by users-permissions plugin |
-| `PUBLIC_URL` | Production only | Your public Strapi HTTPS URL (e.g. `https://strapi.rawaviation.com`) — needed for correct admin links |
+| `PUBLIC_URL` | Yes (staging/prod) | Public Strapi HTTPS URL, **no trailing slash** (e.g. `https://strapi-staging-a15c.up.railway.app`) — used in admin invite and password-reset links |
+| `RESEND_API_KEY` | Yes | Resend API key — admin invite emails and password resets (Railway blocks SMTP) |
+| `EMAIL_FROM` | Yes | Verified sender, e.g. `RAW Aviation <noreply@rawaviation.mt>` |
 | `HOST` | No | Defaults to `0.0.0.0` — correct for containers |
 | `PORT` | Auto | Injected by Railway — do not hardcode |
 
