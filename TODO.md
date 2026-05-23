@@ -26,7 +26,7 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
   - Cloudflare Turnstile CAPTCHA (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`)
   - Spam protection: honeypot + time-check + rate limiting (3/IP/hour)
   - Field validation: name/subject letters only, email format, all fields required
-- [ ] **Strapi email (invites/password resets)** — currently configured with Namecheap SMTP which Railway may block. Test by inviting a user from Strapi admin. If it fails, switch `cms/config/plugins.ts` to use `@resend/node` provider instead
+- [ ] **Strapi email (invites/password resets)** — switch Strapi service to Resend (code change pending deploy). On Railway Strapi service: add `RESEND_API_KEY` + `EMAIL_FROM`, remove old `SMTP_*` vars, redeploy, then re-invite user
 - [ ] **Remove or protect** `frontend/src/app/test/page.tsx` before production
 - [ ] **SEO** — `generateMetadata` on detail routes, `sitemap.xml`, `robots.txt`
 
@@ -105,7 +105,7 @@ These were added during Resend domain setup — check [resend.com/domains](https
 - Sending domain: `rawaviation.mt` (verified in Resend dashboard)
 - From address: `noreply@rawaviation.mt`
 - Delivers to: `info@rawaviation.mt`
-- Strapi admin invites/password resets: use Namecheap Private Email SMTP directly (configured in `cms/config/plugins.ts`) — note this will also fail on Railway if SMTP is blocked; test and switch to Resend provider if needed
+- Strapi admin invites/password resets: Resend API (`RESEND_API_KEY`, `EMAIL_FROM` on Strapi service) — same Resend account as contact form
 - Railway env vars needed (Next.js service): `RESEND_API_KEY`, `CONTACT_EMAIL_TO`
 
 ## Reference docs

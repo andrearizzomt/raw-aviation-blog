@@ -1,19 +1,13 @@
 export default ({ env }) => ({
   email: {
     config: {
-      provider: '@strapi/provider-email-nodemailer',
+      provider: 'strapi-provider-email-resend-strapi',
       providerOptions: {
-        host: env('SMTP_HOST', 'mail.privateemail.com'),
-        port: env.int('SMTP_PORT', 587),
-        secure: false,
-        auth: {
-          user: env('SMTP_USER'),
-          pass: env('SMTP_PASS'),
-        },
+        apiKey: env('RESEND_API_KEY'),
       },
       settings: {
-        defaultFrom: env('SMTP_USER'),
-        defaultReplyTo: env('SMTP_USER'),
+        defaultFrom: env('EMAIL_FROM', 'RAW Aviation <noreply@rawaviation.mt>'),
+        defaultReplyTo: env('EMAIL_FROM', 'RAW Aviation <noreply@rawaviation.mt>'),
       },
     },
   },
