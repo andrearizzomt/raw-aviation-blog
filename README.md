@@ -38,7 +38,7 @@ npm run dev
 **Optional seed data:**
 ```bash
 cd cms
-# Set SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, SEED_USER_PASSWORD in cms/.env, then:
+# Set SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD in cms/.env, then:
 npm run seed
 # Creates sample authors, articles, reports, and galleries
 ```

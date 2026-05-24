@@ -132,11 +132,11 @@ export async function getAuthorProfiles(page = 1, pageSize = 50) {
 }
 
 /**
- * Fetch public author profiles for About page
+ * Fetch published author profiles for About page
  */
-export async function getPublicAuthorProfiles() {
+export async function getAboutAuthorProfiles() {
   const response = await fetchAPI<StrapiAuthorProfile[]>(
-    `author-profiles?filters[isPublicAuthor][$eq]=true&populate=*&sort=orderWeight:asc,authorType:asc,displayName:asc`
+    `author-profiles?populate=*&sort=orderWeight:asc,teamMemberType:asc,displayName:asc`
   );
 
   const validatedResponse = StrapiAuthorProfileResponseSchema.parse(response);

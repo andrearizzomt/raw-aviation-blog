@@ -5,7 +5,7 @@
  * Run from cms/: npm run seed   (or: node seed.mjs)
  *
  * Requires in cms/.env (never commit real values):
- *   SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, SEED_USER_PASSWORD
+ *   SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD
  * Optional: STRAPI_URL (default http://localhost:1337)
  */
 
@@ -42,7 +42,6 @@ function assertSeedEnv() {
   const missing = [];
   if (!process.env.SEED_ADMIN_EMAIL?.trim()) missing.push('SEED_ADMIN_EMAIL');
   if (!process.env.SEED_ADMIN_PASSWORD) missing.push('SEED_ADMIN_PASSWORD');
-  if (!process.env.SEED_USER_PASSWORD) missing.push('SEED_USER_PASSWORD');
   if (missing.length) {
     console.error(`
 Seed script is missing: ${missing.join(', ')}
@@ -52,7 +51,6 @@ passwords never need to live in Git:
 
   SEED_ADMIN_EMAIL=<Strapi admin email>
   SEED_ADMIN_PASSWORD=<Strapi admin password>
-  SEED_USER_PASSWORD=<password for seeded frontend users>
 
 `);
     process.exit(1);
@@ -126,22 +124,69 @@ async function uploadImage(filename, width, height, bgColor, label, altText) {
   return data[0];
 }
 
-// ─── Create users via register API ──────────────────────────────────────────
+// ─── Admin panel users for author profiles ───────────────────────────────────
 
-async function createUser(username, email) {
-  const res = await fetch(`${strapiBase}/api/auth/local/register`, {
+async function getAuthorRoleId() {
+  const res = await fetch(`${strapiBase}/admin/roles`, {
+    headers: adminHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(`List roles failed: ${JSON.stringify(data)}`);
+
+  const authorRole = data.data?.find((role) => role.code === 'strapi-author');
+  if (!authorRole) {
+    throw new Error('Could not find strapi-author role');
+  }
+
+  return authorRole.id;
+}
+
+async function listAdminUsers() {
+  const res = await fetch(`${strapiBase}/admin/users?pageSize=100`, {
+    headers: adminHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(`List admin users failed: ${JSON.stringify(data)}`);
+  return data.data?.results ?? data.data ?? [];
+}
+
+async function ensureAdminUser(firstname, lastname, email) {
+  const normalizedEmail = email.toLowerCase();
+  const existing = (await listAdminUsers()).find(
+    (user) => user.email?.toLowerCase() === normalizedEmail
+  );
+
+  if (existing) {
+    console.log(`    Found admin user: ${firstname} ${lastname} (id: ${existing.id})`);
+    return existing;
+  }
+
+  const roleId = await getAuthorRoleId();
+  const res = await fetch(`${strapiBase}/admin/users`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: adminHeaders(true),
     body: JSON.stringify({
-      username,
-      email,
-      password: process.env.SEED_USER_PASSWORD,
+      firstname,
+      lastname,
+      email: normalizedEmail,
+      roles: [roleId],
     }),
   });
   const data = await res.json();
-  if (data.error) throw new Error(`Create user failed: ${JSON.stringify(data.error)}`);
-  console.log(`    Created user: ${username} (id: ${data.user.id})`);
-  return data.user;
+  if (!res.ok) throw new Error(`Create admin user failed: ${JSON.stringify(data)}`);
+
+  const user = data.data;
+  console.log(`    Invited admin user: ${firstname} ${lastname} (id: ${user.id})`);
+  return user;
+}
+
+function authorLinkFields(adminUser) {
+  return {
+    adminUserId: adminUser.id,
+    firstName: adminUser.firstname,
+    lastName: adminUser.lastname,
+    email: adminUser.email,
+  };
 }
 
 // ─── Create content via admin content-manager API ────────────────────────────
@@ -223,24 +268,23 @@ async function seed() {
   const profilePhoto2 = await uploadImage('author-marco.svg', 400, 400, '#2d5a3d', 'MR', 'Marco Rossi profile photo');
   const profilePhoto3 = await uploadImage('author-elena.svg', 400, 400, '#5a2d4a', 'EB', 'Elena Bianchi profile photo');
 
-  // ── Step 2: Create users ──
-  console.log('\n[2/6] Creating users...');
-  const user1 = await createUser('andrea.rizzo', 'andrea@rawaviation.com');
-  const user2 = await createUser('marco.rossi', 'marco@rawaviation.com');
-  const user3 = await createUser('elena.bianchi', 'elena@rawaviation.com');
+  // ── Step 2: Ensure admin users for author profiles ──
+  console.log('\n[2/6] Ensuring admin users...');
+  const adminUser1 = await ensureAdminUser('Andrea', 'Rizzo', 'andrea@rawaviation.com');
+  const adminUser2 = await ensureAdminUser('Marco', 'Rossi', 'marco@rawaviation.com');
+  const adminUser3 = await ensureAdminUser('Elena', 'Bianchi', 'elena@rawaviation.com');
 
   // ── Step 3: Create author profiles ──
   console.log('\n[3/6] Creating author profiles...');
 
   const authorData = [
     {
-      user: user1.id,
+      ...authorLinkFields(adminUser1),
       displayName: 'Andrea Rizzo',
       bio: 'Founder of RAW Aviation and passionate aviation photographer. With over 15 years of experience covering airshows, military exercises, and civilian aviation across Europe, Andrea brings a unique perspective to every story.',
       profilePhoto: profilePhoto1.id,
       position: 'Founder & Editor-in-Chief',
-      isPublicAuthor: true,
-      authorType: 'founder',
+      teamMemberType: 'co_founder',
       authorSlug: 'andrea-rizzo',
       showContributionCount: true,
       instagram: 'rawaviation',
@@ -248,26 +292,24 @@ async function seed() {
       orderWeight: 100,
     },
     {
-      user: user2.id,
+      ...authorLinkFields(adminUser2),
       displayName: 'Marco Rossi',
       bio: 'Aviation journalist and former military pilot. Marco specializes in detailed technical reports on modern fighter aircraft and defense technology, contributing expert analysis to RAW Aviation.',
       profilePhoto: profilePhoto2.id,
       position: 'Senior Aviation Correspondent',
-      isPublicAuthor: true,
-      authorType: 'external_contributor',
+      teamMemberType: 'contributor',
       authorSlug: 'marco-rossi',
       showContributionCount: true,
       instagram: 'marcoaviator',
       orderWeight: 200,
     },
     {
-      user: user3.id,
+      ...authorLinkFields(adminUser3),
       displayName: 'Elena Bianchi',
       bio: 'Freelance aviation photographer and writer based in Rome. Elena focuses on civilian aviation, airline reviews, and airport spotting, bringing a fresh eye to the world of commercial flight.',
       profilePhoto: profilePhoto3.id,
       position: 'Contributing Photographer',
-      isPublicAuthor: true,
-      authorType: 'external_contributor',
+      teamMemberType: 'contributor',
       authorSlug: 'elena-bianchi',
       showContributionCount: false,
       facebook: 'elenaaviationphoto',

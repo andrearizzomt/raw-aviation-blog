@@ -5,17 +5,28 @@
     "singularName": "author-profile",
     "pluralName": "author-profiles",
     "displayName": "Author Profile",
-    "description": "Extended author information for blog contributors"
+    "description": "Public author profile linked to a CMS admin user"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
+    "adminUserId": {
+      "type": "integer",
+      "required": true,
+      "min": 1
+    },
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
       "required": true
     },
     "displayName": {
@@ -36,16 +47,11 @@
       "type": "string",
       "required": true
     },
-    "isPublicAuthor": {
-      "type": "boolean",
-      "required": true,
-      "default": false
-    },
-    "authorType": {
+    "teamMemberType": {
       "type": "enumeration",
-      "enum": ["founder", "external_contributor", "guest"],
+      "enum": ["co_founder", "contributor"],
       "required": true,
-      "default": "guest"
+      "default": "contributor"
     },
     "authorSlug": {
       "type": "uid",
@@ -71,4 +77,4 @@
       "max": 9999
     }
   }
-} 
+}

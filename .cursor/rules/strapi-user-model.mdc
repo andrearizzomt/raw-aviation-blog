@@ -1,40 +1,42 @@
 ---
-description: Explains the three Strapi user concepts in this project and how contributors are set up
+description: Explains Strapi user concepts and how contributors are set up in RAW Aviation Blog
 alwaysApply: true
 ---
 
 # Strapi User Model — RAW Aviation Blog
 
-There are three distinct "user" concepts in Strapi. They serve different purposes and must not be confused.
+There are two user concepts that matter in this project. A third exists in Strapi but is unused.
 
 ## 1. Admin Panel Users (Settings → Administration Panel → Users)
-People who log into `/admin` to manage content (editors, authors, founders).
-- Assign Roles: Super Admin, Editor, Author (or custom)
-- These accounts never appear on the public website
+People who log into `/admin` to manage content (editors, authors, co-founders).
+- **Access role** (Editor or Author): controls CMS permissions only
+- These accounts never appear on the public website directly
 
 ## 2. Content API Users (Content Manager → User collection type)
 Built into the `users-permissions` plugin. Would be used for public reader accounts (e.g. a member login wall).
 - **Not used in this project** — ignore this collection
 - The plugin itself is load-bearing (controls API permissions via Public/Authenticated roles) but the User records are unused
-- The `user` relation field on Author Profile links here — it is optional and `null` is fine
 
 ## 3. Author Profile (custom collection type)
 Public-facing author data displayed on the website: `/about` page, article cards, report pages.
-- Fields: `displayName`, `bio`, `position`, `profilePhoto`, `authorType`, `isPublicAuthor`, `orderWeight`, socials
-- `isPublicAuthor: true` + Published = appears on `/about`
+- Fields: `displayName`, `bio`, `position`, `profilePhoto`, `teamMemberType`, `orderWeight`, socials
+- Linked to an Admin Panel user via `adminUserId`, plus matching `firstName`, `lastName`, and `email`
+- **Team type** (`co_founder` or `contributor`): controls `/about` section — independent of Editor/Author access role
+- Published = appears on `/about` and available as an author on content
 
 ## Workflow for adding a new contributor
 
 1. **Admin Panel → Settings → Administration Panel → Users → Invite**
-   Gives them a CMS login so they can write and upload content.
+   Gives them a CMS login. Assign **Editor** or **Author** based on what they need to do in the CMS.
 
 2. **Content Manager → Author Profile → Add new entry**
-   Fills in their public info. Set `isPublicAuthor: true` and **Publish** it.
-   This makes them appear on `/about` and available as an author on content.
+   Use the **CMS Admin User** side panel to select the invited user (auto-fills `adminUserId`, names, and email).
+   Fill in bio, photo, position, and set **Team member type** (`Co-Founder` or `Contributor`). **Publish** the entry.
 
 3. **On each Article / Report / Gallery they write**
    Add them in the `authors` relation field → their byline and photo appear on the frontend.
 
-## Key point
-Admin Panel user and Author Profile are two separate records representing the same real person.
-No technical database link is required between them — the Author Profile is purely content.
+## Key points
+- Admin Panel user and Author Profile are linked via `adminUserId` — one profile per admin user
+- Super Admin follows the same manual Author Profile flow as everyone else
+- Profiles are never auto-created on invite

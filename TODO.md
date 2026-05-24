@@ -80,8 +80,8 @@ These were added during Resend domain setup — check [resend.com/domains](https
 
 ### Adding a new team member
 1. Log into Namecheap Private Email → Create Mailbox → `name@rawaviation.mt`
-2. Create their Strapi admin user with the same email (Settings → Administration Panel → Users)
-3. Create their Author Profile in Strapi Content Manager
+2. Invite them as a Strapi admin user (Settings → Administration Panel → Users) — assign Editor or Author role
+3. Content Manager → Author Profile → create entry, link them via the **CMS Admin User** sidebar, set **Team member type**, and **Publish**
 
 ### Connect a mailbox to Gmail (send & receive)
 **Receive** (POP3):

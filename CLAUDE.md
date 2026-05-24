@@ -45,7 +45,7 @@ raw-aviation-blog/
 │   │   ├── article/          # Title, Slug, Content (blocks), Date, authors, Featured_Image
 │   │   ├── report/           # Title, Slug, Content (blocks), Date, authors, MainImage, Images
 │   │   ├── gallery/          # Title, slug, Date, Description, authors, Images
-│   │   └── author-profile/   # displayName, bio, profilePhoto, position, authorType, orderWeight, socials
+│   │   └── author-profile/   # displayName, bio, profilePhoto, position, teamMemberType, adminUserId, orderWeight, socials
 │   ├── config/
 │   │   ├── database.ts       # SQLite default, supports MySQL/PostgreSQL
 │   │   ├── api.ts            # defaultLimit: 25, maxLimit: 100
@@ -82,7 +82,7 @@ cd cms
 npm run seed             # Creates 3 authors, 5 articles, 3 reports, 3 galleries
 ```
 
-**Strapi admin**: sign in at http://localhost:1337/admin with the admin user you created at first boot. Seed credentials live only in `cms/.env` (`SEED_ADMIN_*`, `SEED_USER_PASSWORD`), not in the repo.
+**Strapi admin**: sign in at http://localhost:1337/admin with the admin user you created at first boot. Seed credentials live only in `cms/.env` (`SEED_ADMIN_*`), not in the repo.
 
 ## Strapi Content Types
 
@@ -91,10 +91,10 @@ npm run seed             # Creates 3 authors, 5 articles, 3 reports, 3 galleries
 | **Article** | Title, Slug (uid), Content (blocks), Date, authors (m2m), Featured_Image | `populate=*` for author/image data |
 | **Report** | Title, Slug (uid), Content (blocks), Date, authors (m2m), MainImage, Images[] | Multiple images support |
 | **Gallery** | Title, slug (uid), Date, Description (text), authors (m2m), Images[] | Note: `slug` is lowercase (unlike other types) |
-| **Author Profile** | displayName, bio (richtext), profilePhoto, position, authorType (enum), orderWeight, instagram, facebook | `isPublicAuthor` controls About page visibility |
+| **Author Profile** | displayName, bio (richtext), profilePhoto, position, teamMemberType (enum), adminUserId, firstName, lastName, email, orderWeight, instagram, facebook | Published profiles appear on `/about`; linked to Admin Panel user via dropdown |
 
-**Author types**: `founder`, `external_contributor`, `guest`
-**Author ordering**: `orderWeight` (0-9999, lower = first), then `authorType`, then `displayName`
+**Team member types**: `co_founder`, `contributor` (controls `/about` section; independent of Editor/Author access role)
+**Author ordering**: `orderWeight` (0-9999, lower = first), then `teamMemberType`, then `displayName`
 
 ## Data Flow
 
@@ -129,7 +129,7 @@ All pages are Server Components (no `"use client"`) except `/contact` and theme 
 ## Dev Notes
 
 - **Starting order matters**: Strapi must be running before the frontend starts, or homepage will error (fetches on load).
-- **Seed script auth**: `cms/seed.mjs` reads `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, and `SEED_USER_PASSWORD` from `cms/.env` (gitignored). It logs in via the admin API, registers sample users, creates content via `/content-manager/collection-types/...`, and uploads via `/upload`.
+- **Seed script auth**: `cms/seed.mjs` reads `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` from `cms/.env` (gitignored). It logs in via the admin API, invites sample admin users, creates content via `/content-manager/collection-types/...`, and uploads via `/upload`.
 - **Strapi 5 API paths**: Content-manager endpoints are at `/content-manager/...` (NOT `/admin/content-manager/...`). Upload is at `/upload` (NOT `/api/upload`). Public API is at `/api/...`.
 - **SQLite dev DB**: Located at `cms/.tmp/data.db`. Gitignored. Wiping it resets all content but requires re-registering an admin user at first Strapi startup.
 - **Node version**: CMS requires Node 18-22 (`engines` in package.json).
@@ -141,5 +141,5 @@ All pages are Server Components (no `"use client"`) except `/contact` and theme 
 - **Post-deploy "Not started"**: Normal. Railway shows the post-deploy step in UI even when no post-deploy command is configured. Not an error.
 - **Redeploy button**: Railway's "Redeploy" on an existing deployment restarts the container but may NOT re-run `next build`. To force a full rebuild with fresh static pages, push a code commit or clear the build cache from service settings.
 - **NEXT_PUBLIC_ vars are inlined at build time**: Even in server components, `process.env.NEXT_PUBLIC_*` references are replaced during `next build`. Env vars must be set in Railway BEFORE the build runs. Changing them requires a redeploy to take effect.
-- **Author Profile checklist** (for an author to appear on /about): `isPublicAuthor` toggle must be ON, entry must be **Published** (not Draft), and the `user` relation must be linked to a Strapi user with role **Authenticated** (not Public).
+- **Author Profile checklist** (for an author to appear on /about): entry must be **Published** (not Draft), linked to an Admin Panel user via the side-panel dropdown, and have `teamMemberType` set.
 - **Internal networking**: Services within the same Railway project can communicate. The public Strapi URL works for server-to-server calls from Next.js, but Railway's private networking (`<service>.railway.internal`) is faster if needed in future.

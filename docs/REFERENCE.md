@@ -175,26 +175,29 @@ Strapi stores uploaded files in `cms/public/uploads/`. Container filesystems are
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `displayName` | string | Required |
-| `bio` | rich text or string | Optional |
-| `profilePhoto` | media | Optional |
+| `adminUserId` | integer | Links to an Admin Panel user ID (one profile per admin user; enforced in lifecycle, not DB unique — draft & publish share the same value) |
+| `firstName` | string | Must match the linked admin user's first name |
+| `lastName` | string | Must match the linked admin user's last name |
+| `email` | email | Copied from the linked admin user; used for mailto on `/about` |
+| `displayName` | string | Required public byline |
+| `bio` | rich text | Required |
+| `profilePhoto` | media | Required |
 | `position` | string | Required (e.g. "Founder", "Photographer") |
-| `isPublicAuthor` | boolean | Controls visibility on the About page |
-| `authorType` | enum | `founder` / `external_contributor` / `guest` |
+| `teamMemberType` | enum | `co_founder` / `contributor` — controls `/about` section |
 | `authorSlug` | uid | Auto-generated from `displayName` |
 | `showContributionCount` | boolean | Whether to show article/report/gallery counts |
 | `instagram` | string | Optional URL |
 | `facebook` | string | Optional URL |
 | `orderWeight` | integer (0–9999) | Lower = appears first. Default 1000 allows easy insertion |
-| `user` | relation → User | Optional link to a Strapi login account |
 
-### Author types
+### Team member types
 
-| Type | Used for | About page section |
-|------|----------|--------------------|
-| `founder` | Core team members | "Who We Are" |
-| `external_contributor` | Regular external writers/photographers | "Contributors & Guests" |
-| `guest` | One-time contributors | "Contributors & Guests" |
+| Type | About page section |
+|------|--------------------|
+| `co_founder` | Co-Founders |
+| `contributor` | Contributors |
+
+Team member type is independent of the admin access role (Editor vs Author).
 
 ### Content type relations
 
@@ -204,17 +207,18 @@ All three content types support multiple authors (many-to-many):
 Author Profile ←→ Article   (many-to-many)
 Author Profile ←→ Report    (many-to-many)
 Author Profile ←→ Gallery   (many-to-many)
-Author Profile  →  User     (optional, many-to-one)
 ```
+
+Author Profile links to Admin Panel users via `adminUserId` (not via the unused Content API User collection).
 
 ### About page logic
 
-The `/about` page queries Author Profiles filtered by `isPublicAuthor: true`, sorted by `orderWeight` then `authorType` then `displayName`:
+The `/about` page queries published Author Profiles, sorted by `orderWeight` then `teamMemberType` then `displayName`:
 
 ```
 /about
-├── "Who We Are" — authorType: founder, isPublicAuthor: true
-└── "Contributors & Guests" — authorType: external_contributor or guest, isPublicAuthor: true
+├── "Co-Founders" — teamMemberType: co_founder
+└── "Contributors" — teamMemberType: contributor
 ```
 
 ### API permissions required

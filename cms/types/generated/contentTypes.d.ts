@@ -417,7 +417,7 @@ export interface ApiAuthorProfileAuthorProfile
   extends Struct.CollectionTypeSchema {
   collectionName: 'author_profiles';
   info: {
-    description: 'Extended author information for blog contributors';
+    description: 'Public author profile linked to a CMS admin user';
     displayName: 'Author Profile';
     pluralName: 'author-profiles';
     singularName: 'author-profile';
@@ -426,22 +426,25 @@ export interface ApiAuthorProfileAuthorProfile
     draftAndPublish: true;
   };
   attributes: {
-    authorSlug: Schema.Attribute.UID<'displayName'> & Schema.Attribute.Required;
-    authorType: Schema.Attribute.Enumeration<
-      ['founder', 'external_contributor', 'guest']
-    > &
+    adminUserId: Schema.Attribute.Integer &
       Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'guest'>;
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    authorSlug: Schema.Attribute.UID<'displayName'> & Schema.Attribute.Required;
     bio: Schema.Attribute.RichText & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     displayName: Schema.Attribute.String & Schema.Attribute.Required;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
     facebook: Schema.Attribute.String;
+    firstName: Schema.Attribute.String & Schema.Attribute.Required;
     instagram: Schema.Attribute.String;
-    isPublicAuthor: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<false>;
+    lastName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -464,14 +467,14 @@ export interface ApiAuthorProfileAuthorProfile
     showContributionCount: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
+    teamMemberType: Schema.Attribute.Enumeration<
+      ['co_founder', 'contributor']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'contributor'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    > &
-      Schema.Attribute.Required;
   };
 }
 
