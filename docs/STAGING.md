@@ -32,10 +32,19 @@ raw-aviation-staging
 | Next.js | https://nextjs-staging-0b02.up.railway.app | ✅ Live |
 | Strapi | https://strapi-staging-a15c.up.railway.app | ✅ Live |
 | PostgreSQL | internal Railway service | ✅ Live |
-| Uploads volume | `/app/public/uploads` | ⬜ Pending — Step 7 |
+| Uploads volume | `/app/public/uploads` | ✅ Done |
 
-**Completed:** Steps 1–6, 8, 9b, 10
-**Next step:** Step 7 — add Volume so uploaded images survive redeploys
+**Completed:** Steps 1–10 (including uploads volume)
+
+**After pushing Author Profile redesign (May 2026):**
+- No new Railway env vars — redeploy Strapi + Next.js only
+- Staging has no author profiles yet — create them in CMS after deploy:
+  1. Settings → Administration Panel → Users → invite team members
+  2. Content Manager → Author Profile → **CMS Admin User** sidebar → link admin user
+  3. Set **Team member type** → Save → Publish
+- Ignore Content Manager → **User** (users-permissions); that collection is unused
+
+See [TODO.md](../TODO.md) and [REFERENCE.md](./REFERENCE.md#author-profile-system) for full author workflow.
 
 ---
 

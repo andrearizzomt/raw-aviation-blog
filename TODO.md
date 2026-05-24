@@ -15,6 +15,8 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
 | Uploads volume on Strapi (`/app/public/uploads`) | ✅ Done |
 | CORS locked to staging domain | ⬜ Todo |
 | Force dynamic rendering on all content pages | ✅ Done |
+| Author Profile → Admin Panel user link | ✅ Done (May 2026 — see below) |
+| Author profiles created on staging CMS | ⬜ Todo (after next deploy) |
 | Test content added (verify full flow) | ⬜ Todo |
 
 ## High priority
@@ -27,6 +29,14 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
   - Spam protection: honeypot + time-check + rate limiting (3/IP/hour)
   - Field validation: name/subject letters only, email format, all fields required
 - [x] **Strapi admin invites** ✅ — working on staging (Resend + lifecycle hook in `cms/src/index.ts`; requires `PUBLIC_URL`, `RESEND_API_KEY`, `EMAIL_FROM` on Strapi service)
+- [x] **Author Profile redesign** ✅ — committed May 2026; deploy to staging when ready
+  - Profiles link to **Admin Panel users** via `adminUserId` + **CMS Admin User** sidebar (not Content Manager → User)
+  - **Team member type** (`co_founder` / `contributor`) controls `/about`; independent of Editor/Author access role
+  - Removed: `user` relation, `isPublicAuthor`, `authorType`
+  - **No new Railway env vars** for this feature — existing `PUBLIC_URL`, Resend, and `NEXT_PUBLIC_STRAPI_API_URL` are enough
+  - **users-permissions plugin stays** (Public API permissions); ignore the unused **User** collection in Content Manager
+  - Staging DB has no author profiles yet — after deploy: invite admin users → create Author Profiles → link in sidebar → set team type → publish
+  - Schema/docs: [docs/REFERENCE.md](./docs/REFERENCE.md#author-profile-system), [.cursor/rules/strapi-user-model.mdc](./.cursor/rules/strapi-user-model.mdc)
 - [ ] **Remove or protect** `frontend/src/app/test/page.tsx` before production
 - [ ] **SEO** — `generateMetadata` on detail routes, `sitemap.xml`, `robots.txt`
 
