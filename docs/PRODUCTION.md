@@ -95,7 +95,12 @@ API_TOKEN_SALT=yourProdValue
 TRANSFER_TOKEN_SALT=yourProdValue
 ENCRYPTION_KEY=yourProdValue
 JWT_SECRET=yourProdValue
+PUBLIC_URL=https://your-strapi-url.up.railway.app
+RESEND_API_KEY=your-resend-api-key
+EMAIL_FROM=RAW Aviation <noreply@rawaviation.mt>
 ```
+
+   > **Email vars:** Railway blocks outbound SMTP — admin invites and password resets use Resend (same as the contact form). `PUBLIC_URL` must be the public Strapi URL **with no trailing slash** — invite links in emails are built from it. You can start with the auto-generated `*.up.railway.app` URL and update to your custom domain in Step 7. `EMAIL_FROM` uses the already-verified `rawaviation.mt` domain in Resend — no re-verification needed for production.
 
 4. Deploy → wait for Strapi to start → open the public URL → create your production admin account (use a strong, unique password)
 
@@ -124,9 +129,13 @@ Same as staging:
 ```
 NODE_ENV=production
 NEXT_PUBLIC_STRAPI_API_URL=https://strapi.rawaviation.com
+RESEND_API_KEY=your-resend-api-key
+CONTACT_EMAIL_TO=info@rawaviation.mt
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your-turnstile-site-key
+TURNSTILE_SECRET_KEY=your-turnstile-secret-key
 ```
 
-   > Set this to your production Strapi URL. You may need to set it to the auto-generated `*.up.railway.app` URL first, then update after assigning a custom domain (Step 7).
+   > Set `NEXT_PUBLIC_STRAPI_API_URL` to your production Strapi URL. You may need to set it to the auto-generated `*.up.railway.app` URL first, then update after assigning a custom domain (Step 7). Resend and Turnstile keys can be the same as staging; add your **production blog domain** to the Turnstile widget's allowed hostnames in Cloudflare.
 
 ---
 
@@ -142,12 +151,13 @@ NEXT_PUBLIC_STRAPI_API_URL=https://strapi.rawaviation.com
 ### Strapi (your CMS)
 
 1. Same process — use a subdomain like `strapi.rawaviation.com` or `cms.rawaviation.com`
-2. Once HTTPS is working, add this variable to the Strapi service:
-   ```
-   PUBLIC_URL=https://strapi.rawaviation.com
-   ```
-3. Update `NEXT_PUBLIC_STRAPI_API_URL` on the Next.js service to match
-4. Trigger a **redeploy of Next.js** — the URL is baked into the build bundle
+2. Once HTTPS is working, update these Railway variables (no code changes needed):
+   - **Strapi service:** `PUBLIC_URL=https://strapi.rawaviation.mt` (or your chosen CMS subdomain)
+   - **Next.js service:** `NEXT_PUBLIC_STRAPI_API_URL` — same Strapi URL, no trailing slash
+3. Trigger a **redeploy of both services** after changing URLs — Next.js bakes `NEXT_PUBLIC_*` at build time; Strapi reads `PUBLIC_URL` at runtime but redeploy to be safe
+4. In **Cloudflare → Turnstile → your widget**, add the production blog domain to allowed hostnames
+
+> **Email does not need re-setup for production.** The code (Resend provider + admin invite lifecycle hook in `cms/src/index.ts`) is environment-agnostic. Resend domain verification for `rawaviation.mt` is done once. Only per-environment Railway vars differ — mainly `PUBLIC_URL` and `NEXT_PUBLIC_STRAPI_API_URL`. Wrong `PUBLIC_URL` = invite emails link to staging.
 
 ---
 
@@ -209,6 +219,9 @@ Before sharing the URL publicly:
 - [ ] Article, report, gallery detail pages work
 - [ ] Images load over HTTPS (no mixed-content warnings)
 - [ ] Strapi admin at `https://strapi.rawaviation.com/admin` works
+- [ ] Strapi **Settings → Email → Send test email** arrives
+- [ ] Admin user invite email arrives with a link to the **production** Strapi URL (not staging)
+- [ ] Contact form submits and delivers to `info@rawaviation.mt`
 - [ ] No browser console errors
 
 ---
@@ -236,3 +249,7 @@ Before sharing the URL publicly:
 | Uploads | Railway Volume | Railway Volume or S3/R2 |
 | Backups | Optional | Required |
 | `/test` debug route | OK | Remove |
+| `PUBLIC_URL` (Strapi) | Staging Strapi URL | Production Strapi URL |
+| `RESEND_API_KEY` / `EMAIL_FROM` | Same Resend account OK | Same keys OK — domain already verified |
+| Admin invite emails | Lifecycle hook in repo | Same code — update `PUBLIC_URL` only |
+| Contact form email | Next.js Resend vars | Same Resend account — update Turnstile hostnames |

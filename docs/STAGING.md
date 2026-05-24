@@ -140,7 +140,12 @@ API_TOKEN_SALT=yourvalue
 TRANSFER_TOKEN_SALT=yourvalue
 ENCRYPTION_KEY=yourvalue
 JWT_SECRET=yourvalue
+PUBLIC_URL=https://your-strapi-url.up.railway.app
+RESEND_API_KEY=your-resend-api-key
+EMAIL_FROM=RAW Aviation <noreply@rawaviation.mt>
 ```
+
+   > `PUBLIC_URL` = public Strapi URL, no trailing slash. Used in admin invite and password-reset links. Resend vars required — Railway blocks SMTP. Test via **Settings → Email → Send test email** after deploy.
 
 4. Click **Save** — Railway deploys automatically.
 5. Open **Deployments → View logs** and wait.
@@ -191,9 +196,13 @@ By default, uploaded images are stored in the container filesystem — they get 
 ```
 NODE_ENV=production
 NEXT_PUBLIC_STRAPI_API_URL=https://your-strapi-url.up.railway.app
+RESEND_API_KEY=your-resend-api-key
+CONTACT_EMAIL_TO=info@rawaviation.mt
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your-turnstile-site-key
+TURNSTILE_SECRET_KEY=your-turnstile-secret-key
 ```
 
-   > Replace with your actual Strapi public URL. **No trailing slash.** This URL is embedded into the Next.js JavaScript bundle at build time — if you change it, trigger a redeploy.
+   > Replace Strapi URL with your actual public URL. **No trailing slash.** `NEXT_PUBLIC_*` vars are baked in at build time — redeploy after changing them. Add your Next.js Railway URL to Cloudflare Turnstile allowed hostnames.
 
 4. **Settings → Networking → Generate Domain** to get a public URL
 5. Deploy and open the URL — your site should load.

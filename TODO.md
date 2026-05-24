@@ -26,7 +26,7 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
   - Cloudflare Turnstile CAPTCHA (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`)
   - Spam protection: honeypot + time-check + rate limiting (3/IP/hour)
   - Field validation: name/subject letters only, email format, all fields required
-- [ ] **Strapi admin invites** — add `PUBLIC_URL` on Railway Strapi service, push lifecycle hook (auto-sends invite email via Resend), redeploy, then re-invite user. Note: Strapi CE does not send invite emails by itself — only shows a copy-paste link
+- [x] **Strapi admin invites** ✅ — working on staging (Resend + lifecycle hook in `cms/src/index.ts`; requires `PUBLIC_URL`, `RESEND_API_KEY`, `EMAIL_FROM` on Strapi service)
 - [ ] **Remove or protect** `frontend/src/app/test/page.tsx` before production
 - [ ] **SEO** — `generateMetadata` on detail routes, `sitemap.xml`, `robots.txt`
 
@@ -41,6 +41,7 @@ Open work for RAW Aviation Blog. Older checkbox logs lived in git history (`TO_D
 - [ ] Create `raw-aviation-production` Railway project — follow [docs/PRODUCTION.md](./docs/PRODUCTION.md)
 - [ ] Generate new secrets (never reuse staging secrets)
 - [ ] Assign custom domain
+- [ ] Set email-related Railway vars on production (see [docs/REFERENCE.md](./docs/REFERENCE.md#email-resend--staging-vs-production)): `PUBLIC_URL` + Resend on Strapi; `NEXT_PUBLIC_STRAPI_API_URL` + Resend + Turnstile on Next.js
 - [ ] Enable Postgres backups
 - [ ] Remove debug `/test` route
 
@@ -105,8 +106,9 @@ These were added during Resend domain setup — check [resend.com/domains](https
 - Sending domain: `rawaviation.mt` (verified in Resend dashboard)
 - From address: `noreply@rawaviation.mt`
 - Delivers to: `info@rawaviation.mt`
-- Strapi admin invites/password resets: Resend API (`RESEND_API_KEY`, `EMAIL_FROM` on Strapi service) — same Resend account as contact form
-- Railway env vars needed (Next.js service): `RESEND_API_KEY`, `CONTACT_EMAIL_TO`
+- Strapi admin invites/password resets: Resend API (`RESEND_API_KEY`, `EMAIL_FROM`, `PUBLIC_URL` on Strapi service) — lifecycle hook in `cms/src/index.ts` sends invite emails automatically
+- Railway env vars needed (Next.js service): `RESEND_API_KEY`, `CONTACT_EMAIL_TO`, Turnstile keys
+- **Production:** same Resend account/domain OK — update `PUBLIC_URL` and `NEXT_PUBLIC_STRAPI_API_URL` per environment. Full checklist: [docs/REFERENCE.md](./docs/REFERENCE.md#email-resend--staging-vs-production) · [docs/PRODUCTION.md](./docs/PRODUCTION.md)
 
 ## Reference docs
 

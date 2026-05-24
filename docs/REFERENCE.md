@@ -67,7 +67,11 @@ openssl rand -base64 32   # run once per secret
 |----------|----------|-------|
 | `NODE_ENV` | Yes | `production` |
 | `NEXT_PUBLIC_STRAPI_API_URL` | Yes | Public Strapi base URL, **no trailing slash** (e.g. `https://strapi-staging-a15c.up.railway.app`). Must be set before `next build` — it's baked into the JS bundle at build time. |
-| `PORT` | Auto | Injected by Railway |
+| `RESEND_API_KEY` | Yes | Resend API key — contact form delivery (Railway blocks SMTP) |
+| `CONTACT_EMAIL_TO` | Yes | Inbox for contact form submissions, e.g. `info@rawaviation.mt` |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Yes | Cloudflare Turnstile site key — baked in at build time |
+| `TURNSTILE_SECRET_KEY` | Yes | Cloudflare Turnstile secret — server-side verification |
+| `PORT` | Auto | Injected by Railway — do not hardcode |
 
 ### Local development (not on Railway)
 
@@ -75,6 +79,32 @@ openssl rand -base64 32   # run once per secret
 |------|----------|-------|
 | `frontend/.env.local` | `NEXT_PUBLIC_STRAPI_API_URL` | `http://localhost:1337` |
 | `cms/.env` | All Strapi vars | Dev placeholder values — never commit real secrets |
+
+---
+
+## Email (Resend) — staging vs production
+
+Railway blocks outbound SMTP. All transactional email uses **Resend** over HTTPS. The sending domain `rawaviation.mt` is verified once in the [Resend dashboard](https://resend.com/domains) — no re-verification when you add a production Railway project.
+
+| What | Strapi service | Next.js service | Notes |
+|------|----------------|-----------------|-------|
+| Contact form | — | `RESEND_API_KEY`, `CONTACT_EMAIL_TO` | Delivers to Namecheap mailbox (`info@rawaviation.mt`) |
+| Admin invites | `RESEND_API_KEY`, `EMAIL_FROM`, `PUBLIC_URL` | — | Strapi CE does not send invites by default — repo includes a lifecycle hook in `cms/src/index.ts` |
+| Password reset | same as invites | — | Built into Strapi; uses same Resend provider |
+| CAPTCHA | — | Turnstile keys | Add each environment's blog URL to Cloudflare Turnstile allowed hostnames |
+
+**Per-environment URL vars (must differ between staging and production):**
+
+| Variable | Service | Staging example | Production example |
+|----------|---------|-----------------|-------------------|
+| `PUBLIC_URL` | Strapi | `https://strapi-staging-a15c.up.railway.app` | `https://strapi.rawaviation.mt` |
+| `NEXT_PUBLIC_STRAPI_API_URL` | Next.js | same as staging Strapi URL | production Strapi URL |
+
+**Same across environments (OK to reuse):** `RESEND_API_KEY`, `EMAIL_FROM` (`RAW Aviation <noreply@rawaviation.mt>`), Turnstile keys (add prod hostname in Cloudflare).
+
+**Code changes for production email:** none — only Railway variables and Turnstile hostnames. See [PRODUCTION.md](./PRODUCTION.md) Steps 4, 6, 7, and 12.
+
+**Manual workaround (no email):** Strapi admin → edit user → set Password + Confirm Password → Save → share credentials directly.
 
 ---
 
